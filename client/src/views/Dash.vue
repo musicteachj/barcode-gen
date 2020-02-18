@@ -1,6 +1,7 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <h1>This is will be the dashboard</h1>
+    <BottomNav />
   </div>
 </template>
 
@@ -8,11 +9,12 @@
 import {Vue, Component} from 'vue-property-decorator'
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
+import BottomNav from '@/components/BottomNav.vue'
 
 @Component({
   components: {
-    HelloWorld
+    BottomNav
   }
 })
-export default class About extends Vue {}
+export default class Dash extends Vue {}
 </script>
