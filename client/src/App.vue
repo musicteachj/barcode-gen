@@ -1,14 +1,28 @@
+
 <template>
   <v-app>
+
+    <TopToolbar></TopToolbar>
+
     <v-content>
       <router-view></router-view>
     </v-content>
+
+    <BottomNav></BottomNav>
+
   </v-app>
 </template>
 
 <script lang="ts">
-import {Vue, Component} from 'vue-property-decorator'
-
-@Component({})
-export default class App extends Vue {}
+  import { Component, Vue } from 'vue-property-decorator';
+  import TopToolbar from './components/TopToolbar.vue';
+  import BottomNav from './components/BottomNav.vue';
+  @Component({
+    components: {
+      TopToolbar,
+      BottomNav
+    }
+  })
+  export default class App extends Vue {
+  }
 </script>
