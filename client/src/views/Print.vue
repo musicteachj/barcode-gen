@@ -5,8 +5,9 @@
     <h2>Content is coming to this mobile app very soon!</h2>
 
     <v-card
+      outlined
       @click="printBarcode"
-      class="mx-auto"
+      class="mx-auto cardClass"
       max-width="344"
       
     >
@@ -47,3 +48,10 @@
 
   }
 </script>
+
+<style scoped>
+.cardClass {
+  border-color: #303F9F !important;
+  border-width: 4px !important;
+}
+</style>

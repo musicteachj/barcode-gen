@@ -5,16 +5,19 @@
     
     tile
   >
-    <v-toolbar dense>
+    <v-toolbar 
+      dense
+      color="primary">
+      
       <v-btn icon>
-        <v-icon>{{routeIcons}}</v-icon>
+        <v-icon color="white">{{routeIcons}}</v-icon>
       </v-btn>
 
-      <v-toolbar-title>{{$route.name}}</v-toolbar-title>
+      <v-toolbar-title color="white" class="whiteText">{{$route.name}}</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
-      <v-toolbar-title>Barcode Gen</v-toolbar-title>
+      <v-toolbar-title color="white" class="whiteText">Barcode Gen</v-toolbar-title>
     </v-toolbar>
   </v-card>
 </template>
@@ -39,3 +42,9 @@ export default class TopToolbar extends Vue {
 
 }
 </script>
+
+<style scoped>
+.whiteText {
+  color: white !important;
+}
+</style>
