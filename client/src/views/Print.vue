@@ -1,38 +1,45 @@
 <template>
   <v-container>
-    <p class="display-4 text-center">Created Barcodes</p>
-
+    <p class="display-4 text-center">Print Barcodes</p>
     <v-card
-      outlined
-      class="mx-auto cardClass"
-      max-width="344"
-      
+      :class="`d-flex justify-center flex-wrap`"
+      flat
+      tile
     >
-    <h1 class="text-center">Category/Name</h1>
-    <h1 class="text-center">Type</h1>
-    <VueBarcode  class="text-center" id="bar" value="123456789">
-      Show this if the rendering fails.
-    </VueBarcode>
-
-    <v-card-actions>
-      <v-btn
-        color="error"
-        text
+      <v-card
+        v-for="i in 18"
+        :key="i"
+        outlined
+        class="ma-2 cardClass"
+        width="344"
       >
-        Delete
-      </v-btn>
-      
-      <v-spacer/>
+        <p class="mt-2 text-center headline">Name</p>
+        <p class="text-center headline">Type</p>
+        <VueBarcode  class="text-center" :id="`${i}`" :value="i">
+          Show this if the rendering fails.
+        </VueBarcode>
 
-      <v-btn
-        color="primary"
-        text
-        @click="printBarcode"
-      >
-        Print
-      </v-btn>
-    </v-card-actions>
-        
+        <v-card-actions>
+          <v-btn
+            color="error"
+            text
+            @click="deleteBarcode(i)"
+          >
+            Delete
+          </v-btn>
+          
+          <v-spacer/>
+
+          <v-btn
+            color="primary"
+            text
+            @click="printBarcode(i)"
+          >
+            Print
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+      <DeleteDialog v-bind="propsToPass"/>
     </v-card>
   </v-container>
 </template>
@@ -41,6 +48,8 @@
   import { Component, Vue } from 'vue-property-decorator';
   import VueBarcode from 'vue-barcode';
   import { Printd } from 'printd'
+
+  import DeleteDialog from '@/components/DeleteBarcodeDialog.vue';
 
   const cssText = `
   h1 {
@@ -52,14 +61,27 @@
 
   @Component({
     components: {
-      VueBarcode
+      VueBarcode,
+      DeleteDialog
     }
   })
   export default class Print extends Vue {
 
-    printBarcode() {
+    propsToPass: any = {}
+
+    printBarcode(i) {
+      console.log(i);
       const d = new Printd()
-      d.print( document.getElementById('bar'), [ cssText ] )
+      d.print( document.getElementById(`${i}`), [ cssText ] )
+    }
+
+    deleteBarcode(i) {
+      console.log("Delete Clicked");
+      console.log(i);
+      this.propsToPass = {
+        dialog: true,
+        data: i
+      }
     }
 
   }
