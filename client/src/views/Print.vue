@@ -45,46 +45,46 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
-  import VueBarcode from 'vue-barcode';
-  import { Printd } from 'printd'
+import { Component, Vue } from 'vue-property-decorator';
+import VueBarcode from 'vue-barcode';
+import { Printd } from 'printd'
 
-  import DeleteDialog from '@/components/DeleteBarcodeDialog.vue';
+import DeleteDialog from '@/components/DeleteBarcodeDialog.vue';
 
-  const cssText = `
-  h1 {
-    color: black;
-    font-family: sans-serif;
-  }
+const cssText = `
+h1 {
+  color: black;
+  font-family: sans-serif;
+}
 `
 
 
-  @Component({
-    components: {
-      VueBarcode,
-      DeleteDialog
-    }
-  })
-  export default class Print extends Vue {
-
-    propsToPass: any = {}
-
-    printBarcode(i) {
-      console.log(i);
-      const d = new Printd()
-      d.print( document.getElementById(`${i}`), [ cssText ] )
-    }
-
-    deleteBarcode(i) {
-      console.log("Delete Clicked");
-      console.log(i);
-      this.propsToPass = {
-        dialog: true,
-        data: i
-      }
-    }
-
+@Component({
+  components: {
+    VueBarcode,
+    DeleteDialog
   }
+})
+export default class Print extends Vue {
+
+  propsToPass: any = {}
+
+  printBarcode(i) {
+    console.log(i);
+    const d = new Printd()
+    d.print( document.getElementById(`${i}`), [ cssText ] )
+  }
+
+  deleteBarcode(i) {
+    console.log("Delete Clicked");
+    console.log(i);
+    this.propsToPass = {
+      dialog: true,
+      data: i
+    }
+  }
+
+}
 </script>
 
 <style scoped>
