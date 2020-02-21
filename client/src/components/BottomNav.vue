@@ -1,7 +1,7 @@
 <template>
 
 <v-bottom-navigation
-      hide-on-scroll
+      
       scroll-threshold="800"
       absolute
       color="primary"
