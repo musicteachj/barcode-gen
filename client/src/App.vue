@@ -8,7 +8,7 @@
       <router-view></router-view>
     </v-content>
 
-    <BottomNav></BottomNav>
+    <BottomNav class="bottomN"></BottomNav>
 
   </v-app>
 </template>
@@ -26,3 +26,9 @@
   export default class App extends Vue {
   }
 </script>
+
+<style scoped>
+.bottomN {
+  position: sticky;
+}
+</style>

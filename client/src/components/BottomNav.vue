@@ -1,8 +1,7 @@
 <template>
 
 <v-bottom-navigation
-    scroll-target="#scroll-area-2"
-      hide-on-scroll
+      
       scroll-threshold="800"
       absolute
       color="primary"
@@ -32,11 +31,8 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
-  @Component
-  export default class BottomNav extends Vue {
-    // activeItem: string = 'create';
+import { Component, Vue } from 'vue-property-decorator';
 
-    
-  }
+@Component({})
+export default class BottomNav extends Vue {}
 </script>

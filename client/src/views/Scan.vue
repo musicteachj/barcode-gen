@@ -1,8 +1,7 @@
 <template>
 
   <v-container>
-    <h1 class="headline">[[Scan]]</h1>
-    Content is coming to this mobile app very soon!
+    <p class="display-4 text-center">Scan Barcodes</p>
   </v-container>
 
 </template>
