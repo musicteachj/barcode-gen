@@ -62,7 +62,7 @@
           :value="this.value"
           :format="this.type.type"
           >
-          Show this if the rendering fails.
+          Please enter a valid value for this barcode type.
         </VueBarcode>
 
         <v-row align="center" v-if="this.name != '' && this.type.value != ''">
@@ -112,45 +112,30 @@ export default class Create extends Vue {
     value: {
       min: 0, 
       max: 0
+    },
+    intContraints: {
+      minValue: null,
+      maxValue: null
     }
   };
   value: string = "";
   minNum: number = 0;
   maxNum: number = 0;
 
+  minVal: number = null;
+  maxVal: number = null;
+
   items2: Array<object> = [
-    {text: "CODE128", type: "CODE128", numOnly: false, value: {
-      min:3, max:44
-    }},
-    {text: "EAN",  type: "EAN", numOnly: false, value: {
-      min:5, max:14
-    }},
-    {text: "EAN-13",  type: "EAN13", numOnly: true, value: {
-      min:13, max:13
-    }},
-    {text: "EAN-8",  type: "EAN8", numOnly: true, value: {
-      min:7, max:7
-    }},
-    {text: "EAN-5",  type: "EAN5", numOnly: true, value: {
-      min:5, max:5
-    }},
-    {text: "EAN-2",  type: "EAN2", numOnly: true, value: {
-      min:2, max:2
-    }},{text: "UPC (A)",  type: "UPC", numOnly: false, value: {
-      min:8, max:24
-    }},
-    {text: "CODE39",  type: "CODE39", numOnly: false, value: {
-      min:8, max:24
-    }},
-    {text: "ITF-14",  type: "ITF14", numOnly: false, value: {
-      min:8, max:24
-    }},
-    {text: "MSI",  type: "MSI", numOnly: false, value: {
-      min:8, max:24
-    }},
-    {text: "Pharmacode",  type: "pharmacode", numOnly: false, value: {
-      min:8, max:24
-    }}
+    {text: "CODE128", type: "CODE128", numOnly: false, value: {min:3, max:48}, intContraints: {minValue: null, maxValue: null}},
+    {text: "EAN-13",  type: "EAN13", numOnly: true, value: {min:13, max:13}, intContraints: {minValue: null, maxValue: null}},
+    {text: "EAN-8",  type: "EAN8", numOnly: true, value: {min:7, max:7}, intContraints: {minValue: null, maxValue: null}},
+    {text: "EAN-5",  type: "EAN5", numOnly: true, value: {min:5, max:5}, intContraints: {minValue: null, maxValue: null}},
+    {text: "EAN-2",  type: "EAN2", numOnly: true, value: {min:2, max:2}, intContraints: {minValue: null, maxValue: null}},
+    {text: "UPC (A)",  type: "UPC", numOnly: true, value: {min:12, max:12}, intContraints: {minValue: null, maxValue: null}},
+    {text: "CODE39",  type: "CODE39", numOnly: false, value: {min:1, max:39}, intContraints: {minValue: null, maxValue: null}},
+    {text: "ITF-14",  type: "ITF14", numOnly: true, value: {min:14, max:14}, intContraints: {minValue: null, maxValue: null}},
+    {text: "MSI",  type: "MSI", numOnly: true, value: {min:1, max:12}, intContraints: {minValue: null, maxValue: null}},
+    {text: "Pharmacode",  type: "pharmacode", numOnly: true, value: {min:1, max:6}, intContraints: {minValue: 3, maxValue: 131070}}
   ];
 
   get charType() {
@@ -184,14 +169,21 @@ export default class Create extends Vue {
       rules.push(v => (v && (v.length >= this.minNum && v.length <= this.maxNum)) || `Barcode value must be between ${this.minNum} and ${this.maxNum} characters`)
     }
 
+    if (this.minVal !== null) {
+      rules.push(v => (v && (v >= this.minVal && v <= this.maxVal)) || `Barcode value must be between ${this.minVal} and ${this.maxVal}`)
+    }
+
     return rules;
   };
 
   @Watch("type")
   typeChange() {
     this.value = '';
-    this.minNum = this.type.value.min
+    this.minNum = this.type.value.min;
     this.maxNum = this.type.value.max;
+
+    this.minVal = this.type.intContraints.minValue;
+    this.maxVal = this.type.intContraints.maxValue;
   };
   
 
