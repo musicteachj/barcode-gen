@@ -1,6 +1,14 @@
 
 <template>
-  <v-app>
+  <v-app v-if="valid === false">
+
+    <v-btn @click="valid = true">
+      test
+    </v-btn>
+
+  </v-app>
+
+  <v-app v-else>
 
     <TopToolbar></TopToolbar>
 
@@ -24,6 +32,9 @@
     }
   })
   export default class App extends Vue {
+
+    valid: boolean = false
+
   }
 </script>
 
