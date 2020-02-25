@@ -43,7 +43,7 @@
         <v-col cols="8">
           <v-form
             ref="form"
-            
+            v-model="valid"
           >
             <v-text-field
               v-model="name"
@@ -51,21 +51,51 @@
             ></v-text-field>
 
             <v-select
+              v-if="name != ''"
               v-model="type"
-              :items="items"
+              return-object="true"
+              item-value
+              :items="items2"
               label="Type"
             ></v-select>
 
             <v-text-field
+              v-if="type.value != ''"
               v-model="value"
               label="Value"
+              :rules="typeRules"
+              required
             ></v-text-field>
+
+             <v-row align="center">
+              <v-col class="text-center" cols="12" sm="12">
+                <div class="my-2">
+                  <v-btn @click="resetForm" color="error">Reset</v-btn>
+                </div>
+              </v-col>
+             </v-row>
+
+            
 
          </v-form>
 
          <VueBarcode v-if="this.value != ''" class="text-center" :value="this.value">
           Show this if the rendering fails.
         </VueBarcode>
+
+         <v-row align="center">
+              <v-col class="text-center" cols="12" sm="12">
+                <div class="my-2">
+                  <v-btn 
+                    :disabled="!valid"
+                    @click="validate" 
+                    color="primary"
+                  >
+                    Save
+                  </v-btn>
+                </div>
+              </v-col>
+             </v-row>
         </v-col>
 
         <v-col cols="2">
@@ -79,7 +109,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import VueBarcode from 'vue-barcode';
 
 
@@ -91,11 +121,55 @@ import VueBarcode from 'vue-barcode';
 })
 export default class Create extends Vue {
 
+  valid: boolean = false;
+
   name: string = "";
-  type: string = "";
+  type: any = {text: "", value: ""};
   value: string = "";
 
-  items: Array<string> = ["test1", "test2", "test3"]
+  num: number = 4;
+
+  items2: Array<object> = [
+    {text: "one",
+     value: 5},
+    {text: "two",
+     value: 7},
+    {text: "three",
+     value: 9}
+  ];
+
+  items: Array<string> = ["Just Make One!", "CODE128", "EAN", "EAN-13", "EAN-8", "EAN-5", "EAN-2", "UPC (A)", "CODE39", "ITF-14", "MSI", "Pharmacode"];
+
+  get typeRules() {
+    let rules = [v => !!v || 'Value is required',
+                 v => (v && v.length === this.num) || `Barcode value must be ${this.num} characters`,
+                ];
+    return rules;
+  };
+
+  @Watch("type")
+  typeChange() {
+    if (this.type != {text: "", value: ""}) {
+      this.num = this.type.value;
+    }
+  };
+  
+
+  resetForm() {
+    this.name = '';
+    this.type = {text: "", value: ""};
+    this.value = '';
+  }
+
+  // @Watch("value")
+  // watchform() {
+  //   if (this.value != '') {
+  //     this.formComplete = true;
+  //   }
+  //   if (this.value == '') {
+  //     this.formComplete = false;
+  //   }
+  // }
 
 }
 </script>
