@@ -1,40 +1,12 @@
 <template>
   <v-container>
-    <p class="display-4 text-center">Create Barcodes</p>
+  <p class="display-4 text-center">Create Barcodes</p>
   
   <v-card
     class="mx-auto"
     max-width="800"
     flat
   >
-    <!-- <v-system-bar
-      color="indigo darken-2"
-      dark
-    >
-      <v-spacer></v-spacer>
-
-      <v-icon>mdi-window-minimize</v-icon>
-
-      <v-icon>mdi-window-maximize</v-icon>
-
-      <v-icon>mdi-close</v-icon>
-    </v-system-bar>
-
-    <v-toolbar
-      color="indigo"
-      dark
-    >
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
-      <v-toolbar-title>Discover</v-toolbar-title>
-
-      <v-spacer></v-spacer>
-
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-    </v-toolbar> -->
-
     <v-container fluid>
       <v-row>
         <v-col cols="2">
@@ -50,6 +22,7 @@
               label="Name"
               :rules="nameRules"
               required
+              prepend-icon="mdi-tag"
             ></v-text-field>
 
             <v-select
@@ -61,6 +34,7 @@
               label="Type"
               :rules="typeRules"
               required
+              prepend-icon="mdi-barcode"
             ></v-select>
 
             <v-text-field
@@ -69,42 +43,41 @@
               label="Value"
               :rules="valueRules"
               required
+              :type="charType"
+              prepend-icon="mdi-card-text"
             ></v-text-field>
 
-             <v-row align="center">
-              <v-col class="text-center" cols="12" sm="12">
-                <div class="my-2">
-                  <v-btn @click="resetForm" color="error">Reset</v-btn>
-                </div>
-              </v-col>
-             </v-row>
+            <v-row align="center">
+            <v-col class="text-center" cols="12" sm="12">
+              <div class="my-2">
+                <v-btn @click="resetForm" color="error">Reset</v-btn>
+              </div>
+            </v-col>
+          </v-row>
+        </v-form>
 
-            
-
-         </v-form>
-
-         <VueBarcode 
+        <VueBarcode 
           v-if="this.value != ''" 
           class="text-center" 
           :value="this.value"
           :format="this.type.type"
-        >
+          >
           Show this if the rendering fails.
         </VueBarcode>
 
-         <v-row align="center" v-if="this.name != '' && this.type.value != ''">
-              <v-col class="text-center" cols="12" sm="12">
-                <div class="my-2">
-                  <v-btn 
-                    :disabled="!valid"
-                    @click="saveBarcode" 
-                    color="primary"
-                  >
-                    Save
-                  </v-btn>
-                </div>
-              </v-col>
-             </v-row>
+        <v-row align="center" v-if="this.name != '' && this.type.value != ''">
+            <v-col class="text-center" cols="12" sm="12">
+              <div class="my-2">
+                <v-btn 
+                  :disabled="!valid"
+                  @click="saveBarcode" 
+                  color="primary"
+                >
+                  Save
+                </v-btn>
+              </div>
+            </v-col>
+          </v-row>
         </v-col>
 
         <v-col cols="2">
@@ -120,8 +93,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import VueBarcode from 'vue-barcode';
-
-
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   components: {
@@ -133,52 +105,61 @@ export default class Create extends Vue {
   valid: boolean = false;
 
   name: string = "";
-  type: any = {text: "", type: "", value: {
-    min: 0, max: 0
-  }};
+  type: any = {
+    text: "", 
+    type: "", 
+    numOnly: null, 
+    value: {
+      min: 0, 
+      max: 0
+    }
+  };
   value: string = "";
-
   minNum: number = 0;
   maxNum: number = 0;
 
-  num: number = 0;
-
   items2: Array<object> = [
-    {text: "CODE128", type: "CODE128", value: {
+    {text: "CODE128", type: "CODE128", numOnly: false, value: {
       min:3, max:44
     }},
-    {text: "EAN",  type: "EAN", value: {
+    {text: "EAN",  type: "EAN", numOnly: false, value: {
       min:5, max:14
     }},
-    {text: "EAN-13",  type: "EAN13", value: {
+    {text: "EAN-13",  type: "EAN13", numOnly: true, value: {
+      min:13, max:13
+    }},
+    {text: "EAN-8",  type: "EAN8", numOnly: true, value: {
+      min:7, max:7
+    }},
+    {text: "EAN-5",  type: "EAN5", numOnly: true, value: {
+      min:5, max:5
+    }},
+    {text: "EAN-2",  type: "EAN2", numOnly: true, value: {
+      min:2, max:2
+    }},{text: "UPC (A)",  type: "UPC", numOnly: false, value: {
       min:8, max:24
     }},
-    {text: "EAN-8",  type: "EAN8", value: {
+    {text: "CODE39",  type: "CODE39", numOnly: false, value: {
       min:8, max:24
     }},
-    {text: "EAN-5",  type: "EAN5", value: {
+    {text: "ITF-14",  type: "ITF14", numOnly: false, value: {
       min:8, max:24
     }},
-    {text: "EAN-2",  type: "EAN2",value: {
-      min:8, max:24
-    }},{text: "UPC (A)",  type: "UPC", value: {
+    {text: "MSI",  type: "MSI", numOnly: false, value: {
       min:8, max:24
     }},
-    {text: "CODE39",  type: "CODE39", value: {
-      min:8, max:24
-    }},
-    {text: "ITF-14",  type: "ITF14", value: {
-      min:8, max:24
-    }},
-    {text: "MSI",  type: "MSI", value: {
-      min:8, max:24
-    }},
-    {text: "Pharmacode",  type: "pharmacode", value: {
+    {text: "Pharmacode",  type: "pharmacode", numOnly: false, value: {
       min:8, max:24
     }}
   ];
 
-  items: Array<string> = ["Just Make One!", "CODE128", "EAN", "EAN-13", "EAN-8", "EAN-5", "EAN-2", "UPC (A)", "CODE39", "ITF-14", "MSI", "Pharmacode"];
+  get charType() {
+    if (this.type.numOnly === true) {
+      return 'number'
+    } else {
+      return 'any'
+    }
+  }
 
   get nameRules() {
     let rules = [v => !!v || 'Name is required',
@@ -195,16 +176,20 @@ export default class Create extends Vue {
   };
 
   get valueRules() {
-    let rules = [v => !!v || 'Value is required',
-                 v => (v && (v.length >= this.minNum && v.length <= this.maxNum)) || `Barcode value must be between ${this.minNum} and ${this.maxNum} characters`,
-                ];
+    let rules: Array<any> = [v => !!v || 'Value is required'];
+
+    if (this.minNum === this.maxNum) {
+      rules.push(v => (v && v.length === this.minNum) || `Barcode value must be ${this.minNum} characters`)
+    } else {
+      rules.push(v => (v && (v.length >= this.minNum && v.length <= this.maxNum)) || `Barcode value must be between ${this.minNum} and ${this.maxNum} characters`)
+    }
+
     return rules;
   };
 
   @Watch("type")
   typeChange() {
     this.value = '';
-    // this.num = this.type.value;
     this.minNum = this.type.value.min
     this.maxNum = this.type.value.max;
   };
@@ -212,26 +197,28 @@ export default class Create extends Vue {
 
   resetForm() {
     this.name = '';
-    this.type = {text: "", type: "", value: {
-      min: 0, max: 0
-    }};
+    this.type = {
+      text: "", 
+      type: "", 
+      numOnly: null, 
+      value: {
+        min: 0, 
+        max: 0
+      }
+    };
     this.value = '';
   }
 
   saveBarcode() {
-    
+    const bar = {
+      id: uuidv4(),
+      name: this.name,
+      type: this.type.type,
+      value: this.value
+    };
+
+    console.log(bar);
   }
-
-  // @Watch("value")
-  // watchform() {
-  //   if (this.value != '') {
-  //     this.formComplete = true;
-  //   }
-  //   if (this.value == '') {
-  //     this.formComplete = false;
-  //   }
-  // }
-
 }
 </script>
 
