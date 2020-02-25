@@ -64,7 +64,7 @@
             ></v-select>
 
             <v-text-field
-              v-if="type.value != ''"
+              v-if="type.value.min != 0"
               v-model="value"
               label="Value"
               :rules="valueRules"
@@ -83,7 +83,12 @@
 
          </v-form>
 
-         <VueBarcode v-if="this.value != ''" class="text-center" :value="this.value">
+         <VueBarcode 
+          v-if="this.value != ''" 
+          class="text-center" 
+          :value="this.value"
+          :format="this.type.type"
+        >
           Show this if the rendering fails.
         </VueBarcode>
 
@@ -128,18 +133,49 @@ export default class Create extends Vue {
   valid: boolean = false;
 
   name: string = "";
-  type: any = {text: "", value: ""};
+  type: any = {text: "", type: "", value: {
+    min: 0, max: 0
+  }};
   value: string = "";
+
+  minNum: number = 0;
+  maxNum: number = 0;
 
   num: number = 0;
 
   items2: Array<object> = [
-    {text: "one",
-     value: 5},
-    {text: "two",
-     value: 7},
-    {text: "three",
-     value: 9}
+    {text: "CODE128", type: "CODE128", value: {
+      min:3, max:44
+    }},
+    {text: "EAN",  type: "EAN", value: {
+      min:5, max:14
+    }},
+    {text: "EAN-13",  type: "EAN13", value: {
+      min:8, max:24
+    }},
+    {text: "EAN-8",  type: "EAN8", value: {
+      min:8, max:24
+    }},
+    {text: "EAN-5",  type: "EAN5", value: {
+      min:8, max:24
+    }},
+    {text: "EAN-2",  type: "EAN2",value: {
+      min:8, max:24
+    }},{text: "UPC (A)",  type: "UPC", value: {
+      min:8, max:24
+    }},
+    {text: "CODE39",  type: "CODE39", value: {
+      min:8, max:24
+    }},
+    {text: "ITF-14",  type: "ITF14", value: {
+      min:8, max:24
+    }},
+    {text: "MSI",  type: "MSI", value: {
+      min:8, max:24
+    }},
+    {text: "Pharmacode",  type: "pharmacode", value: {
+      min:8, max:24
+    }}
   ];
 
   items: Array<string> = ["Just Make One!", "CODE128", "EAN", "EAN-13", "EAN-8", "EAN-5", "EAN-2", "UPC (A)", "CODE39", "ITF-14", "MSI", "Pharmacode"];
@@ -160,7 +196,7 @@ export default class Create extends Vue {
 
   get valueRules() {
     let rules = [v => !!v || 'Value is required',
-                 v => (v && v.length === this.num) || `Barcode value must be ${this.num} characters`,
+                 v => (v && (v.length >= this.minNum && v.length <= this.maxNum)) || `Barcode value must be between ${this.minNum} and ${this.maxNum} characters`,
                 ];
     return rules;
   };
@@ -168,13 +204,17 @@ export default class Create extends Vue {
   @Watch("type")
   typeChange() {
     this.value = '';
-    this.num = this.type.value;
+    // this.num = this.type.value;
+    this.minNum = this.type.value.min
+    this.maxNum = this.type.value.max;
   };
   
 
   resetForm() {
     this.name = '';
-    this.type = {text: "", value: ""};
+    this.type = {text: "", type: "", value: {
+      min: 0, max: 0
+    }};
     this.value = '';
   }
 
