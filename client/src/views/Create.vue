@@ -48,22 +48,26 @@
             <v-text-field
               v-model="name"
               label="Name"
+              :rules="nameRules"
+              required
             ></v-text-field>
 
             <v-select
               v-if="name != ''"
               v-model="type"
-              return-object="true"
+              :return-object="true"
               item-value
               :items="items2"
               label="Type"
+              :rules="typeRules"
+              required
             ></v-select>
 
             <v-text-field
               v-if="type.value != ''"
               v-model="value"
               label="Value"
-              :rules="typeRules"
+              :rules="valueRules"
               required
             ></v-text-field>
 
@@ -83,12 +87,12 @@
           Show this if the rendering fails.
         </VueBarcode>
 
-         <v-row align="center">
+         <v-row align="center" v-if="this.name != '' && this.type.value != ''">
               <v-col class="text-center" cols="12" sm="12">
                 <div class="my-2">
                   <v-btn 
                     :disabled="!valid"
-                    @click="validate" 
+                    @click="saveBarcode" 
                     color="primary"
                   >
                     Save
@@ -127,7 +131,7 @@ export default class Create extends Vue {
   type: any = {text: "", value: ""};
   value: string = "";
 
-  num: number = 4;
+  num: number = 0;
 
   items2: Array<object> = [
     {text: "one",
@@ -140,7 +144,21 @@ export default class Create extends Vue {
 
   items: Array<string> = ["Just Make One!", "CODE128", "EAN", "EAN-13", "EAN-8", "EAN-5", "EAN-2", "UPC (A)", "CODE39", "ITF-14", "MSI", "Pharmacode"];
 
+  get nameRules() {
+    let rules = [v => !!v || 'Name is required',
+                 v => (v && v.length >= 1) || `Barcode name must be more than 1 characters`,
+                ];
+    return rules;
+  }
+
   get typeRules() {
+    let rules = [v => !!v || 'Type is required',
+                 v => (v && v.value !== '') || `Type must be selected`,
+                ];
+    return rules;
+  };
+
+  get valueRules() {
     let rules = [v => !!v || 'Value is required',
                  v => (v && v.length === this.num) || `Barcode value must be ${this.num} characters`,
                 ];
@@ -149,9 +167,8 @@ export default class Create extends Vue {
 
   @Watch("type")
   typeChange() {
-    if (this.type != {text: "", value: ""}) {
-      this.num = this.type.value;
-    }
+    this.value = '';
+    this.num = this.type.value;
   };
   
 
@@ -159,6 +176,10 @@ export default class Create extends Vue {
     this.name = '';
     this.type = {text: "", value: ""};
     this.value = '';
+  }
+
+  saveBarcode() {
+    
   }
 
   // @Watch("value")
