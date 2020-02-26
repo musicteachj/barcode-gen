@@ -201,15 +201,29 @@ export default class Create extends Vue {
     this.value = '';
   }
 
-  saveBarcode() {
+  buildBarcode() {
     const bar = {
       id: uuidv4(),
       name: this.name,
       type: this.type.type,
       value: this.value
     };
+    return bar;
+  }
 
-    console.log(bar);
+  async saveBarcode() {
+    // const bar = {
+    //   id: uuidv4(),
+    //   name: this.name,
+    //   type: this.type.type,
+    //   value: this.value
+    // };
+
+    // console.log(bar);
+
+    await this.$store.dispatch("saveBarcode", {
+      barcode: this.buildBarcode()
+    });
   }
 }
 </script>
