@@ -7,15 +7,15 @@
       tile
     >
       <v-card
-        v-for="i in 18"
-        :key="i"
+        v-for="(bar, index) in this.barcodes"
+        :key="index"
         outlined
         class="ma-2 cardClass"
         width="344"
       >
-        <p class="mt-2 text-center headline">Name</p>
-        <p class="text-center headline">Type</p>
-        <VueBarcode  class="text-center" :id="`${i}`" :value="i">
+        <p class="mt-2 text-center headline">{{bar.name}}</p>
+        <p class="text-center headline">{{bar.type}}</p>
+        <VueBarcode  class="text-center" :id="`${index}`" :value="bar.value">
           Show this if the rendering fails.
         </VueBarcode>
 
@@ -23,7 +23,7 @@
           <v-btn
             color="error"
             text
-            @click="deleteBarcode(i)"
+            @click="deleteBarcode(index)"
           >
             Delete
           </v-btn>
@@ -33,7 +33,7 @@
           <v-btn
             color="primary"
             text
-            @click="printBarcode(i)"
+            @click="printBarcode(index)"
           >
             Print
           </v-btn>
@@ -47,41 +47,44 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import VueBarcode from 'vue-barcode';
-import { Printd } from 'printd'
-
+import { Printd } from 'printd';
+import { mapState } from 'vuex';
+import { printBarcodeStyles } from "../util/printBarStyle";
 import DeleteDialog from '@/components/DeleteBarcodeDialog.vue';
-
-const cssText = `
-h1 {
-  color: black;
-  font-family: sans-serif;
-}
-`
-
 
 @Component({
   components: {
     VueBarcode,
     DeleteDialog
+  },
+  computed: {
+    ...mapState(["barcodes"])
   }
 })
 export default class Print extends Vue {
 
+  // Mapped variables -----
+  barcodes!: any;
+
   propsToPass: any = {}
 
-  printBarcode(i) {
-    console.log(i);
+  printBarcode(index) {
+    console.log(index);
     const d = new Printd()
-    d.print( document.getElementById(`${i}`), [ cssText ] )
+    d.print( document.getElementById(`${index}`), [ printBarcodeStyles ] )
   }
 
-  deleteBarcode(i) {
+  deleteBarcode(index) {
     console.log("Delete Clicked");
-    console.log(i);
+    console.log(index);
     this.propsToPass = {
       dialog: true,
-      data: i
+      data: index
     }
+  }
+
+  created() {
+    this.$store.dispatch("retrieveBarcodes");
   }
 
 }

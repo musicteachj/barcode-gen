@@ -10,12 +10,12 @@ export default new Vuex.Store({
     barcodes: []
   },
   mutations: {
-
+    setBarcodes(state, payload) {
+      state.barcodes = payload.serverData;
+    }
   },
   actions: {
     saveBarcode({commit, state}, barcode: any) {
-      console.log("test dispatch")
-      // console.log(barcode);
       return new Promise((resolve, reject) => {
         axios.post("http://localhost:3000/api/barcodes", {
           barcode
@@ -29,17 +29,20 @@ export default new Vuex.Store({
       })
     },
 
-    // retrieveBarcodes({commit, state}) {
-    //   return new Promise((resolve, reject) => {
-    //     axios.get("http://localhost:3000/api/barcodes")
-    //     .then((response: any) => {
-    //       console.log(response)
-    //     })
-    //     .catch((error: any) => {
-    //       console.log(error)
-    //     })
-    //   })
-    // }
+    retrieveBarcodes({commit}: any) {
+      return new Promise((resolve, reject) => {
+        axios.get("http://localhost:3000/api/barcodes")
+        .then((response: any) => {
+          commit('setBarcodes', {
+            serverData: response.data
+          })
+          console.log(response)
+        })
+        .catch((error: any) => {
+          console.log(error)
+        })
+      })
+    }
   },
   modules: {
     

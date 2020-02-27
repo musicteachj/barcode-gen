@@ -12,11 +12,8 @@ router.get('/', async (req, res) => {
 // POST
 router.post('/', async (req, res) => {
   const barcodes = await loadBarcodesCollection();
-  console.log(req.body);
-  console.log(req.body.barcode);
-  console.log(req.body.barcode.barcode);
-  
   const clientBar = req.body.barcode.barcode;
+  
   await barcodes.insertOne({
     uuid: clientBar.id,
     name: clientBar.name,
@@ -38,7 +35,7 @@ router.delete('/:id', async (req, res) => {
 
 async function loadBarcodesCollection() {
   const client = await mongodb.MongoClient.connect
-    (' mongo string url here ', {
+    (' mongodb url here ', {
       useNewUrlParser: true
     })
 
