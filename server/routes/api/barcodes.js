@@ -27,7 +27,11 @@ router.post('/', async (req, res) => {
 // DELETE
 router.delete('/:id', async (req, res) => {
   const barcodes = await loadBarcodesCollection();
-  await barcodes.deleteOne({_id: new mongodb.ObjectID(req.params.id)});
+  // console.log(req);
+  console.log(req.params.id);
+  // console.log(req.params.uuid);
+  // await barcodes.deleteOne({_id: new mongodb.ObjectID(req.params.id)});
+  await barcodes.deleteOne({uuid: req.params.id});
   res.status(200).send();
 
 })
