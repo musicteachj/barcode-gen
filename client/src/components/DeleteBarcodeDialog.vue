@@ -15,7 +15,7 @@
         <v-divider></v-divider>
 
         <v-card-text class="title cardText mt-4">
-         Are you sure you want to delete barcode "{{data}}"?
+         Are you sure you want to delete barcode "{{data.name}}"?
         </v-card-text>
 
         <v-divider></v-divider>
@@ -34,7 +34,7 @@
             class="ml-6"
             color="error"
             text
-            @click="dialog = false"
+            @click="deleteBar"
           >
             Delete
           </v-btn>
@@ -58,6 +58,17 @@ export default class DeleteBarcodeDialog extends Vue {
 
   @Prop()
   data: number;
+
+  async deleteBar() {
+    console.log(this.data);
+    await this.$store.dispatch("deleteBarcode", {
+      barcode: this.data
+    }).then(success => {
+      // this.data = null;
+      // this.dialog = false;
+    })
+    this.dialog = false;
+  }
 
   
 

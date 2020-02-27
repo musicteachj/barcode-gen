@@ -29,12 +29,24 @@ export default new Vuex.Store({
             reject(new Error(fail.status))
           }
         );
-        // .then((response) => {
-        //   console.log(response)
-        // })
-        // .catch((error) => {
-        //   console.log(error)
-        // })
+      })
+    },
+
+    deleteBarcode(context: any, barcode: any) {
+      console.log(barcode.barcode);
+      return new Promise((resolve, reject) => {
+        axios.delete(`http://localhost:3000/api/barcodes/${barcode.barcode.uuid}`, {
+          params: barcode
+        })
+        .then(
+          (success: any) => {
+            context.dispatch("retrieveBarcodes");
+            resolve()
+          },
+          fail => {
+            reject(new Error(fail.status))
+          }
+        );
       })
     },
 

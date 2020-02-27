@@ -23,7 +23,7 @@
           <v-btn
             color="error"
             text
-            @click="deleteBarcode(index)"
+            @click="deleteBarcode(bar)"
           >
             Delete
           </v-btn>
@@ -74,12 +74,12 @@ export default class Print extends Vue {
     d.print( document.getElementById(`${index}`), [ printBarcodeStyles ] )
   }
 
-  deleteBarcode(index) {
+  deleteBarcode(bar) {
     console.log("Delete Clicked");
-    console.log(index);
+    console.log(bar);
     this.propsToPass = {
       dialog: true,
-      data: index
+      data: bar
     }
   }
 
