@@ -66,6 +66,11 @@
           Please enter a valid value for this barcode type.
         </VueBarcode>
 
+        <div v-if="this.barcodes.length >= 20">
+          <p class="display-2 text-center">Exceeded Barcode limit of 20</p>
+          <p class="display-1 text-center">Head to print page and delete some!</p>
+        </div>
+
         <v-row align="center" v-if="this.name != '' && this.type.value != ''">
             <v-col class="text-center" cols="12" sm="12">
               <div class="my-2">
@@ -153,6 +158,14 @@ export default class Create extends Vue {
     }
   }
 
+   get excededBarcodeLimit() {
+    if (this.barcodes.length >= 20) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   get nameRules() {
     let rules = [v => !!v || 'Name is required',
                  v => (v && v.length >= 1) || `Barcode name must be more than 1 characters`,
@@ -162,18 +175,10 @@ export default class Create extends Vue {
 
   get typeRules() {
     let rules = [v => !!v || 'Type is required',
-                 v => (v && v.value !== '') || `Type must be selected`,
+                 v => (v && v.value.min !== 0) || `Type must be selected`,
                 ];
     return rules;
   };
-
-  get excededBarcodeLimit() {
-    if (this.barcodes.length > 20) {
-      return true
-    } else {
-      return false
-    }
-  }
 
   get valueRules() {
     let rules: Array<any> = [v => !!v || 'Value is required'];
@@ -212,6 +217,10 @@ export default class Create extends Vue {
       value: {
         min: 0, 
         max: 0
+      },
+      intContraints: {
+        minValue: null,
+        maxValue: null
       }
     };
     this.value = '';
@@ -230,8 +239,10 @@ export default class Create extends Vue {
   async saveBarcode() {
     await this.$store.dispatch("saveBarcode", {
       barcode: this.buildBarcode()
-    });
-    this.resetForm();
+    }).then(success => {
+      this.resetForm();
+    })
+    
   }
 
   // Lifecycle events -----

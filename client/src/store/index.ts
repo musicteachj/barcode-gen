@@ -15,17 +15,26 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    saveBarcode({commit, state}, barcode: any) {
+    saveBarcode(context: any, barcode: any) {
       return new Promise((resolve, reject) => {
         axios.post("http://localhost:3000/api/barcodes", {
           barcode
         })
-        .then((response) => {
-          console.log(response)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+        .then(
+          (success: any) => {
+            context.dispatch("retrieveBarcodes");
+            resolve()
+          },
+          fail => {
+            reject(new Error(fail.status))
+          }
+        );
+        // .then((response) => {
+        //   console.log(response)
+        // })
+        // .catch((error) => {
+        //   console.log(error)
+        // })
       })
     },
 
