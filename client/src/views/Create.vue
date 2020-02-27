@@ -23,6 +23,7 @@
               :rules="nameRules"
               required
               prepend-icon="mdi-tag"
+              :disabled="excededBarcodeLimit"
             ></v-text-field>
 
             <v-select
@@ -50,7 +51,7 @@
             <v-row align="center">
             <v-col class="text-center" cols="12" sm="12">
               <div class="my-2">
-                <v-btn @click="resetForm" color="error">Reset</v-btn>
+                <v-btn @click="resetForm" color="error" :disabled="excededBarcodeLimit">Reset</v-btn>
               </div>
             </v-col>
           </v-row>
@@ -94,16 +95,23 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import VueBarcode from 'vue-barcode';
 import { v4 as uuidv4 } from 'uuid';
+import { mapState } from 'vuex';
+
 
 @Component({
   components: {
     VueBarcode
+  },
+  computed: {
+    ...mapState(["barcodes"])
   }
 })
 export default class Create extends Vue {
+  // Mapped variables -----
+  barcodes!: any;
 
+  // Local variables -----
   valid: boolean = false;
-
   name: string = "";
   type: any = {
     text: "", 
@@ -121,10 +129,8 @@ export default class Create extends Vue {
   value: string = "";
   minNum: number = 0;
   maxNum: number = 0;
-
   minVal: number = null;
   maxVal: number = null;
-
   items2: Array<object> = [
     {text: "CODE128", type: "CODE128", numOnly: false, value: {min:3, max:48}, intContraints: {minValue: null, maxValue: null}},
     {text: "EAN-13",  type: "EAN13", numOnly: true, value: {min:13, max:13}, intContraints: {minValue: null, maxValue: null}},
@@ -138,6 +144,7 @@ export default class Create extends Vue {
     {text: "Pharmacode",  type: "pharmacode", numOnly: true, value: {min:1, max:6}, intContraints: {minValue: 3, maxValue: 131070}}
   ];
 
+  // Computed -----
   get charType() {
     if (this.type.numOnly === true) {
       return 'number'
@@ -160,6 +167,14 @@ export default class Create extends Vue {
     return rules;
   };
 
+  get excededBarcodeLimit() {
+    if (this.barcodes.length > 20) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   get valueRules() {
     let rules: Array<any> = [v => !!v || 'Value is required'];
 
@@ -176,6 +191,7 @@ export default class Create extends Vue {
     return rules;
   };
 
+  // Watchers -----
   @Watch("type")
   typeChange() {
     this.value = '';
@@ -186,7 +202,7 @@ export default class Create extends Vue {
     this.maxVal = this.type.intContraints.maxValue;
   };
   
-
+ // Methods -----
   resetForm() {
     this.name = '';
     this.type = {
@@ -212,18 +228,15 @@ export default class Create extends Vue {
   }
 
   async saveBarcode() {
-    // const bar = {
-    //   id: uuidv4(),
-    //   name: this.name,
-    //   type: this.type.type,
-    //   value: this.value
-    // };
-
-    // console.log(bar);
-
     await this.$store.dispatch("saveBarcode", {
       barcode: this.buildBarcode()
     });
+    this.resetForm();
+  }
+
+  // Lifecycle events -----
+  created() {
+    this.$store.dispatch("retrieveBarcodes");
   }
 }
 </script>
