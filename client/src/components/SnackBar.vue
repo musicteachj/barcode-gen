@@ -1,0 +1,46 @@
+
+<template>
+  <div class="text-center">
+    <!-- <v-btn
+      dark
+      color="orange darken-2"
+      @click="snackbar = true"
+    >
+      Open Snackbar
+    </v-btn> -->
+
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      color="success"
+      top
+    >
+    <span class="snackText">{{text}}</span>
+    </v-snackbar>
+  </div>
+</template>
+
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator';
+
+@Component
+export default class SnackBar extends Vue {
+
+  @Prop({ default: false})
+  snackbar!: boolean;
+
+  // Local variables -----
+  // snackbar: boolean = false;
+  text: string = 'Barcode Created'
+  timeout: number = 2000;
+
+}
+</script>
+
+<style scoped>
+.snackText {
+  font-size: 16px !important;
+  margin-left: 80px;
+}
+
+</style>

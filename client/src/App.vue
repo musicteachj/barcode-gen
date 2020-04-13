@@ -1,23 +1,17 @@
 
 <template>
   <v-app v-if="valid === false">
-
     <v-btn @click="valid = true">
       test
     </v-btn>
-
   </v-app>
 
   <v-app v-else>
-
     <TopToolbar></TopToolbar>
-
     <v-content>
       <router-view></router-view>
     </v-content>
-
     <BottomNav class="bottomN"></BottomNav>
-
   </v-app>
 </template>
 
