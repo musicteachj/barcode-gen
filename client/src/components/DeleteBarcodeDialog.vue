@@ -1,7 +1,7 @@
 <template>
   <div class="text-center">
     <v-dialog
-      v-model="dialog"
+      v-model="dialogVisible"
       width="500"
     >
       <v-card>
@@ -26,7 +26,7 @@
             class="mr-6"
             color="primary"
             text
-            @click="dialog = false"
+            @click="closeDialog"
           >
             Cancel
           </v-btn>
@@ -51,26 +51,24 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 @Component({})
 export default class DeleteBarcodeDialog extends Vue {
 
-  
+  @Prop({ default: false })
+  dialogVisible: boolean;
 
-  @Prop()
-  dialog: boolean;
-
-  @Prop()
+  @Prop({ default: null })
   data: number;
+
+  closeDialog() {
+    this.$emit("closeDialog", false);
+  }
 
   async deleteBar() {
     console.log(this.data);
     await this.$store.dispatch("deleteBarcode", {
       barcode: this.data
     }).then(success => {
-      // this.data = null;
-      // this.dialog = false;
+      this.closeDialog();;
     })
-    this.dialog = false;
   }
-
-  
 
 }
 </script>
