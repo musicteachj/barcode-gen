@@ -2,6 +2,7 @@
   <v-container>
     <p class="display-4 text-center">Print Barcodes</p>
     <v-card
+      v-if="conditionDisplay"
       :class="`d-flex justify-center flex-wrap`"
       flat
       tile
@@ -41,6 +42,14 @@
       </v-card>
       <DeleteDialog v-bind="propsToPass"/>
     </v-card>
+    <v-card
+      v-else
+      flat
+      tile
+    >
+    <h1 class="text-center display-1 mt-10">No Barcodes To Display</h1>
+    <h1 class="text-center display-1 mt-6">Go Create One!</h1>
+    </v-card>
   </v-container>
 </template>
 
@@ -67,6 +76,14 @@ export default class Print extends Vue {
   barcodes!: any;
 
   propsToPass: any = {}
+
+  get conditionDisplay() {
+    if (this.barcodes.length > 0) {
+      return true
+    } else {
+      return false
+    }
+  }
 
   printBarcode(index) {
     console.log(index);
