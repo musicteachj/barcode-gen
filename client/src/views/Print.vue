@@ -40,7 +40,11 @@
           </v-btn>
         </v-card-actions>
       </v-card>
-      <DeleteDialog v-bind="propsToPass"/>
+      <DeleteDialog 
+        @closeDialog="closeParentD" 
+        :data="barData" 
+        :dialogVisible="dialog"
+      />
     </v-card>
     <v-card
       v-else
@@ -75,7 +79,9 @@ export default class Print extends Vue {
   // Mapped variables -----
   barcodes!: any;
 
-  propsToPass: any = {}
+  // Local varibles -----
+  dialog: boolean = false;
+  barData: object = {};
 
   get conditionDisplay() {
     if (this.barcodes.length > 0) {
@@ -83,6 +89,10 @@ export default class Print extends Vue {
     } else {
       return false
     }
+  }
+
+  closeParentD() {
+    this.dialog = false;
   }
 
   printBarcode(index) {
@@ -94,10 +104,8 @@ export default class Print extends Vue {
   deleteBarcode(bar) {
     console.log("Delete Clicked");
     console.log(bar);
-    this.propsToPass = {
-      dialog: true,
-      data: bar
-    }
+    this.dialog = true;
+    this.barData = bar;
   }
 
   created() {
