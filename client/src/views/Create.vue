@@ -51,7 +51,7 @@
             <v-row align="center">
             <v-col class="text-center" cols="12" sm="12">
               <div class="my-2">
-                <v-btn @click="resetForm" color="error" :disabled="excededBarcodeLimit">Reset</v-btn>
+                <v-btn v-if="name.length > 0" @click="resetForm" color="error" :disabled="excededBarcodeLimit">Reset</v-btn>
               </div>
             </v-col>
           </v-row>
