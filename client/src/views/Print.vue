@@ -12,11 +12,11 @@
         :key="index"
         outlined
         class="ma-2 cardClass"
-        width="344"
+        min-width="344"
       >
         <p class="mt-2 text-center headline">{{bar.name}}</p>
         <p class="text-center headline">{{bar.type}}</p>
-        <VueBarcode  class="text-center" :id="`${index}`" :value="bar.value">
+        <VueBarcode class="text-center" :id="`${index}`" :value="bar.value">
           Show this if the rendering fails.
         </VueBarcode>
 

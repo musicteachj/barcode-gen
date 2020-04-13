@@ -67,8 +67,8 @@
         </VueBarcode>
 
         <div v-if="this.barcodes.length >= 20">
-          <p class="display-2 text-center">Exceeded Barcode limit of 20</p>
-          <p class="display-1 text-center">Head to print page and delete some!</p>
+          <p class="display-2 text-center">Exceeded Barcode Limit Of 20</p>
+          <p class="display-1 text-center mt-6">Head To Print Page And Delete Some!</p>
         </div>
 
         <v-row align="center" v-if="this.name != '' && this.type.value != ''">
@@ -93,6 +93,8 @@
     </v-container>
   </v-card>
 
+  <SnackBar :snackbar="snackInit"/>
+
   </v-container>
 </template>
 
@@ -101,11 +103,12 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import VueBarcode from 'vue-barcode';
 import { v4 as uuidv4 } from 'uuid';
 import { mapState } from 'vuex';
-
+import SnackBar from '@/components/SnackBar.vue';
 
 @Component({
   components: {
-    VueBarcode
+    VueBarcode,
+    SnackBar
   },
   computed: {
     ...mapState(["barcodes"])
@@ -137,7 +140,7 @@ export default class Create extends Vue {
   minVal: number = null;
   maxVal: number = null;
   items2: Array<object> = [
-    {text: "CODE128", type: "CODE128", numOnly: false, value: {min:3, max:48}, intContraints: {minValue: null, maxValue: null}},
+    {text: "CODE128", type: "CODE128", numOnly: false, value: {min:3, max:30}, intContraints: {minValue: null, maxValue: null}},
     {text: "EAN-13",  type: "EAN13", numOnly: true, value: {min:13, max:13}, intContraints: {minValue: null, maxValue: null}},
     {text: "EAN-8",  type: "EAN8", numOnly: true, value: {min:7, max:7}, intContraints: {minValue: null, maxValue: null}},
     {text: "EAN-5",  type: "EAN5", numOnly: true, value: {min:5, max:5}, intContraints: {minValue: null, maxValue: null}},
@@ -148,6 +151,7 @@ export default class Create extends Vue {
     {text: "MSI",  type: "MSI", numOnly: true, value: {min:1, max:12}, intContraints: {minValue: null, maxValue: null}},
     {text: "Pharmacode",  type: "pharmacode", numOnly: true, value: {min:1, max:6}, intContraints: {minValue: 3, maxValue: 131070}}
   ];
+  snackInit: boolean = false;
 
   // Computed -----
   get charType() {
@@ -168,7 +172,7 @@ export default class Create extends Vue {
 
   get nameRules() {
     let rules = [v => !!v || 'Name is required',
-                 v => (v && v.length >= 1) || `Barcode name must be more than 1 characters`,
+                 v => (v && (v.length >= 1 && v.length <= 25)) || `Barcode name must be between 1 and 25 characters`,
                 ];
     return rules;
   }
@@ -241,6 +245,10 @@ export default class Create extends Vue {
       barcode: this.buildBarcode()
     }).then(success => {
       this.resetForm();
+      this.snackInit = true;
+      setTimeout(() => {
+        this.snackInit = false
+      }, 2000);
     })
     
   }

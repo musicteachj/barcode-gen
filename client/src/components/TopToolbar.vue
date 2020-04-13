@@ -2,7 +2,6 @@
 <v-card
     color="grey lighten-4"
     flat
-    
     tile
   >
     <v-toolbar 
