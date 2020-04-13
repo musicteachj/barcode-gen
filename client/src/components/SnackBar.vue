@@ -1,14 +1,6 @@
 
 <template>
   <div class="text-center">
-    <!-- <v-btn
-      dark
-      color="orange darken-2"
-      @click="snackbar = true"
-    >
-      Open Snackbar
-    </v-btn> -->
-
     <v-snackbar
       v-model="snackbar"
       :timeout="timeout"
@@ -30,7 +22,6 @@ export default class SnackBar extends Vue {
   snackbar!: boolean;
 
   // Local variables -----
-  // snackbar: boolean = false;
   text: string = 'Barcode Created'
   timeout: number = 2000;
 
@@ -42,5 +33,4 @@ export default class SnackBar extends Vue {
   font-size: 16px !important;
   margin-left: 80px;
 }
-
 </style>
