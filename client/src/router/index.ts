@@ -7,7 +7,7 @@ const routes = [
   {
     path: '/scan',
     name: 'Scan',
-    component: () => import('../views/Scan.vue'),
+    component: () => import('../views/Scan2.vue'),
   },
   {
     path: '/',
