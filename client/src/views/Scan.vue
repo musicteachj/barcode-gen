@@ -14,62 +14,55 @@
           </v-card>
         </v-col>
       </v-row>
-
-      
-
-    <v-row>
-      <v-col>
-        <div v-if="this.barcodes.length > 0">
-          <h1 class="text-center">Barcode in Array</h1>
-          <v-row>
-          <v-col cols="4">
-          </v-col>
-          <v-col cols="4">
-            <v-text-field
-                
-                v-model="scanBarName"
-                label="Name"
-                required
-                prepend-icon="mdi-tag"
-              ></v-text-field>
-          </v-col>
-          </v-row>
-          <p class="text-center">{{this.barcodes[0].codeResult.format}} type</p>
-
-          <VueBarcode 
-            class="text-center" 
-            :value="this.barcodes[0].codeResult.code"
+      <v-row>
+        <v-col>
+          <div v-if="this.barcodes.length > 0">
+            <h1 class="text-center">Barcode in Array</h1>
+            <v-row>
+              <v-col cols="4">
+              </v-col>
+              <v-col cols="4">
+                <v-text-field
+                  v-model="scanBarName"
+                  label="Name"
+                  required
+                  prepend-icon="mdi-tag"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <p class="text-center">{{this.barcodes[0].codeResult.format}} type</p>
+            <VueBarcode 
+              class="text-center" 
+              :value="this.barcodes[0].codeResult.code"
+              >
+              Please enter a valid value for this barcode type.
+            </VueBarcode>
+            <v-card
+              :class="`d-flex justify-center flex-wrap`"
+              flat
+              tile
             >
-            Please enter a valid value for this barcode type.
-          </VueBarcode>
-          <v-card
-            :class="`d-flex justify-center flex-wrap`"
-            flat
-            tile
-          >
-            <v-btn @click="reset()" color="error">Reset</v-btn>
-            <v-btn @click="saveScan()" color="primary">Save</v-btn>
-          </v-card>        
-        </div>
-      </v-col>
-    </v-row>
-  </v-container>
+              <v-btn @click="reset()" color="error">Reset</v-btn>
+              <v-btn @click="saveScan()" color="primary">Save</v-btn>
+            </v-card>        
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
 
-  
-  <div v-show="showVideo" :style="videoCenter" id="interactive" class="viewport scanner">
-    <video />
-    <canvas class="drawingBuffer" />
+    <div v-show="showVideo" :style="videoCenter" id="interactive" class="viewport scanner">
+      <video />
+      <canvas class="drawingBuffer" />
+    </div>
   </div>
-
-  </div>
-    
-        
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import Quagga from 'quagga';
 import VueBarcode from 'vue-barcode';
+import { v4 as uuidv4 } from 'uuid';
+
 
 
 @Component({
@@ -80,30 +73,15 @@ import VueBarcode from 'vue-barcode';
 })
 export default class Scan extends Vue {
 
-  scanBarName: string = "";
+  // Data
 
+  scanBarName: string = "";
   window: any = {
     height: 0,
     width: 0
-  }
-
+  };
   showVideo: boolean = false;
-
   barcodes: any = [];
-
-    // readers: [
-    //   "code_128_reader",
-    //   "ean_reader",
-    //   "ean_8_reader",
-    //   "ean_5_reader",
-    //   "ean_2_reader",
-    //   "code_39_reader",
-    //   "code_39_vin_reader",
-    //   "codabar_reader",
-    //   "upc_reader",
-    //   "upc_e_reader",
-    //   "code_93_reader"
-    // ],
 
   quaggaState: any = {
     inputStream: {
@@ -139,6 +117,8 @@ export default class Scan extends Vue {
     locate: true,
   };
 
+  // Methods
+
   reset() {
     this.scanBarName = "";
     this.barcodes = [];
@@ -147,7 +127,6 @@ export default class Scan extends Vue {
 
   startScan() {
     this.barcodes = [];
-
     this.showVideo = true;
 
     Quagga.init(this.quaggaState, function(err) {
@@ -165,25 +144,28 @@ export default class Scan extends Vue {
     Quagga.stop();
   }
 
-  saveScan() {
-    console.log("Saved")
+  async saveScan() {
+    await this.$store.dispatch("saveBarcode", {
+      barcode: this.buildBarcode()
+    }).then(success => {
+      this.reset();
+      // this.snackInit = true;
+      // setTimeout(() => {
+      //   this.snackInit = false
+      // }, 2000);
+    })
   }
 
   onDetected(result) {
     // Empty barcodes arr
-    this.barcodes = [];
-    console.log('detected: ', result);
-    
+    this.barcodes = [];    
     Quagga.stop();
-    console.log(this.barcodes);
     this.barcodes.push(result);
-    console.log(this.barcodes);
     this.showVideo = false;
   }
 
   onProcessed(result) {
     let drawingCtx = Quagga.canvas.ctx.overlay;
-
     let drawingCanvas = Quagga.canvas.dom.overlay;
 
     if (result) {
@@ -223,6 +205,22 @@ export default class Scan extends Vue {
     }
   }
 
+  buildBarcode() {
+    if (this.barcodes[0].codeResult.format === "ean_13") {
+      this.barcodes[0].codeResult.format = "EAN13";
+    }
+
+    const bar = {
+      id: uuidv4(),
+      name: this.scanBarName,
+      type: this.barcodes[0].codeResult.format,
+      value: this.barcodes[0].codeResult.code
+    };
+    return bar;
+  }
+
+  // Lifecycle Events
+
   created() {
     window.addEventListener('resize', this.handleResize)
     this.handleResize();
@@ -235,6 +233,8 @@ export default class Scan extends Vue {
     this.window.width = window.innerWidth;
     this.window.height = window.innerHeight;
   }
+
+  // Getters
 
   get videoCenter() {
     let marginLeft: any = 0;
@@ -262,7 +262,6 @@ export default class Scan extends Vue {
   position: absolute;
   left: 0;
   top: 0;
-
 }
 
 </style>
