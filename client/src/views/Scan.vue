@@ -1,53 +1,109 @@
 <template>
+  <div>
+    <v-container>
+      <v-row>
+        <v-col>
+          <p class="display-4 text-center">Scan Barcodes</p>
+          <v-card
+            :class="`d-flex justify-center flex-wrap`"
+            flat
+            tile
+          >
+            <v-btn @click="startScan()" color="primary">Scan</v-btn>
+            <v-btn @click="stopScan()" color="error">Stop</v-btn>
+          </v-card>
+        </v-col>
+      </v-row>
 
-  <v-container>
-    <p class="display-4 text-center">Scan Barcodes</p>
-    <v-card
-      :class="`d-flex justify-center flex-wrap`"
-      flat
-      tile
-    >
-      <v-btn @click="startScan()" color="primary">Scan</v-btn>
-      <v-btn @click="stopScan()" color="error">Stop</v-btn>
+      
 
-      <!-- <div id="yourElement">
+    <v-row>
+      <v-col>
+        <div v-if="this.barcodes.length > 0">
+          <h1 class="text-center">Barcode in Array</h1>
+          <v-row>
+          <v-col cols="4">
+          </v-col>
+          <v-col cols="4">
+            <v-text-field
+                
+                v-model="scanBarName"
+                label="Name"
+                required
+                prepend-icon="mdi-tag"
+              ></v-text-field>
+          </v-col>
+          </v-row>
+          <p class="text-center">{{this.barcodes[0].codeResult.format}} type</p>
 
-      </div> -->
-
-      <div id="interactive" class="viewport scanner">
-        <video />
-        <canvas class="drawingBuffer" />
-      </div>
-    </v-card>
+          <VueBarcode 
+            class="text-center" 
+            :value="this.barcodes[0].codeResult.code"
+            >
+            Please enter a valid value for this barcode type.
+          </VueBarcode>
+          <v-card
+            :class="`d-flex justify-center flex-wrap`"
+            flat
+            tile
+          >
+            <v-btn @click="reset()" color="error">Reset</v-btn>
+            <v-btn @click="saveScan()" color="primary">Save</v-btn>
+          </v-card>        
+        </div>
+      </v-col>
+    </v-row>
   </v-container>
 
+  
+  <div v-show="showVideo" :style="videoCenter" id="interactive" class="viewport scanner">
+    <video />
+    <canvas class="drawingBuffer" />
+  </div>
+
+  </div>
+    
+        
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import Quagga from 'quagga'; // ES6
+import Quagga from 'quagga';
+import VueBarcode from 'vue-barcode';
+
 
 @Component({
   components: {
     Quagga,
-  },
+    VueBarcode
+  }
 })
-export default class  extends Vue {
+export default class Scan extends Vue {
 
-  @Prop({ default: (result) => "" })
-  onDetected!: any;
+  scanBarName: string = "";
 
-  @Prop({ default: (result) => "" })
-  onProcessed!: any;
+  window: any = {
+    height: 0,
+    width: 0
+  }
 
-  // @Prop({ default: "upc_reader" })
-  // readerType!: string;
+  showVideo: boolean = false;
 
-  // @Prop({ default: 320 })
-  // readerWidth!: string | number;
+  barcodes: any = [];
 
-  // @Prop({ default: 240 })
-  // readerHeight!: string | number;
+    // readers: [
+    //   "code_128_reader",
+    //   "ean_reader",
+    //   "ean_8_reader",
+    //   "ean_5_reader",
+    //   "ean_2_reader",
+    //   "code_39_reader",
+    //   "code_39_vin_reader",
+    //   "codabar_reader",
+    //   "upc_reader",
+    //   "upc_e_reader",
+    //   "code_93_reader"
+    // ],
 
   quaggaState: any = {
     inputStream: {
@@ -60,37 +116,76 @@ export default class  extends Vue {
       },
     },
     locator: {
-      patchSize: 'large',
+      patchSize: 'medium',
       halfSample: true,
     },
     numOfWorkers: 2,
     frequency: 10,
     decoder: {
       readers: [
-        "code_128_reader",
+        // "code_128_reader",
         "ean_reader",
-        "ean_8_reader",
-        "code_39_reader",
-        "code_39_vin_reader",
-        "codabar_reader",
-        "upc_reader",
-        "upc_e_reader",
-        "i20f5_reader",
-        "2of5_reader",
-        "code_93_reader"
-      ]
+        // "ean_8_reader",
+        // "ean_5_reader",
+        // "ean_2_reader",
+        // "code_39_reader",
+        // "code_39_vin_reader",
+        // "codabar_reader",
+        // "upc_reader",
+        // "upc_e_reader",
+        // "code_93_reader"
+      ],
     },
     locate: true,
+  };
+
+  reset() {
+    this.scanBarName = "";
+    this.barcodes = [];
+    this.showVideo = false;
   }
 
-  _onDetected(result) {
-    console.log(result);
+  startScan() {
+    this.barcodes = [];
+
+    this.showVideo = true;
+
+    Quagga.init(this.quaggaState, function(err) {
+      if (err) {
+        return console.error(err);
+      }
+      Quagga.start();
+    });
+    Quagga.onDetected(this.onDetected);
+    Quagga.onProcessed(this.onProcessed);
+  }
+
+  stopScan() {
+    this.reset();
     Quagga.stop();
   }
 
-  _onProcessed(result) {
+  saveScan() {
+    console.log("Saved")
+  }
+
+  onDetected(result) {
+    // Empty barcodes arr
+    this.barcodes = [];
+    console.log('detected: ', result);
+    
+    Quagga.stop();
+    console.log(this.barcodes);
+    this.barcodes.push(result);
+    console.log(this.barcodes);
+    this.showVideo = false;
+  }
+
+  onProcessed(result) {
     let drawingCtx = Quagga.canvas.ctx.overlay;
+
     let drawingCanvas = Quagga.canvas.dom.overlay;
+
     if (result) {
       if (result.boxes) {
         drawingCtx.clearRect(
@@ -116,6 +211,7 @@ export default class  extends Vue {
           lineWidth: 2,
         });
       }
+
       if (result.codeResult && result.codeResult.code) {
         Quagga.ImageDebug.drawPath(
           result.line,
@@ -127,57 +223,46 @@ export default class  extends Vue {
     }
   }
 
-  mounted() {
-    Quagga.init(this.quaggaState, function(err) {
-      if (err) {
-        return console.error(err);
-      }
-      Quagga.start();
-    });
-    // Quagga.onDetected(this.onDetected);
-    // Quagga.onProcessed(this.onProcessed);
+  created() {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize();
   }
-
   destroyed() {
-    Quagga.stop();
+    window.removeEventListener('resize', this.handleResize)
   }
   
-
-  // startScan() {
-  //   Quagga.init(this.quaggaState, function(err) {
-  //     if (err) {
-  //       console.log(err);
-  //       return
-  //     }
-  //     Quagga.start();
-  //   });
-
-  //   Quagga.onDetected(this.onDetected ? this.onDetected : this._onDetected);
-  //   Quagga.onProcessed(this.onProcessed ? this.onProcessed : this._onProcessed);
-  // }
-
-  stopScan() {
-    Quagga.stop();
+  handleResize() {
+    this.window.width = window.innerWidth;
+    this.window.height = window.innerHeight;
   }
 
-}
+  get videoCenter() {
+    let marginLeft: any = 0;
 
+    if (this.window.width <= 640) {
+      return ""
+    }
+
+    if (this.window.width >= 641) {
+      marginLeft = (this.window.width - 640) / 2;
+      return `margin-left: ${marginLeft}px`
+    }
+  }
+  
+};
 </script>
 
 <style scoped>
-#yourElement {
-  width: 100%;
-  height: 100%;
-}
-
 .viewport {
   position: relative;
 }
+
 .viewport canvas,
 .viewport video {
   position: absolute;
   left: 0;
   top: 0;
+
 }
 
 </style>
