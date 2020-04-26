@@ -7,7 +7,8 @@
       color="success"
       top
     >
-    <span class="snackText">{{text}}</span>
+    <span v-if="deleteText" class="snackText">{{delText}}</span>
+    <span v-else class="snackText">{{createText}}</span>
     </v-snackbar>
   </div>
 </template>
@@ -21,9 +22,13 @@ export default class SnackBar extends Vue {
   @Prop({ default: false})
   snackbar!: boolean;
 
+  @Prop({ default: false})
+  deleteText!: boolean;
+
   // Local variables -----
-  text: string = 'Barcode Created'
-  timeout: number = 200000;
+  createText: string = 'Barcode Created';
+  delText: string = "Barcode Deleted";
+  timeout: number = 2000;
 
 }
 </script>

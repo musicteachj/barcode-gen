@@ -44,6 +44,7 @@
         @closeDialog="closeParentD" 
         :data="barData" 
         :dialogVisible="dialog"
+        @deleteBar="deleteSnack"
       />
     </v-card>
     <v-card
@@ -54,6 +55,9 @@
     <h1 class="text-center display-1 mt-10">No Barcodes To Display</h1>
     <h1 class="text-center display-1 mt-6">Go Create One!</h1>
     </v-card>
+
+    <SnackBar :snackbar="snackInit" :deleteText="delText"/>
+
   </v-container>
 </template>
 
@@ -64,11 +68,14 @@ import { Printd } from 'printd';
 import { mapState } from 'vuex';
 import { printBarcodeStyles } from "../util/printBarStyle";
 import DeleteDialog from '@/components/DeleteBarcodeDialog.vue';
+import SnackBar from '@/components/SnackBar.vue';
+
 
 @Component({
   components: {
     VueBarcode,
-    DeleteDialog
+    DeleteDialog,
+    SnackBar
   },
   computed: {
     ...mapState(["barcodes"])
@@ -82,6 +89,9 @@ export default class Print extends Vue {
   // Local varibles -----
   dialog: boolean = false;
   barData: object = {};
+  snackInit: boolean = false;
+  delText: boolean = false;
+
 
   get conditionDisplay() {
     if (this.barcodes.length > 0) {
@@ -95,6 +105,13 @@ export default class Print extends Vue {
     this.dialog = false;
   }
 
+  deleteSnack() {
+    this.snackInit = true;
+      setTimeout(() => {
+        this.snackInit = false
+      }, 2000);
+  }
+
   printBarcode(index) {
     console.log(index);
     const d = new Printd()
@@ -106,6 +123,7 @@ export default class Print extends Vue {
     console.log(bar);
     this.dialog = true;
     this.barData = bar;
+    this.delText = true;
   }
 
   created() {

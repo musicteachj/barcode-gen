@@ -67,6 +67,7 @@ export default class DeleteBarcodeDialog extends Vue {
       barcode: this.data
     }).then(success => {
       this.closeDialog();;
+      this.$emit("deleteBar", true);
     })
   }
 
