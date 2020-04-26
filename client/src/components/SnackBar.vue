@@ -23,7 +23,7 @@ export default class SnackBar extends Vue {
 
   // Local variables -----
   text: string = 'Barcode Created'
-  timeout: number = 2000;
+  timeout: number = 200000;
 
 }
 </script>
