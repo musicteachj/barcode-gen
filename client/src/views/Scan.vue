@@ -9,25 +9,30 @@
             flat
             tile
           >
-            <v-btn @click="startScan()" color="primary">Scan</v-btn>
-            <v-btn @click="stopScan()" color="error">Stop</v-btn>
+            <v-btn v-show="showScanBtn" @click="startScan()" color="primary">Scan</v-btn>
           </v-card>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
           <div v-if="this.barcodes.length > 0">
-            <h1 class="text-center">Barcode in Array</h1>
+            
             <v-row>
               <v-col cols="4">
               </v-col>
               <v-col cols="4">
-                <v-text-field
-                  v-model="scanBarName"
-                  label="Name"
-                  required
-                  prepend-icon="mdi-tag"
-                ></v-text-field>
+                <v-form
+                  ref="scanForm"
+                  v-model="valid"
+                >
+                  <v-text-field
+                    :rules="nameRules"
+                    required
+                    v-model="scanBarName"
+                    label="Name"
+                    prepend-icon="mdi-tag"
+                  ></v-text-field>
+                </v-form>      
               </v-col>
             </v-row>
             <p class="text-center">{{this.barcodes[0].codeResult.format}} type</p>
@@ -37,14 +42,20 @@
               >
               Please enter a valid value for this barcode type.
             </VueBarcode>
-            <v-card
-              :class="`d-flex justify-center flex-wrap`"
-              flat
-              tile
-            >
-              <v-btn @click="reset()" color="error">Reset</v-btn>
-              <v-btn @click="saveScan()" color="primary">Save</v-btn>
-            </v-card>        
+            <v-row align="center">
+              <v-col class="text-center" cols="12" sm="12">
+                <div class="my-2">
+                  <v-btn @click="reset()" color="error">Reset</v-btn>
+                </div>
+              </v-col>
+            </v-row>
+            <v-row align="center">
+              <v-col class="text-center" cols="12" sm="12">
+                <div class="my-2">
+                  <v-btn @click="saveScan()" :disabled="!valid" color="primary">Save</v-btn>
+                </div>
+              </v-col>
+            </v-row>
           </div>
         </v-col>
       </v-row>
@@ -53,6 +64,7 @@
     <div v-show="showVideo" :style="videoCenter" id="interactive" class="viewport scanner">
       <video />
       <canvas class="drawingBuffer" />
+      <v-btn :style="stopScanCenter" @click="stopScan()" color="error">Stop</v-btn>
     </div>
   </div>
 </template>
@@ -75,6 +87,8 @@ export default class Scan extends Vue {
 
   // Data
 
+  valid: boolean = false;
+  showScanBtn: boolean = true;
   scanBarName: string = "";
   window: any = {
     height: 0,
@@ -123,11 +137,13 @@ export default class Scan extends Vue {
     this.scanBarName = "";
     this.barcodes = [];
     this.showVideo = false;
+    this.showScanBtn = true;
   }
 
   startScan() {
     this.barcodes = [];
     this.showVideo = true;
+    this.showScanBtn = false;
 
     Quagga.init(this.quaggaState, function(err) {
       if (err) {
@@ -142,6 +158,7 @@ export default class Scan extends Vue {
   stopScan() {
     this.reset();
     Quagga.stop();
+    this.showScanBtn = true;
   }
 
   async saveScan() {
@@ -224,7 +241,16 @@ export default class Scan extends Vue {
   created() {
     window.addEventListener('resize', this.handleResize)
     this.handleResize();
+
+    // If user camera exists (maybe)
+    // console.log(navigator);
+    // if('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices){
+    //   console.log("Let's get this party started")
+    // } else {
+    //   console.log("no go")
+    // }
   }
+
   destroyed() {
     window.removeEventListener('resize', this.handleResize)
   }
@@ -248,6 +274,21 @@ export default class Scan extends Vue {
       return `margin-left: ${marginLeft}px`
     }
   }
+
+  get stopScanCenter() {
+    let marginLeft: any = 0;
+
+    marginLeft = (640 -64) / 2;
+    return `margin-left: ${marginLeft}px;
+            margin-top: 20px;`
+  }
+
+  get nameRules() {
+    let rules = [v => !!v || 'Name is required',
+                 v => (v && (v.length >= 1 && v.length <= 25)) || `Barcode name must be between 1 and 25 characters`,
+                ];
+    return rules;
+  }
   
 };
 </script>
@@ -263,5 +304,13 @@ export default class Scan extends Vue {
   left: 0;
   top: 0;
 }
+
+#interactive button {
+  border: 1px solid black !important;
+}
+
+/* .stopScan {
+  margin-left: 200px;
+} */
 
 </style>

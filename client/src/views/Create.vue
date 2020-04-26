@@ -248,9 +248,8 @@ export default class Create extends Vue {
       this.snackInit = true;
       setTimeout(() => {
         this.snackInit = false
-      }, 2000);
+      }, 200000);
     })
-    
   }
 
   // Lifecycle events -----
