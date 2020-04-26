@@ -248,7 +248,7 @@ export default class Create extends Vue {
       this.snackInit = true;
       setTimeout(() => {
         this.snackInit = false
-      }, 200000);
+      }, 2000);
     })
   }
 

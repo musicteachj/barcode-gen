@@ -66,6 +66,9 @@
       <canvas class="drawingBuffer" />
       <v-btn :style="stopScanCenter" @click="stopScan()" color="error">Stop</v-btn>
     </div>
+
+  <SnackBar :snackbar="snackInit"/>
+
   </div>
 </template>
 
@@ -74,19 +77,22 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import Quagga from 'quagga';
 import VueBarcode from 'vue-barcode';
 import { v4 as uuidv4 } from 'uuid';
+import SnackBar from '@/components/SnackBar.vue';
+
 
 
 
 @Component({
   components: {
     Quagga,
-    VueBarcode
+    VueBarcode,
+    SnackBar
   }
 })
 export default class Scan extends Vue {
 
   // Data
-
+  snackInit: boolean = false;
   valid: boolean = false;
   showScanBtn: boolean = true;
   scanBarName: string = "";
@@ -166,10 +172,10 @@ export default class Scan extends Vue {
       barcode: this.buildBarcode()
     }).then(success => {
       this.reset();
-      // this.snackInit = true;
-      // setTimeout(() => {
-      //   this.snackInit = false
-      // }, 2000);
+      this.snackInit = true;
+      setTimeout(() => {
+        this.snackInit = false
+      }, 2000);
     })
   }
 
