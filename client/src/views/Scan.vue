@@ -61,8 +61,18 @@
       </v-row>
     </v-container>
 
-    <v-container v-else>
-      <h1 class="text-center">Sorry, you don't have a camera on this device :(</h1>
+    <v-container v-else><v-row>
+        <v-col>
+          <p class="display-4 text-center">Scan Barcodes</p>
+          <v-card
+            :class="`d-flex justify-center flex-wrap`"
+            flat
+            tile
+          >
+            <h1 class="text-center">Sorry, you don't have a camera on this device :(</h1>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-container>
 
     <div v-show="showVideo" :style="videoCenter" id="interactive" class="viewport scanner">
@@ -82,9 +92,6 @@ import Quagga from 'quagga';
 import VueBarcode from 'vue-barcode';
 import { v4 as uuidv4 } from 'uuid';
 import SnackBar from '@/components/SnackBar.vue';
-
-
-
 
 @Component({
   components: {
