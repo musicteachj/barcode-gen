@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container>
+    <v-container v-if="cameraDetected">
       <v-row>
         <v-col>
           <p class="display-4 text-center">Scan Barcodes</p>
@@ -61,6 +61,10 @@
       </v-row>
     </v-container>
 
+    <v-container v-else>
+      <h1 class="text-center">Sorry, you don't have a camera on this device :(</h1>
+    </v-container>
+
     <div v-show="showVideo" :style="videoCenter" id="interactive" class="viewport scanner">
       <video />
       <canvas class="drawingBuffer" />
@@ -92,6 +96,7 @@ import SnackBar from '@/components/SnackBar.vue';
 export default class Scan extends Vue {
 
   // Data
+  cameraDetected: boolean = false;
   snackInit: boolean = false;
   valid: boolean = false;
   showScanBtn: boolean = true;
@@ -242,19 +247,26 @@ export default class Scan extends Vue {
     return bar;
   }
 
+  checkUserCamera() {
+    navigator.mediaDevices.enumerateDevices()
+      .then((devices: any) =>{
+        for (let d of devices) {
+          if (d.kind === "videoinput") {
+            this.cameraDetected = true;
+          }
+        }
+      })
+      .catch((err: any) => {
+        console.log(err.name + ": " + err.message);
+      });
+  }
+
   // Lifecycle Events
 
   created() {
     window.addEventListener('resize', this.handleResize)
     this.handleResize();
-
-    // If user camera exists (maybe)
-    // console.log(navigator);
-    // if('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices){
-    //   console.log("Let's get this party started")
-    // } else {
-    //   console.log("no go")
-    // }
+    this.checkUserCamera();
   }
 
   destroyed() {
