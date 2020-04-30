@@ -171,14 +171,14 @@ export default class Create extends Vue {
   }
 
   get nameRules() {
-    let rules = [v => !!v || 'Name is required',
+    let rules: any = [v => !!v || 'Name is required',
                  v => (v && (v.length >= 1 && v.length <= 25)) || `Barcode name must be between 1 and 25 characters`,
                 ];
     return rules;
   }
 
   get typeRules() {
-    let rules = [v => !!v || 'Type is required',
+    let rules: any = [v => !!v || 'Type is required',
                  v => (v && v.value.min !== 0) || `Type must be selected`,
                 ];
     return rules;
