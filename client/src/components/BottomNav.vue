@@ -55,13 +55,13 @@ export default class BottomNav extends Vue {
 
   get dynamicBNavHeight() {
     if (this.window.width >= 4096) {
-      return "200"
+      return "110"
     }
   }
 
   get dynamicBNavIcon() {
     if (this.window.width >= 4096) {
-      return "100"
+      return "50"
     }
   }
 
@@ -72,7 +72,7 @@ export default class BottomNav extends Vue {
 
 @media screen and (max-width: 4096px) { 
   .linkText {
-    font-size: 40px;
+    font-size: 30px;
   }
   .v-bottom-navigation a {
     margin-left: 3%;

@@ -40,7 +40,7 @@
 /* Form styles throughout app */
 @media screen and (max-width: 4096px) { 
   .v-input .v-label {
-      font-size: 60px !important;
+    font-size: 40px !important;
   }
   /* .v-input__slot, .v-text-field__slot {
     height: 200px !important;
@@ -48,6 +48,30 @@
   .v-label {
     height: 50px !important;
     padding-top: 10px;
+    color: red !important;
+  }
+
+  input {
+    margin-top: 8% !important;
+  }
+
+  .v-input input {
+    /* margin-top: -1% !important; */
+    font-size: 40px;
+  }
+
+  .v-messages__message {
+    font-size: 20px;
+  }
+
+  .v-list-item__title {
+    font-size: 30px !important;
+  }
+
+  .v-select__selection {
+    height: 50px !important;
+    padding-top: 30px !important;
+    font-size: 30px !important;
   }
 }
 </style>

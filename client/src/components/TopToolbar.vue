@@ -60,13 +60,13 @@ export default class TopToolbar extends Vue {
 
   get dynamicToolbarHeight() {
     if (this.window.width >= 4096) {
-      return "150"
+      return "100"
     }
   }
 
   get dynamicToolbarIcon() {
     if (this.window.width >= 4096) {
-      return "100"
+      return "80"
     }
   }
 
@@ -84,7 +84,7 @@ export default class TopToolbar extends Vue {
   }
 
   .toolBBarText, .toolBRouteText {
-    font-size: 80px;
+    font-size: 70px;
   }
   .toolBRouteText {
     /* font-size: 80px; */
