@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <p class="display-4 text-center">Print Barcodes</p>
+    <p class="display-4 text-center pageTitle">Print Barcodes</p>
     <v-card
       v-if="conditionDisplay"
       :class="`d-flex justify-center flex-wrap`"
@@ -137,5 +137,13 @@ export default class Print extends Vue {
 .cardClass {
   border-color: #303F9F !important;
   border-width: 4px !important;
+}
+
+@media screen and (max-width: 4096px) { 
+  .pageTitle {
+    margin-top: 10%;
+    font-size: 140px !important;
+    margin-bottom: 5%;
+  }
 }
 </style>

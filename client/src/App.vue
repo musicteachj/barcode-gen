@@ -32,8 +32,15 @@
   }
 </script>
 
-<style scoped>
+<style>
 .bottomN {
   position: sticky;
+}
+
+/* Form styles throughout app */
+@media screen and (max-width: 4096px) { 
+  .v-input .v-label {
+      font-size: 60px !important;
+  }
 }
 </style>
