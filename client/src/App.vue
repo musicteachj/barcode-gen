@@ -42,5 +42,12 @@
   .v-input .v-label {
       font-size: 60px !important;
   }
+  /* .v-input__slot, .v-text-field__slot {
+    height: 200px !important;
+  } */
+  .v-label {
+    height: 50px !important;
+    padding-top: 10px;
+  }
 }
 </style>
