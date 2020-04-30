@@ -182,18 +182,24 @@ export default class Create extends Vue {
   get barcodeFontSize() {
     if (this.window.width >= 4096) {
       return "30"
+    } else {
+      return "20"
     }
   }
 
   get barcodeHeight() {
     if (this.window.width >= 4096) {
       return "200"
+    } else {
+      return "100"
     }
   }
 
   get dynamicBNavIcon() {
     if (this.window.width >= 4096) {
       return "70"
+    } else {
+      return "20"
     }
   }
 
@@ -335,6 +341,10 @@ export default class Create extends Vue {
     height: 60px !important;
     font-size: 30px !important;
   }
+}
+
+@media screen and (max-width: 3840px) {
+
 }
 
 </style>
