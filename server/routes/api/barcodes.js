@@ -39,7 +39,7 @@ router.delete('/:id', async (req, res) => {
 
 async function loadBarcodesCollection() {
   const client = await mongodb.MongoClient.connect
-    (' mongodb url here ', {
+    ('mongodb://musicteachj:abc123@ds159129.mlab.com:59129/barcodes', {
       useNewUrlParser: true
     })
 
