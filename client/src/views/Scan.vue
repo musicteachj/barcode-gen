@@ -163,7 +163,7 @@ export default class Scan extends Vue {
     this.showVideo = true;
     this.showScanBtn = false;
 
-    Quagga.init(this.quaggaState, function(err) {
+    Quagga.init(this.quaggaState, function(err: any) {
       if (err) {
         return console.error(err);
       }
@@ -191,7 +191,7 @@ export default class Scan extends Vue {
     })
   }
 
-  onDetected(result) {
+  onDetected(result: any) {
     // Empty barcodes arr
     this.barcodes = [];    
     Quagga.stop();
@@ -199,7 +199,7 @@ export default class Scan extends Vue {
     this.showVideo = false;
   }
 
-  onProcessed(result) {
+  onProcessed(result: any) {
     let drawingCtx = Quagga.canvas.ctx.overlay;
     let drawingCanvas = Quagga.canvas.dom.overlay;
 
@@ -212,10 +212,10 @@ export default class Scan extends Vue {
           parseInt(drawingCanvas.getAttribute('height'))
         );
         result.boxes
-          .filter(function(box) {
+          .filter(function(box: any) {
             return box !== result.box;
           })
-          .forEach(function(box) {
+          .forEach(function(box: any) {
             Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, drawingCtx, {
               color: 'green',
               lineWidth: 2,
@@ -309,8 +309,8 @@ export default class Scan extends Vue {
   }
 
   get nameRules() {
-    let rules = [v => !!v || 'Name is required',
-                 v => (v && (v.length >= 1 && v.length <= 25)) || `Barcode name must be between 1 and 25 characters`,
+    let rules = [(v: any) => !!v || 'Name is required',
+                 (v: any) => (v && (v.length >= 1 && v.length <= 25)) || `Barcode name must be between 1 and 25 characters`,
                 ];
     return rules;
   }
@@ -334,7 +334,7 @@ export default class Scan extends Vue {
   border: 1px solid black !important;
 }
 
-@media screen and (max-width: 4096px) { 
+@media screen and (min-width: 4096px) { 
   .pageTitle {
     margin-top: 10%;
     font-size: 140px !important;

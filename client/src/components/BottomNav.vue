@@ -70,7 +70,7 @@ export default class BottomNav extends Vue {
 
 <style scoped>
 
-@media screen and (max-width: 4096px) { 
+@media screen and (min-width: 4096px) { 
   .linkText {
     font-size: 30px;
   }

@@ -220,14 +220,14 @@ export default class Create extends Vue {
   }
 
   get nameRules() {
-    let rules = [v => !!v || 'Name is required',
+    let rules: any = [v => !!v || 'Name is required',
                  v => (v && (v.length >= 1 && v.length <= 25)) || `Barcode name must be between 1 and 25 characters`,
                 ];
     return rules;
   }
 
   get typeRules() {
-    let rules = [v => !!v || 'Type is required',
+    let rules: any = [v => !!v || 'Type is required',
                  v => (v && v.value.min !== 0) || `Type must be selected`,
                 ];
     return rules;
@@ -321,7 +321,7 @@ export default class Create extends Vue {
 
 <style scoped>
 
-@media screen and (max-width: 4096px) { 
+@media screen and (min-width: 4096px) { 
   .pageTitle {
     margin-top: 10%;
     font-size: 140px !important;

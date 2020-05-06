@@ -78,7 +78,7 @@ export default class TopToolbar extends Vue {
   color: white !important;
 }
 
-@media screen and (max-width: 4096px) { 
+@media screen and (min-width: 4096px) { 
   .toolBIcon {
     margin-left: 200px !important;
   }
