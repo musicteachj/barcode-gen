@@ -304,21 +304,140 @@
 /* //////////////////////////////// */
 /* TABLET */
 /* //////////////////////////////// */
-@media screen and (max-width: 600px) and (min-height: 960px) {
+@media screen and (max-width: 1366px) and (min-height: 1024px) and (max-height: 1366px) {
+  .appHeadline {
+    color: lightblue;
+    margin-top: 40% !important;
+    font-weight: 300;
+    font-size: 90px !important;
+    margin-bottom: 5% !important;
+  }
+  .appSupportText {
+    font-weight: 400;
+    font-size: 20px;
+    margin-bottom: 10% !important;
+  }
+  .homeBarExample {
+    margin-bottom: 30%;
+  }
+}
+@media screen and (max-width: 1280px) and (min-height: 800px) and (max-height: 834px) {
+  .appHeadline {
+    color: grey;
+    margin-top: 20% !important;
+    font-weight: 300;
+    font-size: 90px !important;
+    margin-bottom: 5% !important;
+  }
+  .appSupportText {
+    font-weight: 400;
+    font-size: 20px;
+    margin-bottom: 10% !important;
+  }
+  .homeBarExample {
+    margin-bottom: 30%;
+  }
+}
+@media screen and (max-width: 1024px) and (min-height: 1025px) and (max-height: 1366px) {
+  .appHeadline {
+    color: green;
+    margin-top: 50% !important;
+    font-weight: 300;
+    font-size: 90px !important;
+    margin-bottom: 5% !important;
+  }
+  .appSupportText {
+    font-weight: 400;
+    font-size: 20px;
+    margin-bottom: 10% !important;
+  }
+  .homeBarExample {
+    margin-bottom: 30%;
+  }
+}
+@media screen and (max-width: 1024px) and (min-height: 768px) and (max-height: 1024px) {
+  .appHeadline {
+    color: yellow;
+    margin-top: 20% !important;
+    font-weight: 300;
+    font-size: 70px !important;
+    margin-bottom: 5% !important;
+  }
+  .appSupportText {
+    font-weight: 400;
+    font-size: 20px;
+    margin-bottom: 10% !important;
+  }
+  .homeBarExample {
+    margin-bottom: 30%;
+  }
+}
+@media screen and (max-width: 960px) and (min-height: 600px) and (max-height: 1023px) {
+  .appHeadline {
+    color: brown;
+    margin-top: 20% !important;
+    font-weight: 300;
+    font-size: 54px !important;
+    margin-bottom: 5% !important;
+  }
+  .appSupportText {
+    font-weight: 400;
+    font-size: 20px;
+    margin-bottom: 10% !important;
+  }
+  .homeBarExample {
+    margin-bottom: 30%;
+  }
+}
+@media screen and (max-width: 834px) and (min-height: 961px) and (max-height: 1280px) {
+  .appHeadline {
+    color: teal;
+    margin-top: 50% !important;
+    font-weight: 300;
+    font-size: 60px !important;
+    margin-bottom: 5% !important;
+  }
+  .appSupportText {
+    font-weight: 400;
+    font-size: 20px;
+    margin-bottom: 40% !important;
+  }
+  .homeBarExample {
+    margin-bottom: 40%;
+  }
+}
+@media screen and (max-width: 768px) and (min-height: 961px) and (max-height: 1024px) {
+  .appHeadline {
+    color: purple;
+    margin-top: 50% !important;
+    font-weight: 300;
+    font-size: 60px !important;
+    margin-bottom: 5% !important;
+  }
+  .appSupportText {
+    font-weight: 400;
+    font-size: 20px;
+    margin-bottom: 40% !important;
+  }
+  .homeBarExample {
+    margin-bottom: 40%;
+  }
+}
+@media screen and (max-width: 600px) and (min-height: 415px) and (max-height: 960px) {
   .appHeadline {
     color: red;
     margin-top: 40% !important;
     font-weight: 300;
-    font-size: 44px !important;
+    font-size: 50px !important;
     margin-bottom: 5% !important;
   }
   .appSupportText {
     font-weight: 400;
     font-size: 16px;
-    margin-bottom: 5% !important;
+    margin-bottom: 40% !important;
   }
   .homeBarExample {
-    margin-bottom: 10%;
+    margin-bottom: 40%;
   }
 }
 
@@ -326,8 +445,9 @@
 /* //////////////////////////////// */
 /* MOBILE */
 /* //////////////////////////////// */
-@media screen and (max-width: 896px) { 
+@media screen and (max-width: 896px) and (max-height: 414px) { 
   .appHeadline {
+    color: orange;
     margin-top: 5%;
     font-weight: 300;
     font-size: 44px !important;
@@ -343,8 +463,9 @@
   }
 }
 
-@media screen and (max-width: 414px) {
+@media screen and (max-width: 414px) and (min-height: 568px) {
   .appHeadline {
+    color: blue;
     margin-top: 30%;
     font-weight: 300;
     font-size: 44px !important;
