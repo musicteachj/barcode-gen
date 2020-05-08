@@ -177,15 +177,17 @@
    opacity: 0;
 }
 
+
+
 /* RESPONSIVE */
-@media screen and (max-width: 4096px) {
-  /* Form styles throughout app */
+/* @media screen and (max-width: 4096px) {
   .v-input .v-label {
     font-size: 40px !important;
   }
-  /* .v-input__slot, .v-text-field__slot {
+  COMMENT THIS OUT!!!
+  .v-input__slot, .v-text-field__slot {
     height: 200px !important;
-  } */
+  }
   .v-label {
     height: 50px !important;
     padding-top: 10px;
@@ -197,7 +199,6 @@
   }
 
   .v-input input {
-    /* margin-top: -1% !important; */
     font-size: 40px;
   }
 
@@ -260,7 +261,7 @@
     font-size: 22px !important;
     margin-top: 20%;
   }
-}
+} */
 
 /* @media screen and (min-width:2688px) and (max-width:4095px){
    .appHeadline {
@@ -299,5 +300,64 @@
     font-size: 30px !important;
   }
 } */
+
+/* //////////////////////////////// */
+/* TABLET */
+/* //////////////////////////////// */
+@media screen and (max-width: 600px) and (min-height: 960px) {
+  .appHeadline {
+    color: red;
+    margin-top: 40% !important;
+    font-weight: 300;
+    font-size: 44px !important;
+    margin-bottom: 5% !important;
+  }
+  .appSupportText {
+    font-weight: 400;
+    font-size: 16px;
+    margin-bottom: 5% !important;
+  }
+  .homeBarExample {
+    margin-bottom: 10%;
+  }
+}
+
+
+/* //////////////////////////////// */
+/* MOBILE */
+/* //////////////////////////////// */
+@media screen and (max-width: 896px) { 
+  .appHeadline {
+    margin-top: 5%;
+    font-weight: 300;
+    font-size: 44px !important;
+    margin-bottom: 5% !important;
+  }
+  .appSupportText {
+    font-weight: 400;
+    font-size: 16px;
+    margin-bottom: 5% !important;
+  }
+  .homeBarExample {
+    margin-bottom: 10%;
+  }
+}
+
+@media screen and (max-width: 414px) {
+  .appHeadline {
+    margin-top: 30%;
+    font-weight: 300;
+    font-size: 44px !important;
+    margin-bottom: 10% !important;
+  }
+  .appSupportText {
+    font-weight: 400;
+    font-size: 16px;
+    margin-bottom: 10% !important;
+  }
+  .homeBarExample {
+    margin-bottom: 50%;
+  }
+}
  
 </style>

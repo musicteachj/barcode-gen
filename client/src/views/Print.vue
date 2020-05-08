@@ -139,11 +139,11 @@ export default class Print extends Vue {
   border-width: 4px !important;
 }
 
-@media screen and (min-width: 4096px) { 
+/* @media screen and (min-width: 4096px) { 
   .pageTitle {
     margin-top: 10%;
     font-size: 140px !important;
     margin-bottom: 5%;
   }
-}
+} */
 </style>

@@ -334,12 +334,12 @@ export default class Scan extends Vue {
   border: 1px solid black !important;
 }
 
-@media screen and (min-width: 4096px) { 
+/* @media screen and (min-width: 4096px) { 
   .pageTitle {
     margin-top: 10%;
     font-size: 140px !important;
     margin-bottom: 5%;
   }
-}
+} */
 
 </style>

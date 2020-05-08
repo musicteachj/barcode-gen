@@ -321,7 +321,7 @@ export default class Create extends Vue {
 
 <style scoped>
 
-@media screen and (min-width: 4096px) { 
+/* @media screen and (min-width: 4096px) { 
   .pageTitle {
     margin-top: 10%;
     font-size: 140px !important;
@@ -345,6 +345,6 @@ export default class Create extends Vue {
 
 @media screen and (max-width: 3840px) {
 
-}
+} */
 
 </style>
