@@ -135,6 +135,14 @@
   position: sticky !important;
 }
 
+.appHeadline {
+  font-weight: 300;
+}
+
+.appSupportText {
+  font-weight: 400;
+}
+
 /* .appHeadline {
   margin-top: 50%;
   font-weight: 300;
@@ -302,18 +310,22 @@
 } */
 
 /* //////////////////////////////// */
+/* DESKTOP */
+/* //////////////////////////////// */
+
+
+
+/* //////////////////////////////// */
 /* TABLET */
 /* //////////////////////////////// */
 @media screen and (max-width: 1366px) and (min-height: 1024px) and (max-height: 1366px) {
   .appHeadline {
     color: lightblue;
     margin-top: 40% !important;
-    font-weight: 300;
     font-size: 90px !important;
     margin-bottom: 5% !important;
   }
   .appSupportText {
-    font-weight: 400;
     font-size: 20px;
     margin-bottom: 10% !important;
   }
@@ -325,12 +337,10 @@
   .appHeadline {
     color: grey;
     margin-top: 20% !important;
-    font-weight: 300;
     font-size: 90px !important;
     margin-bottom: 5% !important;
   }
   .appSupportText {
-    font-weight: 400;
     font-size: 20px;
     margin-bottom: 10% !important;
   }
@@ -342,12 +352,10 @@
   .appHeadline {
     color: green;
     margin-top: 50% !important;
-    font-weight: 300;
     font-size: 90px !important;
     margin-bottom: 5% !important;
   }
   .appSupportText {
-    font-weight: 400;
     font-size: 20px;
     margin-bottom: 10% !important;
   }
@@ -359,12 +367,10 @@
   .appHeadline {
     color: yellow;
     margin-top: 20% !important;
-    font-weight: 300;
     font-size: 70px !important;
     margin-bottom: 5% !important;
   }
   .appSupportText {
-    font-weight: 400;
     font-size: 20px;
     margin-bottom: 10% !important;
   }
@@ -375,13 +381,11 @@
 @media screen and (max-width: 960px) and (min-height: 600px) and (max-height: 1023px) {
   .appHeadline {
     color: brown;
-    margin-top: 20% !important;
-    font-weight: 300;
+    margin-top: 30% !important;
     font-size: 54px !important;
     margin-bottom: 5% !important;
   }
   .appSupportText {
-    font-weight: 400;
     font-size: 20px;
     margin-bottom: 10% !important;
   }
@@ -393,12 +397,10 @@
   .appHeadline {
     color: teal;
     margin-top: 50% !important;
-    font-weight: 300;
     font-size: 60px !important;
     margin-bottom: 5% !important;
   }
   .appSupportText {
-    font-weight: 400;
     font-size: 20px;
     margin-bottom: 40% !important;
   }
@@ -410,12 +412,10 @@
   .appHeadline {
     color: purple;
     margin-top: 50% !important;
-    font-weight: 300;
     font-size: 60px !important;
     margin-bottom: 5% !important;
   }
   .appSupportText {
-    font-weight: 400;
     font-size: 20px;
     margin-bottom: 40% !important;
   }
@@ -427,12 +427,10 @@
   .appHeadline {
     color: red;
     margin-top: 40% !important;
-    font-weight: 300;
     font-size: 50px !important;
     margin-bottom: 5% !important;
   }
   .appSupportText {
-    font-weight: 400;
     font-size: 16px;
     margin-bottom: 40% !important;
   }
@@ -449,12 +447,10 @@
   .appHeadline {
     color: orange;
     margin-top: 5%;
-    font-weight: 300;
     font-size: 44px !important;
     margin-bottom: 5% !important;
   }
   .appSupportText {
-    font-weight: 400;
     font-size: 16px;
     margin-bottom: 5% !important;
   }
@@ -467,12 +463,10 @@
   .appHeadline {
     color: blue;
     margin-top: 30%;
-    font-weight: 300;
     font-size: 44px !important;
     margin-bottom: 10% !important;
   }
   .appSupportText {
-    font-weight: 400;
     font-size: 16px;
     margin-bottom: 10% !important;
   }
