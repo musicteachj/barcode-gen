@@ -1,6 +1,6 @@
 <template>
   <v-container>
-  <p class="display-4 text-center pageTitle">Create Barcodes</p>
+  <p class="display-2 text-center pageTitle">Create Barcodes</p>
   
   <v-card
     class="mx-auto"
