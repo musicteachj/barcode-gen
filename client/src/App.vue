@@ -20,6 +20,7 @@
             class="text-center mx-auto homeBarExample" 
             value="example"
             :height="barcodeHeight"
+            :fontSize="barcodeFontSize"
             >
             Please enter a valid value for this barcode type.
           </VueBarcode>
@@ -31,7 +32,6 @@
             v-if="showBtn"
             @click="routeToCreate"
             :block="false"
-            max-width="200"
             color="primary"
             class="mx-auto homeBtn">
             Lets Go
@@ -75,6 +75,18 @@
     window: any = {
       width: 0,
       height: 0
+    }
+
+    get barcodeFontSize() {
+      if (this.window.width >= 4096) {
+        return "50"
+      } else if (this.window.width >= 3840 && this.window.width <= 4095) {
+        return "40"
+      } else if (this.window.width >= 2560 && this.window.width <= 3839) {
+        return "30"
+      } else {
+        return "20"
+      }
     }
 
     get barcodeHeight() {
@@ -188,135 +200,89 @@
 
 
 /* RESPONSIVE */
-/* @media screen and (max-width: 4096px) {
-  .v-input .v-label {
-    font-size: 40px !important;
-  }
-  COMMENT THIS OUT!!!
-  .v-input__slot, .v-text-field__slot {
-    height: 200px !important;
-  }
-  .v-label {
-    height: 50px !important;
-    padding-top: 10px;
-    color: red !important;
-  }
-
-  input {
-    margin-top: 8% !important;
-  }
-
-  .v-input input {
-    font-size: 40px;
-  }
-
-  .v-messages__message {
-    font-size: 20px;
-  }
-
-  .v-list-item__title {
-    font-size: 30px !important;
-  }
-
-  .v-select__selection {
-    height: 50px !important;
-    padding-top: 30px !important;
-    font-size: 30px !important;
-  }
-
-  .appHeadline {
-    font-weight: 300;
-    font-size: 140px !important;
-    margin-top: 50%;
-  }
-
-  .appSupportText {
-    font-weight: 400;
-    font-size: 40px;
-    margin-bottom: 15% !important;
-  }
-
-  .homeBtn {
-    width: 180px;
-    height: 60px !important;
-    font-size: 30px !important;
-    margin-top: 20%;
-  }
-}
-
-@media screen and (max-width: 2688px) { 
-  .appHeadline {
-    margin-top: 20%;
-  }
-}
-
-@media screen and (max-width: 2560px) { 
-  .appHeadline {
-    font-weight: 300;
-    font-size: 100px !important;
-    margin-top: 30%;
-  }
-
-  .appSupportText {
-    font-weight: 400;
-    font-size: 26px;
-    margin-bottom: 15% !important;
-  }
-
-  .homeBtn {
-    width: 130px;
-    height: 40px !important;
-    font-size: 22px !important;
-    margin-top: 20%;
-  }
-} */
-
-/* @media screen and (min-width:2688px) and (max-width:4095px){
-   .appHeadline {
-    font-weight: 300;
-    font-size: 140px !important;
-  }
-
-  .appSupportText {
-    font-weight: 400;
-    font-size: 40px;
-    margin-bottom: 15% !important;
-  }
-
-  .homeBtn {
-    width: 180px;
-    height: 60px !important;
-    font-size: 30px !important;
-  }
-} */
-
-/* @media screen and (min-width:2561px) and (max-width:2688px){
-   .appHeadline {
-     margin-top: 20%;
-    font-size: 140px !important;
-  }
-
-  .appSupportText {
-    font-weight: 400;
-    font-size: 40px;
-    margin-bottom: 15% !important;
-  }
-
-  .homeBtn {
-    width: 180px;
-    height: 60px !important;
-    font-size: 30px !important;
-  }
-} */
-
 /* //////////////////////////////// */
 /* DESKTOP */
 /* //////////////////////////////// */
-@media screen and (max-width: 1920px) and (min-height: 900px) and (max-height: 1200px) {
+@media screen and (max-width: 4096px) and (min-height: 2160px) and (max-height: 2304px) {
   .appHeadline {
-    color: blue;
-    margin-top: 30% !important;
-    font-size: 100px !important;
+    margin-top: 40% !important;
+    font-size: 240px !important;
+    margin-bottom: 3% !important;
+  }
+  .appSupportText {
+    font-size: 60px;
+    margin-bottom: 10% !important;
+  }
+  .homeBarExample {
+    margin-bottom: 20%;
+  }
+  .homeBtn {
+    font-size: 40px !important;
+    width: 240px !important;
+    height: 70px !important;
+  }
+}
+
+@media screen and (max-width: 3840px) and (min-height: 2000px) and (max-height: 2160px) {
+  .appHeadline {
+    margin-top: 45% !important;
+    font-size: 190px !important;
+    margin-bottom: 3% !important;
+  }
+
+  .appSupportText {
+    font-size: 45px;
+    margin-bottom: 10% !important;
+  }
+  .homeBarExample {
+    margin-bottom: 20%;
+  }
+}
+
+@media screen and (max-width: 3000px) and (min-height: 1600px) and (max-height: 2000px) {
+  .appHeadline {
+    margin-top: 45% !important;
+    font-size: 160px !important;
+    margin-bottom: 3% !important;
+  }
+
+  .appSupportText {
+    font-size: 38px;
+    margin-bottom: 10% !important;
+  }
+  .homeBarExample {
+    margin-bottom: 20%;
+  }
+  .homeBtn {
+    font-size: 30px !important;
+    width: 180px !important;
+    height: 60px !important;
+  }
+}
+
+@media screen and (max-width: 2560px) and (min-height: 1270px) and (max-height: 1700px) {
+  .appHeadline {
+    margin-top: 35% !important;
+    font-size: 140px !important;
+    margin-bottom: 3% !important;
+  }
+  .appSupportText {
+    font-size: 38px;
+    margin-bottom: 10% !important;
+  }
+  .homeBarExample {
+    margin-bottom: 20%;
+  }
+  .homeBtn {
+    font-size: 26px !important;
+    width: 150px !important;
+    height: 50px !important;
+  }
+}
+@media screen and (max-width: 1920px) and (min-height: 900px) and (max-height: 1200px) {
+  .appHeadline {;
+    margin-top: 20% !important;
+    font-size: 120px !important;
     margin-bottom: 3% !important;
   }
   .appSupportText {
@@ -326,10 +292,14 @@
   .homeBarExample {
     margin-bottom: 20%;
   }
+  .homeBtn {
+    font-size: 20px !important;
+    width: 130px !important;
+    height: 40px !important;
+  }
 }
 @media screen and (max-width: 1440px) and (min-height: 768px) and (max-height: 900px) {
   .appHeadline {
-    color: green;
     margin-top: 20% !important;
     font-size: 90px !important;
     margin-bottom: 5% !important;
@@ -364,7 +334,6 @@
 /* //////////////////////////////// */
 @media screen and (max-width: 1366px) and (min-height: 1024px) and (max-height: 1366px) {
   .appHeadline {
-    color: lightblue;
     margin-top: 40% !important;
     font-size: 90px !important;
     margin-bottom: 5% !important;
@@ -379,7 +348,6 @@
 }
 @media screen and (max-width: 1280px) and (min-height: 800px) and (max-height: 834px) {
   .appHeadline {
-    color: grey;
     margin-top: 20% !important;
     font-size: 90px !important;
     margin-bottom: 5% !important;
@@ -394,7 +362,6 @@
 }
 @media screen and (max-width: 1024px) and (min-height: 1025px) and (max-height: 1366px) {
   .appHeadline {
-    color: green;
     margin-top: 50% !important;
     font-size: 90px !important;
     margin-bottom: 5% !important;
@@ -406,10 +373,14 @@
   .homeBarExample {
     margin-bottom: 30%;
   }
+  .homeBtn {
+    font-size: 20px !important;
+    width: 120px !important;
+    height: 40px !important;
+  }
 }
 @media screen and (max-width: 1024px) and (min-height: 768px) and (max-height: 1024px) {
   .appHeadline {
-    color: yellow;
     margin-top: 20% !important;
     font-size: 70px !important;
     margin-bottom: 5% !important;
@@ -424,7 +395,6 @@
 }
 @media screen and (max-width: 960px) and (min-height: 600px) and (max-height: 1023px) {
   .appHeadline {
-    color: brown;
     margin-top: 30% !important;
     font-size: 54px !important;
     margin-bottom: 5% !important;
@@ -439,7 +409,6 @@
 }
 @media screen and (max-width: 834px) and (min-height: 961px) and (max-height: 1280px) {
   .appHeadline {
-    color: teal;
     margin-top: 50% !important;
     font-size: 60px !important;
     margin-bottom: 5% !important;
@@ -454,7 +423,6 @@
 }
 @media screen and (max-width: 768px) and (min-height: 961px) and (max-height: 1024px) {
   .appHeadline {
-    color: purple;
     margin-top: 50% !important;
     font-size: 60px !important;
     margin-bottom: 5% !important;
@@ -469,7 +437,6 @@
 }
 @media screen and (max-width: 600px) and (min-height: 415px) and (max-height: 960px) {
   .appHeadline {
-    color: red;
     margin-top: 40% !important;
     font-size: 50px !important;
     margin-bottom: 5% !important;
@@ -489,7 +456,6 @@
 /* //////////////////////////////// */
 @media screen and (max-width: 896px) and (max-height: 414px) { 
   .appHeadline {
-    color: orange;
     margin-top: 5%;
     font-size: 44px !important;
     margin-bottom: 5% !important;
@@ -505,7 +471,6 @@
 
 @media screen and (max-width: 414px) and (min-height: 568px) {
   .appHeadline {
-    color: blue;
     margin-top: 30%;
     font-size: 44px !important;
     margin-bottom: 10% !important;
