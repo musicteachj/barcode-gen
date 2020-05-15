@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <p class="display-4 text-center pageTitle">Print Barcodes</p>
+    <p class="display-2 text-center pageTitle">Print Barcodes</p>
     <v-card
       v-if="conditionDisplay"
       :class="`d-flex justify-center flex-wrap`"
@@ -16,9 +16,10 @@
       >
         <p class="mt-2 text-center headline">{{bar.name}}</p>
         <p class="text-center headline">{{bar.type}}</p>
-        <VueBarcode class="text-center" :id="`${index}`" :value="bar.value">
+          <VueBarcode class="text-center containBar" :id="`${index}`" :value="bar.value" :width="barcodeWidth">
           Show this if the rendering fails.
         </VueBarcode>
+        
 
         <v-card-actions>
           <v-btn
@@ -91,7 +92,18 @@ export default class Print extends Vue {
   barData: object = {};
   snackInit: boolean = false;
   delText: boolean = false;
+  window: any = {
+    width: 0,
+    height: 0
+  }
 
+  get barcodeWidth() {
+    if (this.window.width <= 440) {
+      return "1"
+    } else {
+      return "2"
+    }
+  }
 
   get conditionDisplay() {
     if (this.barcodes.length > 0) {
@@ -128,6 +140,17 @@ export default class Print extends Vue {
 
   created() {
     this.$store.dispatch("retrieveBarcodes");
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize();
+  }
+
+  destroyed() {
+    window.removeEventListener('resize', this.handleResize)
+  }
+  
+  handleResize() {
+    this.window.width = window.innerWidth;
+    this.window.height = window.innerHeight;
   }
 
 }
@@ -138,12 +161,4 @@ export default class Print extends Vue {
   border-color: #303F9F !important;
   border-width: 4px !important;
 }
-
-/* @media screen and (min-width: 4096px) { 
-  .pageTitle {
-    margin-top: 10%;
-    font-size: 140px !important;
-    margin-bottom: 5%;
-  }
-} */
 </style>

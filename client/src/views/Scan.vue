@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container v-if="cameraDetected">
-      <p class="display-4 text-center pageTitle">Scan Barcodes</p>
+      <p class="display-2 text-center pageTitle">Scan Barcodes</p>
       <v-row>
         <v-col>
           <v-card
@@ -63,7 +63,7 @@
 
     <v-container v-else><v-row>
         <v-col>
-          <p class="display-4 text-center pageTitle">Scan Barcodes</p>
+          <p class="display-2 text-center pageTitle">Scan Barcodes</p>
           <v-card
             :class="`d-flex justify-center flex-wrap`"
             flat
@@ -333,13 +333,5 @@ export default class Scan extends Vue {
 #interactive button {
   border: 1px solid black !important;
 }
-
-/* @media screen and (min-width: 4096px) { 
-  .pageTitle {
-    margin-top: 10%;
-    font-size: 140px !important;
-    margin-bottom: 5%;
-  }
-} */
 
 </style>

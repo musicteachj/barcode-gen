@@ -1,6 +1,6 @@
 <template>
   <v-container>
-  <p class="display-4 text-center pageTitle">Create Barcodes</p>
+  <p class="display-2 text-center pageTitle">Create Barcodes</p>
   
   <v-card
     class="mx-auto"
@@ -161,13 +161,13 @@ export default class Create extends Vue {
   minVal: number = null;
   maxVal: number = null;
   items2: Array<object> = [
-    {text: "CODE128", type: "CODE128", numOnly: false, value: {min:3, max:30}, intContraints: {minValue: null, maxValue: null}},
+    {text: "CODE128", type: "CODE128", numOnly: false, value: {min:3, max:13}, intContraints: {minValue: null, maxValue: null}},
     {text: "EAN-13",  type: "EAN13", numOnly: true, value: {min:13, max:13}, intContraints: {minValue: null, maxValue: null}},
     {text: "EAN-8",  type: "EAN8", numOnly: true, value: {min:7, max:7}, intContraints: {minValue: null, maxValue: null}},
     {text: "EAN-5",  type: "EAN5", numOnly: true, value: {min:5, max:5}, intContraints: {minValue: null, maxValue: null}},
     {text: "EAN-2",  type: "EAN2", numOnly: true, value: {min:2, max:2}, intContraints: {minValue: null, maxValue: null}},
     {text: "UPC (A)",  type: "UPC", numOnly: true, value: {min:12, max:12}, intContraints: {minValue: null, maxValue: null}},
-    {text: "CODE39",  type: "CODE39", numOnly: false, value: {min:1, max:39}, intContraints: {minValue: null, maxValue: null}},
+    {text: "CODE39",  type: "CODE39", numOnly: false, value: {min:1, max:13}, intContraints: {minValue: null, maxValue: null}},
     {text: "ITF-14",  type: "ITF14", numOnly: true, value: {min:14, max:14}, intContraints: {minValue: null, maxValue: null}},
     {text: "MSI",  type: "MSI", numOnly: true, value: {min:1, max:12}, intContraints: {minValue: null, maxValue: null}},
     {text: "Pharmacode",  type: "pharmacode", numOnly: true, value: {min:1, max:6}, intContraints: {minValue: 3, maxValue: 131070}}
@@ -221,7 +221,7 @@ export default class Create extends Vue {
 
   get nameRules() {
     let rules: any = [v => !!v || 'Name is required',
-                 v => (v && (v.length >= 1 && v.length <= 25)) || `Barcode name must be between 1 and 25 characters`,
+                 v => (v && (v.length >= 1 && v.length <= 13)) || `Barcode name must be between 1 and 13 characters`,
                 ];
     return rules;
   }
@@ -320,31 +320,5 @@ export default class Create extends Vue {
 </script>
 
 <style scoped>
-
-/* @media screen and (min-width: 4096px) { 
-  .pageTitle {
-    margin-top: 10%;
-    font-size: 140px !important;
-    margin-bottom: 5%;
-  }
-  .nameRow, .typeRow, .valueRow {
-    margin-bottom: 10%;
-  }
-  .nameInput, .typeInput, .valueInput {
-    
-  }
-  .nameIcon, .typeIcon, .valueIcon {
-    margin-top: 10px;
-  }
-  .v-btn {
-    width: 150px;
-    height: 60px !important;
-    font-size: 30px !important;
-  }
-}
-
-@media screen and (max-width: 3840px) {
-
-} */
 
 </style>
