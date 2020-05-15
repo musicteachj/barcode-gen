@@ -312,7 +312,51 @@
 /* //////////////////////////////// */
 /* DESKTOP */
 /* //////////////////////////////// */
-
+@media screen and (max-width: 1920px) and (min-height: 900px) and (max-height: 1200px) {
+  .appHeadline {
+    color: blue;
+    margin-top: 30% !important;
+    font-size: 100px !important;
+    margin-bottom: 3% !important;
+  }
+  .appSupportText {
+    font-size: 34px;
+    margin-bottom: 10% !important;
+  }
+  .homeBarExample {
+    margin-bottom: 20%;
+  }
+}
+@media screen and (max-width: 1440px) and (min-height: 768px) and (max-height: 900px) {
+  .appHeadline {
+    color: green;
+    margin-top: 20% !important;
+    font-size: 90px !important;
+    margin-bottom: 5% !important;
+  }
+  .appSupportText {
+    font-size: 30px;
+    margin-bottom: 10% !important;
+  }
+  .homeBarExample {
+    margin-bottom: 20%;
+  }
+}
+/* @media screen and (max-width: 1366px) and (min-height: 768px) and (max-height: 768px) { 
+  .appHeadline {
+    color: red;
+    margin-top: 20% !important;
+    font-size: 90px !important;
+    margin-bottom: 5% !important;
+  }
+  .appSupportText {
+    font-size: 30px;
+    margin-bottom: 10% !important;
+  }
+  .homeBarExample {
+    margin-bottom: 20%;
+  }
+} */
 
 
 /* //////////////////////////////// */
@@ -326,7 +370,7 @@
     margin-bottom: 5% !important;
   }
   .appSupportText {
-    font-size: 20px;
+    font-size: 30px;
     margin-bottom: 10% !important;
   }
   .homeBarExample {
