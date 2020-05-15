@@ -42,7 +42,7 @@
   </v-app>
 
   <v-app v-else>
-    <TopToolbar></TopToolbar>
+    <TopToolbar class="topTool"></TopToolbar>
     <v-content>
       <router-view></router-view>
     </v-content>
@@ -145,6 +145,12 @@
 <style>
 .bottomN {
   position: sticky !important;
+}
+
+.topTool {
+  position: sticky !important;
+  top: 0;
+  z-index: 2;
 }
 
 .appHeadline {

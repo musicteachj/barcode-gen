@@ -16,7 +16,7 @@
       >
         <p class="mt-2 text-center headline">{{bar.name}}</p>
         <p class="text-center headline">{{bar.type}}</p>
-        <VueBarcode class="text-center" :id="`${index}`" :value="bar.value">
+        <VueBarcode class="text-center containBar" :id="`${index}`" :value="bar.value">
           Show this if the rendering fails.
         </VueBarcode>
 
@@ -91,6 +91,10 @@ export default class Print extends Vue {
   barData: object = {};
   snackInit: boolean = false;
   delText: boolean = false;
+  window: any = {
+    width: 0,
+    height: 0
+  }
 
 
   get conditionDisplay() {
@@ -139,11 +143,8 @@ export default class Print extends Vue {
   border-width: 4px !important;
 }
 
-/* @media screen and (min-width: 4096px) { 
-  .pageTitle {
-    margin-top: 10%;
-    font-size: 140px !important;
-    margin-bottom: 5%;
-  }
-} */
+.containBar {
+  max-width: 100% !important;
+  contain: content;
+}
 </style>

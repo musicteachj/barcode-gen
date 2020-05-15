@@ -4,7 +4,7 @@
     flat
     tile
   >
-    <v-toolbar 
+    <v-toolbar
       dense
       color="primary"
       class="toolB"
