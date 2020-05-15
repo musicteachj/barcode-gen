@@ -276,6 +276,12 @@
   }
 }
 
+@media screen and (max-width: 2999px) and (min-width: 2561px) {
+  .pageTitle {
+    font-size: 66px;
+  }
+}
+
 @media screen and (max-width: 2560px) and (min-height: 1270px) and (max-height: 1700px) {
   .appHeadline {
     margin-top: 35% !important;

@@ -15,7 +15,7 @@
         <v-divider></v-divider>
 
         <v-card-text class="title cardText mt-4">
-         Are you sure you want to delete barcode <span style="font-weight: bold">"{{data.name}}"</span>?
+          Are you sure you want to delete barcode <span style="font-weight: bold">"{{data.name}}"</span>?
         </v-card-text>
 
         <v-divider></v-divider>
