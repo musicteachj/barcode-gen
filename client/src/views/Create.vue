@@ -1,6 +1,6 @@
 <template>
   <v-container>
-  <p class="display-4 text-center">Create Barcodes</p>
+  <p class="display-4 text-center pageTitle">Create Barcodes</p>
   
   <v-card
     class="mx-auto"
@@ -9,44 +9,63 @@
   >
     <v-container fluid>
       <v-row>
-        <v-col cols="2">
+        <v-col cols="1">
         </v-col>
 
-        <v-col cols="8">
+        <v-col cols="10">
           <v-form
             ref="form"
             v-model="valid"
           >
-            <v-text-field
-              v-model="name"
-              label="Name"
-              :rules="nameRules"
-              required
-              prepend-icon="mdi-tag"
-              :disabled="excededBarcodeLimit"
-            ></v-text-field>
+          <v-row class="nameRow">
+            <v-col cols="2">
+              <v-icon :size="dynamicBNavIcon" class="nameIcon">mdi-tag</v-icon>
+            </v-col>
+            <v-col cols="10">
+              <v-text-field
+                class="nameInput"
+                v-model="name"
+                label="Name"
+                :rules="nameRules"
+                required
+                :disabled="excededBarcodeLimit"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+            
+          <v-row v-if="name != ''" class="typeRow">
+            <v-col cols="2">
+              <v-icon :size="dynamicBNavIcon" class="typeIcon">mdi-barcode</v-icon>
+            </v-col>
+            <v-col cols="10">
+              <v-select
+                class="typeInput"
+                v-model="type"
+                :return-object="true"
+                item-value
+                :items="items2"
+                label="Type"
+                :rules="typeRules"
+                required
+              ></v-select>
+            </v-col>
+          </v-row>
 
-            <v-select
-              v-if="name != ''"
-              v-model="type"
-              :return-object="true"
-              item-value
-              :items="items2"
-              label="Type"
-              :rules="typeRules"
-              required
-              prepend-icon="mdi-barcode"
-            ></v-select>
-
+          <v-row v-if="type.value.min != 0" class="valueRow">
+            <v-col cols="2">
+            <v-icon :size="dynamicBNavIcon" class="valueIcon">mdi-card-text</v-icon>
+            </v-col>
+            <v-col cols="10">
             <v-text-field
-              v-if="type.value.min != 0"
+              class="valueInput"
               v-model="value"
               label="Value"
               :rules="valueRules"
               required
               :type="charType"
-              prepend-icon="mdi-card-text"
             ></v-text-field>
+            </v-col>
+          </v-row>
 
             <v-row align="center">
             <v-col class="text-center" cols="12" sm="12">
@@ -62,6 +81,8 @@
           class="text-center" 
           :value="this.value"
           :format="this.type.type"
+          :height="barcodeHeight"
+          :font-size="barcodeFontSize"
           >
           Please enter a valid value for this barcode type.
         </VueBarcode>
@@ -86,7 +107,7 @@
           </v-row>
         </v-col>
 
-        <v-col cols="2">
+        <v-col cols="1">
         </v-col>
         
       </v-row>
@@ -152,8 +173,36 @@ export default class Create extends Vue {
     {text: "Pharmacode",  type: "pharmacode", numOnly: true, value: {min:1, max:6}, intContraints: {minValue: 3, maxValue: 131070}}
   ];
   snackInit: boolean = false;
+  window: any = {
+    width: 0,
+    height: 0
+  }
 
   // Computed -----
+  get barcodeFontSize() {
+    if (this.window.width >= 4096) {
+      return "30"
+    } else {
+      return "20"
+    }
+  }
+
+  get barcodeHeight() {
+    if (this.window.width >= 4096) {
+      return "200"
+    } else {
+      return "100"
+    }
+  }
+
+  get dynamicBNavIcon() {
+    if (this.window.width >= 4096) {
+      return "70"
+    } else {
+      return "20"
+    }
+  }
+
   get charType() {
     if (this.type.numOnly === true) {
       return 'number'
@@ -212,6 +261,15 @@ export default class Create extends Vue {
   };
   
  // Methods -----
+  destroyed() {
+    window.removeEventListener('resize', this.handleResize)
+  }
+  
+  handleResize() {
+    this.window.width = window.innerWidth;
+    this.window.height = window.innerHeight;
+  }
+
   resetForm() {
     this.name = '';
     this.type = {
@@ -255,10 +313,38 @@ export default class Create extends Vue {
   // Lifecycle events -----
   created() {
     this.$store.dispatch("retrieveBarcodes");
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize();
   }
 }
 </script>
 
 <style scoped>
+
+/* @media screen and (min-width: 4096px) { 
+  .pageTitle {
+    margin-top: 10%;
+    font-size: 140px !important;
+    margin-bottom: 5%;
+  }
+  .nameRow, .typeRow, .valueRow {
+    margin-bottom: 10%;
+  }
+  .nameInput, .typeInput, .valueInput {
+    
+  }
+  .nameIcon, .typeIcon, .valueIcon {
+    margin-top: 10px;
+  }
+  .v-btn {
+    width: 150px;
+    height: 60px !important;
+    font-size: 30px !important;
+  }
+}
+
+@media screen and (max-width: 3840px) {
+
+} */
 
 </style>
