@@ -161,6 +161,10 @@
   font-weight: 400;
 }
 
+.pageTitle {
+  font-weight: 300;
+}
+
 /* .appHeadline {
   margin-top: 50%;
   font-weight: 300;
@@ -243,6 +247,9 @@
   .homeBarExample {
     margin-bottom: 20%;
   }
+  .pageTitle {
+    font-size: 110px;
+  }
 }
 
 @media screen and (max-width: 3000px) and (min-height: 1600px) and (max-height: 2000px) {
@@ -264,6 +271,9 @@
     width: 180px !important;
     height: 60px !important;
   }
+  .pageTitle {
+    font-size: 76px;
+  }
 }
 
 @media screen and (max-width: 2560px) and (min-height: 1270px) and (max-height: 1700px) {
@@ -284,9 +294,12 @@
     width: 150px !important;
     height: 50px !important;
   }
+  .pageTitle {
+    font-size: 66px;
+  }
 }
 @media screen and (max-width: 1920px) and (min-height: 900px) and (max-height: 1200px) {
-  .appHeadline {;
+  .appHeadline {
     margin-top: 20% !important;
     font-size: 120px !important;
     margin-bottom: 3% !important;
@@ -303,6 +316,9 @@
     width: 130px !important;
     height: 40px !important;
   }
+  .pageTitle {
+    font-size: 60px;
+  }
 }
 @media screen and (max-width: 1440px) and (min-height: 768px) and (max-height: 900px) {
   .appHeadline {
@@ -316,6 +332,9 @@
   }
   .homeBarExample {
     margin-bottom: 20%;
+  }
+  .pageTitle {
+    font-size: 60px;
   }
 }
 /* @media screen and (max-width: 1366px) and (min-height: 768px) and (max-height: 768px) { 
@@ -350,6 +369,9 @@
   }
   .homeBarExample {
     margin-bottom: 30%;
+  }
+  .pageTitle {
+    font-size: 60px;
   }
 }
 @media screen and (max-width: 1280px) and (min-height: 800px) and (max-height: 834px) {
@@ -398,6 +420,9 @@
   .homeBarExample {
     margin-bottom: 30%;
   }
+  .pageTitle {
+    font-size: 50px;
+  }
 }
 @media screen and (max-width: 960px) and (min-height: 600px) and (max-height: 1023px) {
   .appHeadline {
@@ -440,6 +465,9 @@
   .homeBarExample {
     margin-bottom: 40%;
   }
+  .pageTitle {
+    font-size: 50px;
+  }
 }
 @media screen and (max-width: 600px) and (min-height: 415px) and (max-height: 960px) {
   .appHeadline {
@@ -473,6 +501,9 @@
   .homeBarExample {
     margin-bottom: 10%;
   }
+  .pageTitle {
+    font-size: 50px;
+  }
 }
 
 @media screen and (max-width: 414px) and (min-height: 568px) {
@@ -487,6 +518,9 @@
   }
   .homeBarExample {
     margin-bottom: 50%;
+  }
+  .pageTitle {
+    font-size: 40px;
   }
 }
  
