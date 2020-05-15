@@ -14,6 +14,62 @@
 
         <v-col cols="10">
           <v-form
+            v-if="this.window.width <= 2560"
+            ref="form"
+            v-model="valid"
+          >
+          <v-row class="nameRow">
+            <v-text-field
+              prepend-icon="mdi-tag"
+              class="nameInput"
+              v-model="name"
+              label="Name"
+              :rules="nameRules"
+              required
+              :disabled="excededBarcodeLimit"
+            ></v-text-field>
+          </v-row>
+            
+          <v-row v-if="name != ''" class="typeRow">
+            <v-select
+              prepend-icon="mdi-barcode"
+              class="typeInput"
+              v-model="type"
+              :return-object="true"
+              item-value
+              :items="items2"
+              label="Type"
+              :rules="typeRules"
+              required
+            ></v-select>
+           
+          </v-row>
+
+          <v-row v-if="type.value.min != 0" class="valueRow">
+            <v-text-field
+              prepend-icon="mdi-card-text"
+              class="valueInput"
+              v-model="value"
+              label="Value"
+              :rules="valueRules"
+              required
+              :type="charType"
+            ></v-text-field>
+          </v-row>
+
+            <v-row align="center">
+            <v-col class="text-center" cols="12" sm="12">
+              <div class="my-2">
+                <v-btn v-if="name.length > 0" @click="resetForm" color="error" :disabled="excededBarcodeLimit">Reset</v-btn>
+              </div>
+            </v-col>
+          </v-row>
+        </v-form>
+
+
+
+          <v-form
+            v-else
             ref="form"
             v-model="valid"
           >
@@ -83,6 +139,7 @@
           :format="this.type.type"
           :height="barcodeHeight"
           :font-size="barcodeFontSize"
+          :width="barcodeWidth"
           >
           Please enter a valid value for this barcode type.
         </VueBarcode>
@@ -179,6 +236,14 @@ export default class Create extends Vue {
   }
 
   // Computed -----
+  get barcodeWidth() {
+    if (this.window.width <= 440) {
+      return "1"
+    } else {
+      return "2"
+    }
+  }
+
   get barcodeFontSize() {
     if (this.window.width >= 4096) {
       return "30"

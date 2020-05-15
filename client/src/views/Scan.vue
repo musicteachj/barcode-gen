@@ -61,18 +61,15 @@
       </v-row>
     </v-container>
 
-    <v-container v-else><v-row>
-        <v-col>
-          <p class="text-center pageTitle">Scan Barcodes</p>
-          <v-card
-            :class="`d-flex justify-center flex-wrap`"
-            flat
-            tile
-          >
-            <h1 class="text-center">Sorry, you don't have a camera on this device :(</h1>
-          </v-card>
-        </v-col>
-      </v-row>
+    <v-container v-else>
+      <p class="text-center pageTitle">Scan Barcodes</p>
+      <v-card
+        :class="`d-flex justify-center flex-wrap`"
+        flat
+        tile
+      >
+        <h1 class="text-center">Sorry, you don't have a camera on this device :(</h1>
+      </v-card>
     </v-container>
 
     <div v-show="showVideo" :style="videoCenter" id="interactive" class="viewport scanner">
