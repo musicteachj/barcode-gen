@@ -68,7 +68,7 @@
         flat
         tile
       >
-        <h1 class="text-center">Sorry, you don't have a camera on this device :(</h1>
+        <h1 class="text-center noScannerMsg">Sorry, you don't have a camera on this device :(</h1>
       </v-card>
     </v-container>
 
