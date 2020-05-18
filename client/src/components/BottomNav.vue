@@ -54,14 +54,25 @@ export default class BottomNav extends Vue {
   }
 
   get dynamicBNavHeight() {
-    if (this.window.width >= 4096) {
-      return "110"
+    if (this.window.width >= 3840) {
+      return "100"
+    }
+
+    if (this.window.width >= 3000 && this.window.width <= 3839) {
+      return "75"
     }
   }
 
   get dynamicBNavIcon() {
-    if (this.window.width >= 4096) {
+    // if (this.window.width >= 4096) {
+    //   return "50"
+    // }
+    if (this.window.width >= 3840) {
       return "50"
+    }
+
+    if (this.window.width >= 3000 && this.window.width <= 3839) {
+      return "40"
     }
   }
 
@@ -70,9 +81,29 @@ export default class BottomNav extends Vue {
 
 <style scoped>
 
-@media screen and (min-width: 4096px) { 
+/* @media screen and (min-width: 4096px) { 
   .linkText {
     font-size: 30px;
+  }
+  .v-bottom-navigation a {
+    margin-left: 3%;
+    margin-right: 3%;
+  }
+} */
+
+@media screen and (max-width: 4096px) and (min-width: 3001px) and (min-height: 2000px) and (max-height: 2304px) {
+  .linkText {
+    font-size: 30px;
+  }
+  .v-bottom-navigation a {
+    margin-left: 3%;
+    margin-right: 3%;
+  }
+}
+
+@media screen and (max-width: 3000px) and (min-width: 2881px) and (min-height: 1600px) and (max-height: 2000px) {
+  .linkText {
+    font-size: 20px;
   }
   .v-bottom-navigation a {
     margin-left: 3%;

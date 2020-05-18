@@ -59,14 +59,22 @@ export default class TopToolbar extends Vue {
   }
 
   get dynamicToolbarHeight() {
-    if (this.window.width >= 4096) {
+    if (this.window.width >= 3840) {
       return "100"
+    }
+
+    if (this.window.width >= 3000 && this.window.width <= 3839) {
+      return "75"
     }
   }
 
   get dynamicToolbarIcon() {
-    if (this.window.width >= 4096) {
+    if (this.window.width >= 3840) {
       return "80"
+    }
+
+    if (this.window.width >= 3000 && this.window.width <= 3839) {
+      return "60"
     }
   }
 
@@ -78,7 +86,37 @@ export default class TopToolbar extends Vue {
   color: white !important;
 }
 
-@media screen and (min-width: 4096px) { 
+@media screen and (max-width: 4096px) and (min-width: 3001px) and (min-height: 2000px) and (max-height: 2304px) {
+  .toolBIcon {
+    margin-left: 80px !important;
+  }
+  .toolBBarText, .toolBRouteText {
+    font-size: 45px;
+  }
+  .toolBRouteText {
+    margin-left: 60px;
+  }
+  .toolBBarText {
+    margin-right: 30px;
+  }
+}
+
+@media screen and (max-width: 3000px) and (min-width: 2881px) and (min-height: 1600px) and (max-height: 2000px) {
+  .toolBIcon {
+    margin-left: 80px !important;
+  }
+  .toolBBarText, .toolBRouteText {
+    font-size: 45px;
+  }
+  .toolBRouteText {
+    margin-left: 60px;
+  }
+  .toolBBarText {
+    margin-right: 30px;
+  }
+}
+
+/* @media screen and (min-width: 4096px) { 
   .toolBIcon {
     margin-left: 200px !important;
   }
@@ -87,12 +125,10 @@ export default class TopToolbar extends Vue {
     font-size: 70px;
   }
   .toolBRouteText {
-    /* font-size: 80px; */
     margin-left: 200px;
   }
   .toolBBarText {
-    /* font-size: 80px; */
     margin-right: 100px;
   }
-}
+} */
 </style>

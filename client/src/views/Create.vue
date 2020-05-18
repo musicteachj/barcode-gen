@@ -1,6 +1,6 @@
 <template>
   <v-container>
-  <p class="text-center pageTitle">Create Barcodes</p>
+  <p class="text-center pageTitle">{{window.width}}  {{window.height}}</p>
   
   <v-card
     class="mx-auto"
@@ -14,7 +14,7 @@
 
         <v-col cols="10">
           <v-form
-            v-if="this.window.width <= 2560"
+            v-if="this.window.width <= 2999"
             ref="form"
             v-model="valid"
           >

@@ -231,6 +231,9 @@
     width: 240px !important;
     height: 70px !important;
   }
+  .pageTitle {
+    font-size: 140px;
+  }
 }
 
 @media screen and (max-width: 3840px) and (min-height: 2000px) and (max-height: 2160px) {
@@ -248,7 +251,7 @@
     margin-bottom: 20%;
   }
   .pageTitle {
-    font-size: 110px;
+    font-size: 120px;
   }
 }
 
