@@ -234,6 +234,9 @@
   .pageTitle {
     font-size: 140px;
   }
+  .noScannerMsg {
+    font-size: 50px;
+  }
 }
 
 @media screen and (max-width: 3840px) and (min-height: 2000px) and (max-height: 2160px) {
@@ -252,6 +255,9 @@
   }
   .pageTitle {
     font-size: 120px;
+  }
+  .noScannerMsg {
+    font-size: 40px;
   }
 }
 
@@ -277,11 +283,17 @@
   .pageTitle {
     font-size: 76px;
   }
+  .noScannerMsg {
+    font-size: 36px;
+  }
 }
 
 @media screen and (max-width: 2999px) and (min-width: 2561px) {
   .pageTitle {
     font-size: 66px;
+  }
+  .noScannerMsg {
+    font-size: 32px;
   }
 }
 
@@ -306,6 +318,9 @@
   .pageTitle {
     font-size: 66px;
   }
+  .noScannerMsg {
+    font-size: 32px;
+  }
 }
 @media screen and (max-width: 1920px) and (min-height: 900px) and (max-height: 1200px) {
   .appHeadline {
@@ -328,6 +343,9 @@
   .pageTitle {
     font-size: 60px;
   }
+  .noScannerMsg {
+    font-size: 30px;
+  }
 }
 @media screen and (max-width: 1440px) and (min-height: 768px) and (max-height: 900px) {
   .appHeadline {
@@ -344,6 +362,9 @@
   }
   .pageTitle {
     font-size: 60px;
+  }
+  .noScannerMsg {
+    font-size: 30px;
   }
 }
 /* @media screen and (max-width: 1366px) and (min-height: 768px) and (max-height: 768px) { 
@@ -382,6 +403,9 @@
   .pageTitle {
     font-size: 60px;
   }
+  .noScannerMsg {
+    font-size: 30px;
+  }
 }
 @media screen and (max-width: 1280px) and (min-height: 800px) and (max-height: 834px) {
   .appHeadline {
@@ -395,6 +419,9 @@
   }
   .homeBarExample {
     margin-bottom: 30%;
+  }
+  .noScannerMsg {
+    font-size: 26px;
   }
 }
 @media screen and (max-width: 1024px) and (min-height: 1025px) and (max-height: 1366px) {
@@ -415,6 +442,9 @@
     width: 120px !important;
     height: 40px !important;
   }
+  .noScannerMsg {
+    font-size: 26px;
+  }
 }
 @media screen and (max-width: 1024px) and (min-height: 768px) and (max-height: 1024px) {
   .appHeadline {
@@ -432,6 +462,10 @@
   .pageTitle {
     font-size: 50px;
   }
+  .noScannerMsg {
+    font-size: 26px;
+  }
+
 }
 @media screen and (max-width: 960px) and (min-height: 600px) and (max-height: 1023px) {
   .appHeadline {
@@ -446,6 +480,9 @@
   .homeBarExample {
     margin-bottom: 30%;
   }
+  .noScannerMsg {
+    font-size: 26px;
+  }
 }
 @media screen and (max-width: 834px) and (min-height: 961px) and (max-height: 1280px) {
   .appHeadline {
@@ -459,6 +496,9 @@
   }
   .homeBarExample {
     margin-bottom: 40%;
+  }
+  .noScannerMsg {
+    font-size: 26px;
   }
 }
 @media screen and (max-width: 768px) and (min-height: 961px) and (max-height: 1024px) {
@@ -476,6 +516,9 @@
   }
   .pageTitle {
     font-size: 50px;
+  }
+  .noScannerMsg {
+    font-size: 26px;
   }
 }
 @media screen and (max-width: 600px) and (min-height: 415px) and (max-height: 960px) {
@@ -513,6 +556,9 @@
   .pageTitle {
     font-size: 50px;
   }
+  .noScannerMsg {
+    font-size: 26px;
+  }
 }
 
 @media screen and (max-width: 414px) and (min-height: 568px) {
@@ -531,6 +577,10 @@
   .pageTitle {
     font-size: 40px;
   }
+  .noScannerMsg {
+    font-size: 26px;
+  }
+  
 }
  
 </style>
