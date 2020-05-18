@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container v-if="cameraDetected">
-      <p class="text-center pageTitle">Scan Barcodes</p>
+      <p class="text-center pageTitle">{{window.width}}  {{window.height}}</p>
       <v-row>
         <v-col>
           <v-card
@@ -18,9 +18,9 @@
           <div v-if="this.barcodes.length > 0">
             
             <v-row>
-              <v-col cols="4">
+              <v-col cols="1">
               </v-col>
-              <v-col cols="4">
+              <v-col cols="10">
                 <v-form
                   ref="scanForm"
                   v-model="valid"
@@ -33,6 +33,8 @@
                     prepend-icon="mdi-tag"
                   ></v-text-field>
                 </v-form>      
+              </v-col>
+              <v-col cols="1">
               </v-col>
             </v-row>
             <p class="text-center">{{this.barcodes[0].codeResult.format}} type</p>
@@ -75,8 +77,16 @@
     <div v-show="showVideo" :style="videoCenter" id="interactive" class="viewport scanner">
       <video />
       <canvas class="drawingBuffer" />
-      <v-btn :style="stopScanCenter" @click="stopScan()" color="error">Stop</v-btn>
+      <v-btn v-if="this.window.width >= 897" :style="stopScanCenter" @click="stopScan()" color="error">Stop</v-btn>
     </div>
+
+    <v-col>
+    <v-row>
+      <!-- <v-col class="justify-content-center" justify-center style="backgound-color: blue !important;"> -->
+    <v-btn justify-center v-if="this.window.width <= 896 && showVideo" class="mobileStopScanCenter justify-center" @click="stopScan()" color="error">Stop</v-btn>
+      <!-- </v-col> -->
+    </v-row>
+    </v-col>
 
   <SnackBar :snackbar="snackInit"/>
 
@@ -84,7 +94,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import Quagga from 'quagga';
 import VueBarcode from 'vue-barcode';
 import { v4 as uuidv4 } from 'uuid';
@@ -111,43 +121,9 @@ export default class Scan extends Vue {
   };
   showVideo: boolean = false;
   barcodes: any = [];
-
-  quaggaState: any = {
-    inputStream: {
-      type: 'LiveStream',
-      constraints: {
-        width: 640,
-        height: 480,
-        facingMode: 'environment',
-        aspectRatio: { min: 1, max: 2 },
-      },
-    },
-    locator: {
-      patchSize: 'medium',
-      halfSample: true,
-    },
-    numOfWorkers: 2,
-    frequency: 10,
-    decoder: {
-      readers: [
-        // "code_128_reader",
-        "ean_reader",
-        // "ean_8_reader",
-        // "ean_5_reader",
-        // "ean_2_reader",
-        // "code_39_reader",
-        // "code_39_vin_reader",
-        // "codabar_reader",
-        // "upc_reader",
-        // "upc_e_reader",
-        // "code_93_reader"
-      ],
-    },
-    locate: true,
-  };
+  Quagga: any;
 
   // Methods
-
   reset() {
     this.scanBarName = "";
     this.barcodes = [];
@@ -160,7 +136,39 @@ export default class Scan extends Vue {
     this.showVideo = true;
     this.showScanBtn = false;
 
-    Quagga.init(this.quaggaState, function(err: any) {
+    Quagga.init({
+      inputStream: {
+        type: 'LiveStream',
+        constraints: {
+          width: this.scannerWidth,
+          height: this.scannerHeight,
+          facingMode: 'environment',
+          aspectRatio: { min: 1, max: 2 },
+        },
+      },
+      locator: {
+        patchSize: 'medium',
+        halfSample: true,
+      },
+      numOfWorkers: 2,
+      frequency: 10,
+      decoder: {
+        readers: [
+          // "code_128_reader",
+          "ean_reader",
+          // "ean_8_reader",
+          // "ean_5_reader",
+          // "ean_2_reader",
+          // "code_39_reader",
+          // "code_39_vin_reader",
+          // "codabar_reader",
+          // "upc_reader",
+          // "upc_e_reader",
+          // "code_93_reader"
+        ],
+      },
+      locate: true,
+    }, function(err: any) {
       if (err) {
         return console.error(err);
       }
@@ -273,8 +281,13 @@ export default class Scan extends Vue {
     this.checkUserCamera();
   }
 
+  // beforeUpdate() {
+  //   Quagga.stop();
+  // }
+
   destroyed() {
-    window.removeEventListener('resize', this.handleResize)
+    window.removeEventListener('resize', this.handleResize);
+    Quagga.stop();
   }
   
   handleResize() {
@@ -282,17 +295,40 @@ export default class Scan extends Vue {
     this.window.height = window.innerHeight;
   }
 
+  @Watch('window.width')
+  checkWindowResize() {
+    if (this.showVideo === true) {
+      this.stopScan();
+    }
+  }
+
   // Getters
+  get scannerWidth() {
+    if (this.window.width >= 897) {
+      return 640;
+    } else {
+      return 320;
+    }
+  }
+
+  get scannerHeight() {
+    if (this.window.width >= 897) {
+      return 480;
+    } else {
+      return 240;
+    }
+  }
 
   get videoCenter() {
     let marginLeft: any = 0;
 
-    if (this.window.width <= 640) {
-      return ""
+    if (this.window.width >= 897) {
+      marginLeft = (this.window.width - 640) / 2;
+      return `margin-left: ${marginLeft}px`
     }
 
-    if (this.window.width >= 641) {
-      marginLeft = (this.window.width - 640) / 2;
+    if (this.window.width <= 896) {
+      marginLeft = (this.window.width - 320) / 2;
       return `margin-left: ${marginLeft}px`
     }
   }
@@ -328,6 +364,12 @@ export default class Scan extends Vue {
 }
 
 #interactive button {
+  border: 1px solid black !important;
+}
+
+.mobileStopScanCenter {
+  margin-top: 300px !important;
+  margin: 0 auto;
   border: 1px solid black !important;
 }
 
