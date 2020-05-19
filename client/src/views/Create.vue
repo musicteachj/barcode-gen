@@ -1,6 +1,6 @@
 <template>
   <v-container>
-  <p class="text-center pageTitle">{{window.width}}  {{window.height}}</p>
+  <p class="text-center pageTitle">Create Barcodes</p>
   
   <v-card
     class="mx-auto"
@@ -13,61 +13,60 @@
         </v-col>
 
         <v-col cols="10">
+          <!-- NON 4K SCREENS -->
           <v-form
             v-if="this.window.width <= 2999"
             ref="form"
             v-model="valid"
           >
-          <v-row class="nameRow">
-            <v-text-field
-              prepend-icon="mdi-tag"
-              class="nameInput"
-              v-model="name"
-              label="Name"
-              :rules="nameRules"
-              required
-              :disabled="excededBarcodeLimit"
-            ></v-text-field>
-          </v-row>
-            
-          <v-row v-if="name != ''" class="typeRow">
-            <v-select
-              prepend-icon="mdi-barcode"
-              class="typeInput"
-              v-model="type"
-              :return-object="true"
-              item-value
-              :items="items2"
-              label="Type"
-              :rules="typeRules"
-              required
-            ></v-select>
-           
-          </v-row>
+            <v-row class="nameRow">
+              <v-text-field
+                prepend-icon="mdi-tag"
+                class="nameInput"
+                v-model="name"
+                label="Name"
+                :rules="nameRules"
+                required
+                :disabled="excededBarcodeLimit"
+              ></v-text-field>
+            </v-row>
+              
+            <v-row v-if="name != ''" class="typeRow">
+              <v-select
+                prepend-icon="mdi-barcode"
+                class="typeInput"
+                v-model="type"
+                :return-object="true"
+                item-value
+                :items="items2"
+                label="Type"
+                :rules="typeRules"
+                required
+              ></v-select>
+            </v-row>
 
-          <v-row v-if="type.value.min != 0" class="valueRow">
-            <v-text-field
-              prepend-icon="mdi-card-text"
-              class="valueInput"
-              v-model="value"
-              label="Value"
-              :rules="valueRules"
-              required
-              :type="charType"
-            ></v-text-field>
-          </v-row>
+            <v-row v-if="type.value.min != 0" class="valueRow">
+              <v-text-field
+                prepend-icon="mdi-card-text"
+                class="valueInput"
+                v-model="value"
+                label="Value"
+                :rules="valueRules"
+                required
+                :type="charType"
+              ></v-text-field>
+            </v-row>
 
             <v-row align="center">
-            <v-col class="text-center" cols="12" sm="12">
-              <div class="my-2">
-                <v-btn v-if="name.length > 0" @click="resetForm" color="error" :disabled="excededBarcodeLimit">Reset</v-btn>
-              </div>
-            </v-col>
-          </v-row>
-        </v-form>
+              <v-col class="text-center" cols="12" sm="12">
+                <div class="my-2">
+                  <v-btn v-if="name.length > 0" @click="resetForm" color="error" :disabled="excededBarcodeLimit" class="appBtn">Reset</v-btn>
+                </div>
+              </v-col>
+            </v-row>
+          </v-form>
 
-
-
+          <!-- 4K SCREENS -->
           <v-form
             v-else
             ref="form"
@@ -126,7 +125,7 @@
             <v-row align="center">
             <v-col class="text-center" cols="12" sm="12">
               <div class="my-2">
-                <v-btn v-if="name.length > 0" @click="resetForm" color="error" :disabled="excededBarcodeLimit">Reset</v-btn>
+                <v-btn v-if="name.length > 0" @click="resetForm" color="error" :disabled="excededBarcodeLimit" class="appBtn">Reset</v-btn>
               </div>
             </v-col>
           </v-row>
@@ -138,8 +137,8 @@
           :value="this.value"
           :format="this.type.type"
           :height="barcodeHeight"
-          :font-size="barcodeFontSize"
           :width="barcodeWidth"
+          :fontSize="barcodeFontSize"
           >
           Please enter a valid value for this barcode type.
         </VueBarcode>
@@ -156,6 +155,7 @@
                   :disabled="!valid"
                   @click="saveBarcode" 
                   color="primary"
+                  class="appBtn"
                 >
                   Save
                 </v-btn>
@@ -236,19 +236,23 @@ export default class Create extends Vue {
   }
 
   // Computed -----
+  get barcodeFontSize() {
+    if (this.window.width >= 4096) {
+      return "50"
+    } else if (this.window.width >= 3840 && this.window.width <= 4095) {
+      return "40"
+    } else if (this.window.width >= 2560 && this.window.width <= 3839) {
+      return "30"
+    } else {
+      return "20"
+    }
+  }
+
   get barcodeWidth() {
     if (this.window.width <= 440) {
       return "1"
     } else {
       return "2"
-    }
-  }
-
-  get barcodeFontSize() {
-    if (this.window.width >= 4096) {
-      return "30"
-    } else {
-      return "20"
     }
   }
 
@@ -261,8 +265,8 @@ export default class Create extends Vue {
   }
 
   get dynamicBNavIcon() {
-    if (this.window.width >= 4096) {
-      return "70"
+    if (this.window.width >= 3000) {
+      return "60"
     } else {
       return "20"
     }

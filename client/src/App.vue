@@ -33,7 +33,7 @@
             @click="routeToCreate"
             :block="false"
             color="primary"
-            class="mx-auto homeBtn">
+            class="mx-auto appBtn">
             Lets Go
           </v-btn>
         </transition>
@@ -226,7 +226,7 @@
   .homeBarExample {
     margin-bottom: 20%;
   }
-  .homeBtn {
+  .appBtn {
     font-size: 40px !important;
     width: 240px !important;
     height: 70px !important;
@@ -236,6 +236,35 @@
   }
   .noScannerMsg {
     font-size: 50px;
+  }
+
+
+  input {
+    font-size: 40px !important;
+  }
+  .v-input__slot, .v-text-field__slot, input, .v-select__slot, .v-select__selections {
+    height: 60px !important;
+  }
+  .v-input input {
+    max-height: 60px !important;
+  }
+  .v-input .v-label {
+    max-height: 60px !important;
+    height: 60px !important;
+  }
+  label {
+    font-size: 30px !important;
+  }
+  .v-messages__message {
+    font-size: 20px !important;
+  }
+  .v-list-item__title, .v-select__selection--comma {
+    font-size: 40px !important;
+    height: 60px !important;
+    align-items: baseline !important;
+  }
+  .v-select__selection--comma {
+    padding-top: 15px !important;
   }
 }
 
@@ -259,6 +288,34 @@
   .noScannerMsg {
     font-size: 40px;
   }
+
+  input {
+    font-size: 40px !important;
+  }
+  .v-input__slot, .v-text-field__slot, input, .v-select__slot, .v-select__selections {
+    height: 60px !important;
+  }
+  .v-input input {
+    max-height: 60px !important;
+  }
+  .v-input .v-label {
+    max-height: 60px !important;
+    height: 60px !important;
+  }
+  label {
+    font-size: 30px !important;
+  }
+  .v-messages__message {
+    font-size: 20px !important;
+  }
+  .v-list-item__title, .v-select__selection--comma {
+    font-size: 40px !important;
+    height: 60px !important;
+    align-items: baseline !important;
+  }
+  .v-select__selection--comma {
+    padding-top: 15px !important;
+  }
 }
 
 @media screen and (max-width: 3000px) and (min-height: 1600px) and (max-height: 2000px) {
@@ -275,7 +332,7 @@
   .homeBarExample {
     margin-bottom: 20%;
   }
-  .homeBtn {
+  .appBtn {
     font-size: 30px !important;
     width: 180px !important;
     height: 60px !important;
@@ -286,6 +343,36 @@
   .noScannerMsg {
     font-size: 36px;
   }
+
+  input {
+    font-size: 30px !important;
+  }
+  .v-input__slot, .v-text-field__slot, input, .v-select__slot, .v-select__selections {
+    height: 50px !important;
+  }
+  .v-input input {
+    max-height: 50px !important;
+  }
+  .v-input .v-label {
+    max-height: 50px !important;
+    height: 50px !important;
+  }
+  label {
+    font-size: 24px !important;
+  }
+  .v-messages__message {
+    font-size: 17px !important;
+    margin-top: 1px !important;
+  }
+  .v-list-item__title, .v-select__selection--comma {
+    font-size: 30px !important;
+    height: 50px !important;
+    align-items: baseline !important;
+  }
+  .v-select__selection--comma {
+    padding-top: 15px !important;
+  }
+
 }
 
 @media screen and (max-width: 2999px) and (min-width: 2561px) {
@@ -310,7 +397,7 @@
   .homeBarExample {
     margin-bottom: 20%;
   }
-  .homeBtn {
+  .appBtn {
     font-size: 26px !important;
     width: 150px !important;
     height: 50px !important;
@@ -335,7 +422,7 @@
   .homeBarExample {
     margin-bottom: 20%;
   }
-  .homeBtn {
+  .appBtn {
     font-size: 20px !important;
     width: 130px !important;
     height: 40px !important;
@@ -437,7 +524,7 @@
   .homeBarExample {
     margin-bottom: 30%;
   }
-  .homeBtn {
+  .appBtn {
     font-size: 20px !important;
     width: 120px !important;
     height: 40px !important;
