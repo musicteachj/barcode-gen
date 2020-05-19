@@ -245,7 +245,6 @@
   .v-input__slot, .v-text-field__slot, input, .v-select__slot, .v-select__selections {
     height: 60px !important;
   }
-
   .v-input input {
     max-height: 60px !important;
   }
@@ -259,21 +258,14 @@
   .v-messages__message {
     font-size: 20px !important;
   }
-  /* .v-select__selection, .v-select__selections {
-    font-size: 40px !important;
-     max-height: 60px !important;
-    height: 60px !important;
-  } */
   .v-list-item__title, .v-select__selection--comma {
     font-size: 40px !important;
     height: 60px !important;
     align-items: baseline !important;
   }
-  /* .v-select__selection--comma {
-    margin-top: 20px !important;
-    max-height: 60px !important;
-    height: 60px !important;
-  } */
+  .v-select__selection--comma {
+    padding-top: 15px !important;
+  }
 }
 
 @media screen and (max-width: 3840px) and (min-height: 2000px) and (max-height: 2160px) {
@@ -295,6 +287,34 @@
   }
   .noScannerMsg {
     font-size: 40px;
+  }
+
+  input {
+    font-size: 40px !important;
+  }
+  .v-input__slot, .v-text-field__slot, input, .v-select__slot, .v-select__selections {
+    height: 60px !important;
+  }
+  .v-input input {
+    max-height: 60px !important;
+  }
+  .v-input .v-label {
+    max-height: 60px !important;
+    height: 60px !important;
+  }
+  label {
+    font-size: 30px !important;
+  }
+  .v-messages__message {
+    font-size: 20px !important;
+  }
+  .v-list-item__title, .v-select__selection--comma {
+    font-size: 40px !important;
+    height: 60px !important;
+    align-items: baseline !important;
+  }
+  .v-select__selection--comma {
+    padding-top: 15px !important;
   }
 }
 
@@ -322,6 +342,35 @@
   }
   .noScannerMsg {
     font-size: 36px;
+  }
+
+  input {
+    font-size: 30px !important;
+  }
+  .v-input__slot, .v-text-field__slot, input, .v-select__slot, .v-select__selections {
+    height: 50px !important;
+  }
+  .v-input input {
+    max-height: 50px !important;
+  }
+  .v-input .v-label {
+    max-height: 50px !important;
+    height: 50px !important;
+  }
+  label {
+    font-size: 24px !important;
+  }
+  .v-messages__message {
+    font-size: 17px !important;
+    margin-top: 1px !important;
+  }
+  .v-list-item__title, .v-select__selection--comma {
+    font-size: 30px !important;
+    height: 50px !important;
+    align-items: baseline !important;
+  }
+  .v-select__selection--comma {
+    padding-top: 15px !important;
   }
 
 }

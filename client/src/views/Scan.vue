@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container v-if="cameraDetected">
-      <p class="text-center pageTitle">{{window.width}}  {{window.height}}</p>
+      <p class="text-center pageTitle">Scan Barcodes</p>
       <v-row>
         <v-col>
           <v-card
