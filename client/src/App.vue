@@ -237,6 +237,43 @@
   .noScannerMsg {
     font-size: 50px;
   }
+
+
+  input {
+    font-size: 40px !important;
+  }
+  .v-input__slot, .v-text-field__slot, input, .v-select__slot, .v-select__selections {
+    height: 60px !important;
+  }
+
+  .v-input input {
+    max-height: 60px !important;
+  }
+  .v-input .v-label {
+    max-height: 60px !important;
+    height: 60px !important;
+  }
+  label {
+    font-size: 30px !important;
+  }
+  .v-messages__message {
+    font-size: 20px !important;
+  }
+  /* .v-select__selection, .v-select__selections {
+    font-size: 40px !important;
+     max-height: 60px !important;
+    height: 60px !important;
+  } */
+  .v-list-item__title, .v-select__selection--comma {
+    font-size: 40px !important;
+    height: 60px !important;
+    align-items: baseline !important;
+  }
+  /* .v-select__selection--comma {
+    margin-top: 20px !important;
+    max-height: 60px !important;
+    height: 60px !important;
+  } */
 }
 
 @media screen and (max-width: 3840px) and (min-height: 2000px) and (max-height: 2160px) {
@@ -286,6 +323,7 @@
   .noScannerMsg {
     font-size: 36px;
   }
+
 }
 
 @media screen and (max-width: 2999px) and (min-width: 2561px) {
