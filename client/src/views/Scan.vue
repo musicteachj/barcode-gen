@@ -41,20 +41,21 @@
             <VueBarcode 
               class="text-center" 
               :value="this.barcodes[0].codeResult.code"
+              :fontSize="barcodeFontSize"
               >
               Please enter a valid value for this barcode type.
             </VueBarcode>
             <v-row align="center">
               <v-col class="text-center" cols="12" sm="12">
                 <div class="my-2">
-                  <v-btn @click="reset()" color="error">Reset</v-btn>
+                  <v-btn @click="reset()" color="error" class="appBtn">Reset</v-btn>
                 </div>
               </v-col>
             </v-row>
             <v-row align="center">
               <v-col class="text-center" cols="12" sm="12">
                 <div class="my-2">
-                  <v-btn @click="saveScan()" :disabled="!valid" color="primary">Save</v-btn>
+                  <v-btn @click="saveScan()" :disabled="!valid" color="primary" class="appBtn">Save</v-btn>
                 </div>
               </v-col>
             </v-row>
@@ -81,11 +82,9 @@
     </div>
 
     <v-col>
-    <v-row>
-      <!-- <v-col class="justify-content-center" justify-center style="backgound-color: blue !important;"> -->
-    <v-btn justify-center v-if="this.window.width <= 896 && showVideo" class="mobileStopScanCenter justify-center" @click="stopScan()" color="error">Stop</v-btn>
-      <!-- </v-col> -->
-    </v-row>
+      <v-row>
+        <v-btn justify-center v-if="this.window.width <= 896 && showVideo" class="mobileStopScanCenter justify-center" @click="stopScan()" color="error">Stop</v-btn>
+      </v-row>
     </v-col>
 
   <SnackBar :snackbar="snackInit"/>
@@ -281,13 +280,12 @@ export default class Scan extends Vue {
     this.checkUserCamera();
   }
 
-  // beforeUpdate() {
-  //   Quagga.stop();
-  // }
-
   destroyed() {
     window.removeEventListener('resize', this.handleResize);
-    Quagga.stop();
+    if (this.showVideo === true) {
+      this.stopScan();
+    }
+    // Quagga.stop();
   }
   
   handleResize() {
@@ -303,6 +301,18 @@ export default class Scan extends Vue {
   }
 
   // Getters
+  get barcodeFontSize() {
+    if (this.window.width >= 4096) {
+      return "50"
+    } else if (this.window.width >= 3840 && this.window.width <= 4095) {
+      return "40"
+    } else if (this.window.width >= 2560 && this.window.width <= 3839) {
+      return "30"
+    } else {
+      return "20"
+    }
+  }
+
   get scannerWidth() {
     if (this.window.width >= 897) {
       return 640;

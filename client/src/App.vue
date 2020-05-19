@@ -33,7 +33,7 @@
             @click="routeToCreate"
             :block="false"
             color="primary"
-            class="mx-auto homeBtn">
+            class="mx-auto appBtn">
             Lets Go
           </v-btn>
         </transition>
@@ -226,7 +226,7 @@
   .homeBarExample {
     margin-bottom: 20%;
   }
-  .homeBtn {
+  .appBtn {
     font-size: 40px !important;
     width: 240px !important;
     height: 70px !important;
@@ -275,7 +275,7 @@
   .homeBarExample {
     margin-bottom: 20%;
   }
-  .homeBtn {
+  .appBtn {
     font-size: 30px !important;
     width: 180px !important;
     height: 60px !important;
@@ -310,7 +310,7 @@
   .homeBarExample {
     margin-bottom: 20%;
   }
-  .homeBtn {
+  .appBtn {
     font-size: 26px !important;
     width: 150px !important;
     height: 50px !important;
@@ -335,7 +335,7 @@
   .homeBarExample {
     margin-bottom: 20%;
   }
-  .homeBtn {
+  .appBtn {
     font-size: 20px !important;
     width: 130px !important;
     height: 40px !important;
@@ -437,7 +437,7 @@
   .homeBarExample {
     margin-bottom: 30%;
   }
-  .homeBtn {
+  .appBtn {
     font-size: 20px !important;
     width: 120px !important;
     height: 40px !important;

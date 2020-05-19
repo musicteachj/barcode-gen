@@ -16,7 +16,12 @@
       >
         <p class="mt-2 text-center barName">{{bar.name}}</p>
         <p class="text-center barType">{{bar.type}}</p>
-          <VueBarcode class="text-center containBar" :id="`${index}`" :value="bar.value" :width="barcodeWidth">
+          <VueBarcode 
+            class="text-center containBar" 
+            :id="`${index}`" 
+            :value="bar.value" 
+            :width="barcodeWidth"
+            :fontSize="barcodeFontSize">
           Show this if the rendering fails.
         </VueBarcode>
         
@@ -120,6 +125,18 @@ export default class Print extends Vue {
       return true
     } else {
       return false
+    }
+  }
+
+  get barcodeFontSize() {
+    if (this.window.width >= 4096) {
+      return "50"
+    } else if (this.window.width >= 3840 && this.window.width <= 4095) {
+      return "40"
+    } else if (this.window.width >= 2560 && this.window.width <= 3839) {
+      return "30"
+    } else {
+      return "20"
     }
   }
 
