@@ -1,6 +1,6 @@
 # Barcode Gen
 
-Scan, Create, and Print your very own barcodes. Built for mobile, tablet desktop and up to 4k screens.
+Scan, Create, and Print your very own barcodes. Built for mobile, tablet, desktop and up to 4k screens.
 
 ## How it works
 
@@ -29,5 +29,7 @@ Users can Scan or Create their own barcodes from a number of types and specifica
 
 ## Author
 
-**James Littlefield**(https://www.linkedin.com/in/james-littlefield-93037713b/)
+**James Littlefield**
+*[Portfolio](https://www.jameslittlefield.net/)
+*[LinkedIn](https://www.linkedin.com/in/james-littlefield-93037713b/)
 
