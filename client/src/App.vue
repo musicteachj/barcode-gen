@@ -103,7 +103,6 @@
       this.handleResize();
     }
     mounted() {
-      console.log(window);
       // set to true to run transition/animation classes
       this.show = true;
 

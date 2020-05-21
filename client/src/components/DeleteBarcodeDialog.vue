@@ -90,7 +90,6 @@ export default class DeleteBarcodeDialog extends Vue {
   }
 
   async deleteBar() {
-    console.log(this.data);
     await this.$store.dispatch("deleteBarcode", {
       barcode: this.data
     }).then(success => {
