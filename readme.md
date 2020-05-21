@@ -30,6 +30,6 @@ Users can Scan or Create their own barcodes from a number of types and specifica
 ## Author
 
 **James Littlefield**
-*[Portfolio](https://www.jameslittlefield.net/)
-*[LinkedIn](https://www.linkedin.com/in/james-littlefield-93037713b/)
+* [Portfolio](https://www.jameslittlefield.net/)
+* [LinkedIn](https://www.linkedin.com/in/james-littlefield-93037713b/)
 
