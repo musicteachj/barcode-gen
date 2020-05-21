@@ -9,13 +9,23 @@
             flat
             tile
           >
-            <v-btn v-show="showScanBtn" @click="startScan()" color="primary">Scan</v-btn>
+            <v-btn 
+              v-show="showScanBtn" 
+              @click="startScan()" 
+              color="primary"
+              :disabled="excededBarcodeLimit">
+                Scan
+            </v-btn>
           </v-card>
+          <div v-if="this.barcodes.length >= 20" class="mt-9">
+            <p class="noScannerMsg text-center">Exceeded Barcode Limit Of 20</p>
+            <p class="noScannerMsg text-center mt-6">Head To Print Page And Delete Some!</p>
+          </div>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <div v-if="this.barcodes.length > 0">
+          <div v-if="this.scannedBarcodes.length > 0">
             
             <v-row>
               <v-col cols="1">
@@ -37,10 +47,9 @@
               <v-col cols="1">
               </v-col>
             </v-row>
-            <p class="text-center">{{this.barcodes[0].codeResult.format}} type</p>
             <VueBarcode 
               class="text-center" 
-              :value="this.barcodes[0].codeResult.code"
+              :value="this.scannedBarcodes[0].codeResult.code"
               :fontSize="barcodeFontSize"
               >
               Please enter a valid value for this barcode type.
@@ -98,15 +107,22 @@ import Quagga from 'quagga';
 import VueBarcode from 'vue-barcode';
 import { v4 as uuidv4 } from 'uuid';
 import SnackBar from '@/components/SnackBar.vue';
+import { mapState } from 'vuex';
+
 
 @Component({
   components: {
     Quagga,
     VueBarcode,
     SnackBar
+  },
+  computed: {
+    ...mapState(["barcodes"])
   }
 })
 export default class Scan extends Vue {
+  // Mapped variables -----
+  barcodes!: any;
 
   // Data
   cameraDetected: boolean = false;
@@ -119,19 +135,19 @@ export default class Scan extends Vue {
     width: 0
   };
   showVideo: boolean = false;
-  barcodes: any = [];
+  scannedBarcodes: any = [];
   Quagga: any;
 
   // Methods
   reset() {
     this.scanBarName = "";
-    this.barcodes = [];
+    this.scannedBarcodes = [];
     this.showVideo = false;
     this.showScanBtn = true;
   }
 
   startScan() {
-    this.barcodes = [];
+    this.scannedBarcodes = [];
     this.showVideo = true;
     this.showScanBtn = false;
 
@@ -156,13 +172,13 @@ export default class Scan extends Vue {
           // "code_128_reader",
           "ean_reader",
           // "ean_8_reader",
-          // "ean_5_reader",
-          // "ean_2_reader",
           // "code_39_reader",
           // "code_39_vin_reader",
           // "codabar_reader",
           // "upc_reader",
           // "upc_e_reader",
+          // "i2of5_reader",
+          // "2of5_reader",
           // "code_93_reader"
         ],
       },
@@ -197,9 +213,9 @@ export default class Scan extends Vue {
 
   onDetected(result: any) {
     // Empty barcodes arr
-    this.barcodes = [];    
+    this.scannedBarcodes = [];    
     Quagga.stop();
-    this.barcodes.push(result);
+    this.scannedBarcodes.push(result);
     this.showVideo = false;
   }
 
@@ -245,15 +261,15 @@ export default class Scan extends Vue {
   }
 
   buildBarcode() {
-    if (this.barcodes[0].codeResult.format === "ean_13") {
-      this.barcodes[0].codeResult.format = "EAN13";
+    if (this.scannedBarcodes[0].codeResult.format === "ean_13") {
+      this.scannedBarcodes[0].codeResult.format = "EAN13";
     }
 
     const bar = {
       id: uuidv4(),
       name: this.scanBarName,
-      type: this.barcodes[0].codeResult.format,
-      value: this.barcodes[0].codeResult.code
+      type: this.scannedBarcodes[0].codeResult.format,
+      value: this.scannedBarcodes[0].codeResult.code
     };
     return bar;
   }
@@ -275,6 +291,7 @@ export default class Scan extends Vue {
   // Lifecycle Events
 
   created() {
+    this.$store.dispatch("retrieveBarcodes");
     window.addEventListener('resize', this.handleResize)
     this.handleResize();
     this.checkUserCamera();
@@ -285,7 +302,6 @@ export default class Scan extends Vue {
     if (this.showVideo === true) {
       this.stopScan();
     }
-    // Quagga.stop();
   }
   
   handleResize() {
@@ -301,6 +317,14 @@ export default class Scan extends Vue {
   }
 
   // Getters
+  get excededBarcodeLimit() {
+    if (this.barcodes.length >= 20) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   get barcodeFontSize() {
     if (this.window.width >= 4096) {
       return "50"
@@ -353,7 +377,7 @@ export default class Scan extends Vue {
 
   get nameRules() {
     let rules = [(v: any) => !!v || 'Name is required',
-                 (v: any) => (v && (v.length >= 1 && v.length <= 25)) || `Barcode name must be between 1 and 25 characters`,
+                 (v: any) => (v && (v.length >= 1 && v.length <= 13)) || `Barcode name must be between 1 and 13 characters`,
                 ];
     return rules;
   }

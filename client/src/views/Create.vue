@@ -54,6 +54,7 @@
                 :rules="valueRules"
                 required
                 :type="charType"
+                hint="Will autopopulate to nearest valid barcode"
               ></v-text-field>
             </v-row>
 
@@ -118,6 +119,7 @@
               :rules="valueRules"
               required
               :type="charType"
+              hint="Will autopopulate to nearest valid barcode"
             ></v-text-field>
             </v-col>
           </v-row>
@@ -140,12 +142,13 @@
           :width="barcodeWidth"
           :fontSize="barcodeFontSize"
           >
-          Please enter a valid value for this barcode type.
+          <p class="noScannerMsg">Please enter a valid value for this barcode type.</p>
+          <p class="noScannerMsg">Need info on this type? Click <a target="_blank" :href="typeInfoUrl">here</a></p>
         </VueBarcode>
 
         <div v-if="this.barcodes.length >= 20">
-          <p class="display-2 text-center">Exceeded Barcode Limit Of 20</p>
-          <p class="display-1 text-center mt-6">Head To Print Page And Delete Some!</p>
+          <p class="noScannerMsg text-center">Exceeded Barcode Limit Of 20</p>
+          <p class="noScannerMsg text-center mt-6">Head To Print Page And Delete Some!</p>
         </div>
 
         <v-row align="center" v-if="this.name != '' && this.type.value != ''">
@@ -236,6 +239,36 @@ export default class Create extends Vue {
   }
 
   // Computed -----
+  get typeInfoUrl() {
+    if (this.type.type === "EAN13") {
+      return "https://en.wikipedia.org/wiki/International_Article_Number"
+    }
+    if (this.type.type === "EAN8") {
+      return "https://en.wikipedia.org/wiki/EAN-8"
+    }
+    if (this.type.type === "EAN5") {
+      return "https://en.wikipedia.org/wiki/EAN-5"
+    }
+    if (this.type.type === "EAN2") {
+      return "https://en.wikipedia.org/wiki/EAN-2"
+    }
+    if (this.type.type === "UPC") {
+      return "https://en.wikipedia.org/wiki/Universal_Product_Code"
+    }
+    if (this.type.type === "CODE39") {
+      return "https://en.wikipedia.org/wiki/Code_39"
+    }
+    if (this.type.type === "ITF14") {
+      return "https://en.wikipedia.org/wiki/ITF-14"
+    }
+    if (this.type.type === "MSI") {
+      return "https://en.wikipedia.org/wiki/MSI_Barcode"
+    }
+    if (this.type.type === "pharmacode") {
+      return "https://en.wikipedia.org/wiki/Pharmacode"
+    }
+  }
+
   get barcodeFontSize() {
     if (this.window.width >= 4096) {
       return "50"
