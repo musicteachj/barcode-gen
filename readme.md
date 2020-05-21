@@ -15,6 +15,7 @@ Users may Scan or Create their own barcodes from a number of types and specifica
 * [Node.js - JS Runtime Environment](https://nodejs.org/en/)
 * [Express.js - App Framework for Node.js](https://expressjs.com/)
 * [TypeScript - Typed Superset of JS](https://www.typescriptlang.org/)
+* [MongoDB - NoSQL Database](https://www.mongodb.com/)
 
 ## NPM packages...
 
