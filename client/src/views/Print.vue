@@ -152,14 +152,11 @@ export default class Print extends Vue {
   }
 
   printBarcode(index) {
-    console.log(index);
     const d = new Printd()
     d.print( document.getElementById(`${index}`), [ printBarcodeStyles ] )
   }
 
   deleteBarcode(bar) {
-    console.log("Delete Clicked");
-    console.log(bar);
     this.dialog = true;
     this.barData = bar;
     this.delText = true;
