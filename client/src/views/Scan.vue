@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container v-if="cameraDetected">
-      <p class="text-center pageTitle">Scan Barcodes</p>
+      <p class="text-center pageTitle">Scan Barcodeszzz</p>
       <v-row>
         <v-col>
           <v-card
@@ -73,7 +73,7 @@
     </v-container>
 
     <v-container v-else>
-      <p class="text-center pageTitle">Scan Barcodes</p>
+      <p class="text-center pageTitle">Scan Barcodeszzz</p>
       <v-card
         :class="`d-flex justify-center flex-wrap`"
         flat
