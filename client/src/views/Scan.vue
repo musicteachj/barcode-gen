@@ -121,10 +121,12 @@ import { mapState } from 'vuex';
   }
 })
 export default class Scan extends Vue {
-  // Mapped variables -----
+  // Mapped Variables ----------------
+  // ---------------------------------
   barcodes!: any;
 
-  // Data
+  // Local Variables -----------------
+  // ---------------------------------
   cameraDetected: boolean = false;
   snackInit: boolean = false;
   valid: boolean = false;
@@ -138,7 +140,100 @@ export default class Scan extends Vue {
   scannedBarcodes: any = [];
   Quagga: any;
 
-  // Methods
+  // Computed ------------------------
+  // ---------------------------------
+  get excededBarcodeLimit() {
+    if (this.barcodes.length >= 20) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  get barcodeFontSize() {
+    if (this.window.width >= 4096) {
+      return "50"
+    } else if (this.window.width >= 3840 && this.window.width <= 4095) {
+      return "40"
+    } else if (this.window.width >= 2560 && this.window.width <= 3839) {
+      return "30"
+    } else {
+      return "20"
+    }
+  }
+
+  get scannerWidth() {
+    if (this.window.width >= 897) {
+      return 640;
+    } else {
+      return 320;
+    }
+  }
+
+  get scannerHeight() {
+    if (this.window.width >= 897) {
+      return 480;
+    } else {
+      return 240;
+    }
+  }
+
+  get videoCenter() {
+    let marginLeft: any = 0;
+
+    if (this.window.width >= 897) {
+      marginLeft = (this.window.width - 640) / 2;
+      return `margin-left: ${marginLeft}px`
+    }
+
+    if (this.window.width <= 896) {
+      marginLeft = (this.window.width - 320) / 2;
+      return `margin-left: ${marginLeft}px`
+    }
+  }
+
+  get stopScanCenter() {
+    let marginLeft: any = 0;
+
+    marginLeft = (640 -64) / 2;
+    return `margin-left: ${marginLeft}px;
+            margin-top: 20px;`
+  }
+
+  get nameRules() {
+    let rules = [(v: any) => !!v || 'Name is required',
+                 (v: any) => (v && (v.length >= 1 && v.length <= 13)) || `Barcode name must be between 1 and 13 characters`,
+                ];
+    return rules;
+  }
+
+  // Watchers ------------------------
+  // ---------------------------------
+  @Watch('window.width')
+  checkWindowResize() {
+    if (this.showVideo === true) {
+      this.stopScan();
+    }
+  }
+
+  // Lifecycle Events ----------------
+  // ---------------------------------
+  created() {
+    this.$store.dispatch("retrieveBarcodes");
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize();
+    this.checkUserCamera();
+  }
+
+  destroyed() {
+    window.removeEventListener('resize', this.handleResize);
+    if (this.showVideo === true) {
+      this.stopScan();
+    }
+  }
+
+  // Methods -------------------------
+  // ---------------------------------
   reset() {
     this.scanBarName = "";
     this.scannedBarcodes = [];
@@ -287,101 +382,11 @@ export default class Scan extends Vue {
         console.log(err.name + ": " + err.message);
       });
   }
-
-  // Lifecycle Events
-
-  created() {
-    this.$store.dispatch("retrieveBarcodes");
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize();
-    this.checkUserCamera();
-  }
-
-  destroyed() {
-    window.removeEventListener('resize', this.handleResize);
-    if (this.showVideo === true) {
-      this.stopScan();
-    }
-  }
   
   handleResize() {
     this.window.width = window.innerWidth;
     this.window.height = window.innerHeight;
   }
-
-  @Watch('window.width')
-  checkWindowResize() {
-    if (this.showVideo === true) {
-      this.stopScan();
-    }
-  }
-
-  // Getters
-  get excededBarcodeLimit() {
-    if (this.barcodes.length >= 20) {
-      return true
-    } else {
-      return false
-    }
-  }
-
-  get barcodeFontSize() {
-    if (this.window.width >= 4096) {
-      return "50"
-    } else if (this.window.width >= 3840 && this.window.width <= 4095) {
-      return "40"
-    } else if (this.window.width >= 2560 && this.window.width <= 3839) {
-      return "30"
-    } else {
-      return "20"
-    }
-  }
-
-  get scannerWidth() {
-    if (this.window.width >= 897) {
-      return 640;
-    } else {
-      return 320;
-    }
-  }
-
-  get scannerHeight() {
-    if (this.window.width >= 897) {
-      return 480;
-    } else {
-      return 240;
-    }
-  }
-
-  get videoCenter() {
-    let marginLeft: any = 0;
-
-    if (this.window.width >= 897) {
-      marginLeft = (this.window.width - 640) / 2;
-      return `margin-left: ${marginLeft}px`
-    }
-
-    if (this.window.width <= 896) {
-      marginLeft = (this.window.width - 320) / 2;
-      return `margin-left: ${marginLeft}px`
-    }
-  }
-
-  get stopScanCenter() {
-    let marginLeft: any = 0;
-
-    marginLeft = (640 -64) / 2;
-    return `margin-left: ${marginLeft}px;
-            margin-top: 20px;`
-  }
-
-  get nameRules() {
-    let rules = [(v: any) => !!v || 'Name is required',
-                 (v: any) => (v && (v.length >= 1 && v.length <= 13)) || `Barcode name must be between 1 and 13 characters`,
-                ];
-    return rules;
-  }
-  
 };
 </script>
 

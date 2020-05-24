@@ -65,10 +65,9 @@
   })
   export default class App extends Vue {
 
-    // Boolean for display of app
+    // Local Variables -----------------
+    // ---------------------------------
     valid: boolean = false;
-
-    // Set animations initially to false
     show: boolean = false;
     showBar: boolean = false;
     showBtn: boolean = false;
@@ -77,6 +76,8 @@
       height: 0
     }
 
+    // Computed ------------------------
+    // ---------------------------------
     get barcodeFontSize() {
       if (this.window.width >= 4096) {
         return "50"
@@ -97,11 +98,13 @@
       }
     }
 
-    // Lifecyle Events
+    // Lifecycle Events ----------------
+    // ---------------------------------
     created() {
       window.addEventListener('resize', this.handleResize)
       this.handleResize();
     }
+
     mounted() {
       // set to true to run transition/animation classes
       this.show = true;
@@ -120,7 +123,9 @@
     destroyed() {
       window.removeEventListener('resize', this.handleResize)
     }
-    
+
+    // Methods -------------------------
+    // ---------------------------------
     handleResize() {
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
@@ -137,7 +142,6 @@
         this.valid = true;
       }, 500);
     }
-
   }
 </script>
 
@@ -163,22 +167,6 @@
 .pageTitle {
   font-weight: 300;
 }
-
-/* .appHeadline {
-  margin-top: 50%;
-  font-weight: 300;
-  font-size: 76px !important;
-}
-
-.appSupportText {
-  font-weight: 400;
-  font-size: 20px;
-  margin-bottom: 20% !important;
-}
-
-.homeBarExample {
-  margin-bottom: 20%;
-} */
 
 /* Animations */
 .app-head-enter-active {

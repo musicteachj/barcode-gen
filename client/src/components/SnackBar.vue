@@ -18,14 +18,16 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component
 export default class SnackBar extends Vue {
-
+  // Props ---------------------------
+  // ---------------------------------
   @Prop({ default: false})
   snackbar!: boolean;
 
   @Prop({ default: false})
   deleteText!: boolean;
 
-  // Local variables -----
+  // Local Variables -----------------
+  // ---------------------------------
   createText: string = 'Barcode Created';
   delText: string = "Barcode Deleted";
   timeout: number = 2000;

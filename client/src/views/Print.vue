@@ -90,11 +90,12 @@ import SnackBar from '@/components/SnackBar.vue';
   }
 })
 export default class Print extends Vue {
-
-  // Mapped variables -----
+  // Mapped Variables ----------------
+  // ---------------------------------
   barcodes!: any;
 
-  // Local varibles -----
+  // Local Variables -----------------
+  // ---------------------------------
   dialog: boolean = false;
   barData: object = {};
   snackInit: boolean = false;
@@ -104,6 +105,8 @@ export default class Print extends Vue {
     height: 0
   }
 
+  // Computed ------------------------
+  // ---------------------------------
   get cardWidth() {
     if (this.window.width >= 3000) {
       return "500"
@@ -140,6 +143,20 @@ export default class Print extends Vue {
     }
   }
 
+  // Lifecycle Events ----------------
+  // ---------------------------------
+  created() {
+    this.$store.dispatch("retrieveBarcodes");
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize();
+  }
+
+  destroyed() {
+    window.removeEventListener('resize', this.handleResize)
+  }
+
+  // Methods -------------------------
+  // ---------------------------------
   closeParentD() {
     this.dialog = false;
   }
@@ -152,8 +169,8 @@ export default class Print extends Vue {
   }
 
   printBarcode(index) {
-    const d = new Printd()
-    d.print( document.getElementById(`${index}`), [ printBarcodeStyles ] )
+    const d = new Printd();
+    d.print(document.getElementById(`${index}`), [ printBarcodeStyles ]);
   }
 
   deleteBarcode(bar) {
@@ -161,22 +178,11 @@ export default class Print extends Vue {
     this.barData = bar;
     this.delText = true;
   }
-
-  created() {
-    this.$store.dispatch("retrieveBarcodes");
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize();
-  }
-
-  destroyed() {
-    window.removeEventListener('resize', this.handleResize)
-  }
   
   handleResize() {
     this.window.width = window.innerWidth;
     this.window.height = window.innerHeight;
   }
-
 }
 </script>
 
