@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from 'axios'
-
+import axios from 'axios';
 
 Vue.use(Vuex);
 
@@ -9,11 +8,13 @@ export default new Vuex.Store({
   state: {
     barcodes: []
   },
+
   mutations: {
     setBarcodes(state, payload) {
       state.barcodes = payload.serverData;
     }
   },
+
   actions: {
     saveBarcode(context: any, { barcode }: any) {
       return new Promise((resolve, reject) => {
@@ -64,6 +65,7 @@ export default new Vuex.Store({
       })
     }
   },
+  
   modules: {
     
   },

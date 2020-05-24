@@ -35,24 +35,15 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component({})
 export default class BottomNav extends Vue {
-
+  // Local Variables -----------------
+  // ---------------------------------
   window: any = {
     width: 0,
     height: 0
   }
-  created() {
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize();
-  }
-  destroyed() {
-    window.removeEventListener('resize', this.handleResize)
-  }
-  
-  handleResize() {
-    this.window.width = window.innerWidth;
-    this.window.height = window.innerHeight;
-  }
 
+  // Computed ------------------------
+  // ---------------------------------
   get dynamicBNavHeight() {
     if (this.window.width >= 3840) {
       return "100"
@@ -64,9 +55,6 @@ export default class BottomNav extends Vue {
   }
 
   get dynamicBNavIcon() {
-    // if (this.window.width >= 4096) {
-    //   return "50"
-    // }
     if (this.window.width >= 3840) {
       return "50"
     }
@@ -76,20 +64,26 @@ export default class BottomNav extends Vue {
     }
   }
 
+  // Lifecycle Events ----------------
+  // ---------------------------------
+  created() {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize();
+  }
+  destroyed() {
+    window.removeEventListener('resize', this.handleResize)
+  }
+
+  // Methods -------------------------
+  // ---------------------------------
+  handleResize() {
+    this.window.width = window.innerWidth;
+    this.window.height = window.innerHeight;
+  }
 }
 </script>
 
 <style scoped>
-
-/* @media screen and (min-width: 4096px) { 
-  .linkText {
-    font-size: 30px;
-  }
-  .v-bottom-navigation a {
-    margin-left: 3%;
-    margin-right: 3%;
-  }
-} */
 
 @media screen and (max-width: 4096px) and (min-width: 3001px) and (min-height: 2000px) and (max-height: 2304px) {
   .linkText {

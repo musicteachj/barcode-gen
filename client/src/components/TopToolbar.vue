@@ -28,24 +28,15 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class TopToolbar extends Vue {
-
+  // Local Variables -----------------
+  // ---------------------------------
   window: any = {
     width: 0,
     height: 0
   }
-  created() {
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize();
-  }
-  destroyed() {
-    window.removeEventListener('resize', this.handleResize)
-  }
-  
-  handleResize() {
-    this.window.width = window.innerWidth;
-    this.window.height = window.innerHeight;
-  }
 
+  // Computed ------------------------
+  // ---------------------------------
   get routeIcons() {
     if (this.$route.name === "Scan") {
       return "mdi-barcode-scan"
@@ -78,6 +69,22 @@ export default class TopToolbar extends Vue {
     }
   }
 
+  // Lifecycle Events ----------------
+  // ---------------------------------
+  created() {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize();
+  }
+  destroyed() {
+    window.removeEventListener('resize', this.handleResize)
+  }
+
+  // Methods -------------------------
+  // ---------------------------------
+  handleResize() {
+    this.window.width = window.innerWidth;
+    this.window.height = window.innerHeight;
+  }
 }
 </script>
 
@@ -115,20 +122,4 @@ export default class TopToolbar extends Vue {
     margin-right: 30px;
   }
 }
-
-/* @media screen and (min-width: 4096px) { 
-  .toolBIcon {
-    margin-left: 200px !important;
-  }
-
-  .toolBBarText, .toolBRouteText {
-    font-size: 70px;
-  }
-  .toolBRouteText {
-    margin-left: 200px;
-  }
-  .toolBBarText {
-    margin-right: 100px;
-  }
-} */
 </style>

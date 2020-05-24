@@ -51,28 +51,23 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component({})
 export default class DeleteBarcodeDialog extends Vue {
-
+  // Props ---------------------------
+  // ---------------------------------
   @Prop({ default: false })
   dialogVisible: boolean;
 
   @Prop({ default: null })
   data: number;
 
+  // Local Variables -----------------
+  // ---------------------------------
   window: any = {
     width: 0,
     height: 0
   }
 
-  handleResize() {
-    this.window.width = window.innerWidth;
-    this.window.height = window.innerHeight;
-  }
-
-  created() {
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize();
-  }
-
+  // Computed ------------------------
+  // ---------------------------------
   get dialogWidth() {
     if (this.window.width >= 4096) {
       return "900"
@@ -83,6 +78,20 @@ export default class DeleteBarcodeDialog extends Vue {
     } else {
       return "500"
     }
+  }
+
+  // Lifecycle Events ----------------
+  // ---------------------------------
+  created() {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize();
+  }
+
+  // Methods -------------------------
+  // ---------------------------------
+  handleResize() {
+    this.window.width = window.innerWidth;
+    this.window.height = window.innerHeight;
   }
 
   closeDialog() {
@@ -97,7 +106,6 @@ export default class DeleteBarcodeDialog extends Vue {
       this.$emit("deleteBar", true);
     })
   }
-
 }
 </script>
 

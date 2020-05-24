@@ -196,10 +196,12 @@ import SnackBar from '@/components/SnackBar.vue';
   }
 })
 export default class Create extends Vue {
-  // Mapped variables -----
+  // Mapped Variables ----------------
+  // ---------------------------------
   barcodes!: any;
 
-  // Local variables -----
+  // Local Variables -----------------
+  // ---------------------------------
   valid: boolean = false;
   name: string = "";
   type: any = {
@@ -238,7 +240,8 @@ export default class Create extends Vue {
     height: 0
   }
 
-  // Computed -----
+  // Computed ------------------------
+  // ---------------------------------
   get typeInfoUrl() {
     if (this.type.type === "EAN13") {
       return "https://en.wikipedia.org/wiki/International_Article_Number"
@@ -351,7 +354,8 @@ export default class Create extends Vue {
     return rules;
   };
 
-  // Watchers -----
+  // Watchers ------------------------
+  // ---------------------------------
   @Watch("type")
   typeChange() {
     this.value = '';
@@ -361,12 +365,21 @@ export default class Create extends Vue {
     this.minVal = this.type.intContraints.minValue;
     this.maxVal = this.type.intContraints.maxValue;
   };
+
+  // Lifecycle Events ----------------
+  // ---------------------------------
+  created() {
+    this.$store.dispatch("retrieveBarcodes");
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize();
+  }
   
- // Methods -----
   destroyed() {
     window.removeEventListener('resize', this.handleResize)
   }
   
+  // Methods -------------------------
+  // ---------------------------------
   handleResize() {
     this.window.width = window.innerWidth;
     this.window.height = window.innerHeight;
@@ -410,13 +423,6 @@ export default class Create extends Vue {
         this.snackInit = false
       }, 2000);
     })
-  }
-
-  // Lifecycle events -----
-  created() {
-    this.$store.dispatch("retrieveBarcodes");
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize();
   }
 }
 </script>
