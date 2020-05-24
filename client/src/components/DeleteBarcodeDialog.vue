@@ -3,7 +3,6 @@
     <v-dialog
       v-model="dialogVisible"
       :width="dialogWidth"
-      
     >
       <v-card>
         <v-card-title
@@ -69,15 +68,10 @@ export default class DeleteBarcodeDialog extends Vue {
   // Computed ------------------------
   // ---------------------------------
   get dialogWidth() {
-    if (this.window.width >= 4096) {
-      return "900"
-    } else if (this.window.width >= 3840 && this.window.width <= 4095) {
-      return "800"
-    } else if (this.window.width >= 2560 && this.window.width <= 3839) {
-      return "700"
-    } else {
-      return "500"
-    }
+    if (this.window.width >= 4096) return "900"
+    if (this.window.width >= 3840 && this.window.width <= 4095) return "800"
+    if (this.window.width >= 2560 && this.window.width <= 3839) return "700"
+    return "500"
   }
 
   // Lifecycle Events ----------------

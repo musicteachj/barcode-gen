@@ -1,7 +1,6 @@
 <template>
   <v-container>
   <p class="text-center pageTitle">Create Barcodes</p>
-  
   <v-card
     class="mx-auto"
     max-width="800"
@@ -11,7 +10,6 @@
       <v-row>
         <v-col cols="1">
         </v-col>
-
         <v-col cols="10">
           <!-- NON 4K SCREENS -->
           <v-form
@@ -30,7 +28,6 @@
                 :disabled="excededBarcodeLimit"
               ></v-text-field>
             </v-row>
-              
             <v-row v-if="name != ''" class="typeRow">
               <v-select
                 prepend-icon="mdi-barcode"
@@ -44,7 +41,6 @@
                 required
               ></v-select>
             </v-row>
-
             <v-row v-if="type.value.min != 0" class="valueRow">
               <v-text-field
                 prepend-icon="mdi-card-text"
@@ -57,7 +53,6 @@
                 hint="Will autopopulate to nearest valid barcode"
               ></v-text-field>
             </v-row>
-
             <v-row align="center">
               <v-col class="text-center" cols="12" sm="12">
                 <div class="my-2">
@@ -73,85 +68,82 @@
             ref="form"
             v-model="valid"
           >
-          <v-row class="nameRow">
-            <v-col cols="2">
-              <v-icon :size="dynamicBNavIcon" class="nameIcon">mdi-tag</v-icon>
-            </v-col>
-            <v-col cols="10">
-              <v-text-field
-                class="nameInput"
-                v-model="name"
-                label="Name"
-                :rules="nameRules"
-                required
-                :disabled="excededBarcodeLimit"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-            
-          <v-row v-if="name != ''" class="typeRow">
-            <v-col cols="2">
-              <v-icon :size="dynamicBNavIcon" class="typeIcon">mdi-barcode</v-icon>
-            </v-col>
-            <v-col cols="10">
-              <v-select
-                class="typeInput"
-                v-model="type"
-                :return-object="true"
-                item-value
-                :items="items2"
-                label="Type"
-                :rules="typeRules"
-                required
-              ></v-select>
-            </v-col>
-          </v-row>
-
-          <v-row v-if="type.value.min != 0" class="valueRow">
-            <v-col cols="2">
-            <v-icon :size="dynamicBNavIcon" class="valueIcon">mdi-card-text</v-icon>
-            </v-col>
-            <v-col cols="10">
-            <v-text-field
-              class="valueInput"
-              v-model="value"
-              label="Value"
-              :rules="valueRules"
-              required
-              :type="charType"
-              hint="Will autopopulate to nearest valid barcode"
-            ></v-text-field>
-            </v-col>
-          </v-row>
-
+            <v-row class="nameRow">
+              <v-col cols="2">
+                <v-icon :size="dynamicBNavIcon" class="nameIcon">mdi-tag</v-icon>
+              </v-col>
+              <v-col cols="10">
+                <v-text-field
+                  class="nameInput"
+                  v-model="name"
+                  label="Name"
+                  :rules="nameRules"
+                  required
+                  :disabled="excededBarcodeLimit"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row v-if="name != ''" class="typeRow">
+              <v-col cols="2">
+                <v-icon :size="dynamicBNavIcon" class="typeIcon">mdi-barcode</v-icon>
+              </v-col>
+              <v-col cols="10">
+                <v-select
+                  class="typeInput"
+                  v-model="type"
+                  :return-object="true"
+                  item-value
+                  :items="items2"
+                  label="Type"
+                  :rules="typeRules"
+                  required
+                ></v-select>
+              </v-col>
+            </v-row>
+            <v-row v-if="type.value.min != 0" class="valueRow">
+              <v-col cols="2">
+                <v-icon :size="dynamicBNavIcon" class="valueIcon">mdi-card-text</v-icon>
+              </v-col>
+              <v-col cols="10">
+                <v-text-field
+                  class="valueInput"
+                  v-model="value"
+                  label="Value"
+                  :rules="valueRules"
+                  required
+                  :type="charType"
+                  hint="Will autopopulate to nearest valid barcode"
+                ></v-text-field>
+              </v-col>
+            </v-row>
             <v-row align="center">
-            <v-col class="text-center" cols="12" sm="12">
-              <div class="my-2">
-                <v-btn v-if="name.length > 0" @click="resetForm" color="error" :disabled="excededBarcodeLimit" class="appBtn">Reset</v-btn>
-              </div>
-            </v-col>
-          </v-row>
-        </v-form>
+              <v-col class="text-center" cols="12" sm="12">
+                <div class="my-2">
+                  <v-btn v-if="name.length > 0" @click="resetForm" color="error" :disabled="excededBarcodeLimit" class="appBtn">Reset</v-btn>
+                </div>
+              </v-col>
+            </v-row>
+          </v-form>
 
-        <VueBarcode 
-          v-if="this.value != ''" 
-          class="text-center" 
-          :value="this.value"
-          :format="this.type.type"
-          :height="barcodeHeight"
-          :width="barcodeWidth"
-          :fontSize="barcodeFontSize"
-          >
-          <p class="noScannerMsg">Please enter a valid value for this barcode type.</p>
-          <p class="noScannerMsg">Need info on this type? Click <a target="_blank" :href="typeInfoUrl">here</a></p>
-        </VueBarcode>
+          <VueBarcode 
+            v-if="this.value != ''" 
+            class="text-center" 
+            :value="this.value"
+            :format="this.type.type"
+            :height="barcodeHeight"
+            :width="barcodeWidth"
+            :fontSize="barcodeFontSize"
+            >
+            <p class="noScannerMsg">Please enter a valid value for this barcode type.</p>
+            <p class="noScannerMsg">Need info on this type? Click <a target="_blank" :href="typeInfoUrl">here</a></p>
+          </VueBarcode>
 
-        <div v-if="this.barcodes.length >= 20">
-          <p class="noScannerMsg text-center">Exceeded Barcode Limit Of 20</p>
-          <p class="noScannerMsg text-center mt-6">Head To Print Page And Delete Some!</p>
-        </div>
+          <div v-if="this.barcodes.length >= 20">
+            <p class="noScannerMsg text-center">Exceeded Barcode Limit Of 20</p>
+            <p class="noScannerMsg text-center mt-6">Head To Print Page And Delete Some!</p>
+          </div>
 
-        <v-row align="center" v-if="this.name != '' && this.type.value != ''">
+          <v-row align="center" v-if="this.name != '' && this.type.value != ''">
             <v-col class="text-center" cols="12" sm="12">
               <div class="my-2">
                 <v-btn 
@@ -166,10 +158,8 @@
             </v-col>
           </v-row>
         </v-col>
-
         <v-col cols="1">
         </v-col>
-        
       </v-row>
     </v-container>
   </v-card>
@@ -243,98 +233,61 @@ export default class Create extends Vue {
   // Computed ------------------------
   // ---------------------------------
   get typeInfoUrl() {
-    if (this.type.type === "EAN13") {
-      return "https://en.wikipedia.org/wiki/International_Article_Number"
-    }
-    if (this.type.type === "EAN8") {
-      return "https://en.wikipedia.org/wiki/EAN-8"
-    }
-    if (this.type.type === "EAN5") {
-      return "https://en.wikipedia.org/wiki/EAN-5"
-    }
-    if (this.type.type === "EAN2") {
-      return "https://en.wikipedia.org/wiki/EAN-2"
-    }
-    if (this.type.type === "UPC") {
-      return "https://en.wikipedia.org/wiki/Universal_Product_Code"
-    }
-    if (this.type.type === "CODE39") {
-      return "https://en.wikipedia.org/wiki/Code_39"
-    }
-    if (this.type.type === "ITF14") {
-      return "https://en.wikipedia.org/wiki/ITF-14"
-    }
-    if (this.type.type === "MSI") {
-      return "https://en.wikipedia.org/wiki/MSI_Barcode"
-    }
-    if (this.type.type === "pharmacode") {
-      return "https://en.wikipedia.org/wiki/Pharmacode"
-    }
+    const baseUrl = "https://en.wikipedia.org/wiki/";
+
+    if (this.type.type === "CODE128") return baseUrl + "Code_128"
+    if (this.type.type === "EAN13") return baseUrl + "International_Article_Number"
+    if (this.type.type === "EAN8") return baseUrl + "EAN-8"
+    if (this.type.type === "EAN5") return baseUrl + "EAN-5"
+    if (this.type.type === "EAN2") return baseUrl + "EAN-2"
+    if (this.type.type === "UPC") return baseUrl + "Universal_Product_Code"
+    if (this.type.type === "CODE39") return baseUrl + "Code_39"
+    if (this.type.type === "ITF14") return baseUrl + "ITF-14"
+    if (this.type.type === "MSI") return baseUrl + "MSI_Barcode"
+    if (this.type.type === "pharmacode") return baseUrl + "Pharmacode"
+    return ""
   }
 
   get barcodeFontSize() {
-    if (this.window.width >= 4096) {
-      return "50"
-    } else if (this.window.width >= 3840 && this.window.width <= 4095) {
-      return "40"
-    } else if (this.window.width >= 2560 && this.window.width <= 3839) {
-      return "30"
-    } else {
-      return "20"
-    }
+    if (this.window.width >= 4096) return "50"
+    if (this.window.width >= 3840 && this.window.width <= 4095) return "40"
+    if (this.window.width >= 2560 && this.window.width <= 3839) return "30"
+    return "20"
   }
 
   get barcodeWidth() {
-    if (this.window.width <= 440) {
-      return "1"
-    } else {
-      return "2"
-    }
+    return this.window.width <= 440 ? "1" : "2";
   }
 
   get barcodeHeight() {
-    if (this.window.width >= 4096) {
-      return "200"
-    } else {
-      return "100"
-    }
+    return this.window.width >= 4096 ? "200" : "100";
   }
 
   get dynamicBNavIcon() {
-    if (this.window.width >= 3000) {
-      return "60"
-    } else {
-      return "20"
-    }
+    return this.window.width >= 3000 ? "60" : "20";
   }
 
   get charType() {
-    if (this.type.numOnly === true) {
-      return 'number'
-    } else {
-      return 'any'
-    }
+    return this.type.numOnly ? "number" : "any";
   }
 
    get excededBarcodeLimit() {
-    if (this.barcodes.length >= 20) {
-      return true
-    } else {
-      return false
-    }
+    return this.barcodes.length >= 20 ? true : false;
   }
 
   get nameRules() {
-    let rules: any = [v => !!v || 'Name is required',
-                 v => (v && (v.length >= 1 && v.length <= 13)) || `Barcode name must be between 1 and 13 characters`,
-                ];
+    let rules: any = [
+      v => !!v || 'Name is required',
+      v => (v && (v.length >= 1 && v.length <= 13)) || `Barcode name must be between 1 and 13 characters`,
+    ];
     return rules;
   }
 
   get typeRules() {
-    let rules: any = [v => !!v || 'Type is required',
-                 v => (v && v.value.min !== 0) || `Type must be selected`,
-                ];
+    let rules: any = [
+      v => !!v || 'Type is required',
+      v => (v && v.value.min !== 0) || `Type must be selected`,
+    ];
     return rules;
   };
 

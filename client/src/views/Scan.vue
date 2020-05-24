@@ -26,7 +26,6 @@
       <v-row>
         <v-col>
           <div v-if="this.scannedBarcodes.length > 0">
-            
             <v-row>
               <v-col cols="1">
               </v-col>
@@ -143,39 +142,22 @@ export default class Scan extends Vue {
   // Computed ------------------------
   // ---------------------------------
   get excededBarcodeLimit() {
-    if (this.barcodes.length >= 20) {
-      return true
-    } else {
-      return false
-    }
+    return this.barcodes.length >= 20 ? true : false;
   }
 
   get barcodeFontSize() {
-    if (this.window.width >= 4096) {
-      return "50"
-    } else if (this.window.width >= 3840 && this.window.width <= 4095) {
-      return "40"
-    } else if (this.window.width >= 2560 && this.window.width <= 3839) {
-      return "30"
-    } else {
-      return "20"
-    }
+    if (this.window.width >= 4096) return "50"
+    if (this.window.width >= 3840 && this.window.width <= 4095) return "40"
+    if (this.window.width >= 2560 && this.window.width <= 3839) return "30"
+    return "20"
   }
 
   get scannerWidth() {
-    if (this.window.width >= 897) {
-      return 640;
-    } else {
-      return 320;
-    }
+    return this.window.width >= 897 ? 640 : 320;
   }
 
   get scannerHeight() {
-    if (this.window.width >= 897) {
-      return 480;
-    } else {
-      return 240;
-    }
+    return this.window.width >= 897 ? 480 : 240;
   }
 
   get videoCenter() {
@@ -201,9 +183,10 @@ export default class Scan extends Vue {
   }
 
   get nameRules() {
-    let rules = [(v: any) => !!v || 'Name is required',
-                 (v: any) => (v && (v.length >= 1 && v.length <= 13)) || `Barcode name must be between 1 and 13 characters`,
-                ];
+    let rules = [
+      (v: any) => !!v || 'Name is required',
+      (v: any) => (v && (v.length >= 1 && v.length <= 13)) || `Barcode name must be between 1 and 13 characters`,
+    ];
     return rules;
   }
 
@@ -211,7 +194,7 @@ export default class Scan extends Vue {
   // ---------------------------------
   @Watch('window.width')
   checkWindowResize() {
-    if (this.showVideo === true) {
+    if (this.showVideo) {
       this.stopScan();
     }
   }
@@ -227,7 +210,7 @@ export default class Scan extends Vue {
 
   destroyed() {
     window.removeEventListener('resize', this.handleResize);
-    if (this.showVideo === true) {
+    if (this.showVideo) {
       this.stopScan();
     }
   }

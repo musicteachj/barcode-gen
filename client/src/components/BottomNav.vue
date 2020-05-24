@@ -1,5 +1,4 @@
 <template>
-
   <v-bottom-navigation
     scroll-threshold="800"
     absolute
@@ -27,7 +26,6 @@
       <v-icon v-else :size="dynamicBNavIcon" color="primary">mdi-printer</v-icon>
     </v-btn>
   </v-bottom-navigation>
-
 </template>
 
 <script lang="ts">
@@ -45,23 +43,15 @@ export default class BottomNav extends Vue {
   // Computed ------------------------
   // ---------------------------------
   get dynamicBNavHeight() {
-    if (this.window.width >= 3840) {
-      return "100"
-    }
-
-    if (this.window.width >= 3000 && this.window.width <= 3839) {
-      return "75"
-    }
+    if (this.window.width >= 3840) return "100"
+    if (this.window.width >= 3000 && this.window.width <= 3839) return "75"
+    return "56"
   }
 
   get dynamicBNavIcon() {
-    if (this.window.width >= 3840) {
-      return "50"
-    }
-
-    if (this.window.width >= 3000 && this.window.width <= 3839) {
-      return "40"
-    }
+    if (this.window.width >= 3840) return "50"
+    if (this.window.width >= 3000 && this.window.width <= 3839) return "40"
+    return "24"
   }
 
   // Lifecycle Events ----------------
