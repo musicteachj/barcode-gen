@@ -18,7 +18,7 @@ export default new Vuex.Store({
   actions: {
     saveBarcode(context: any, { barcode }: any) {
       return new Promise((resolve, reject) => {
-        axios.post("http://localhost:3000/api/barcodes", {
+        axios.post("api/barcodes", {
           barcode
         })
         .then(
@@ -35,7 +35,7 @@ export default new Vuex.Store({
 
     deleteBarcode(context: any, { barcode }: any) {
       return new Promise((resolve, reject) => {
-        axios.delete(`http://localhost:3000/api/barcodes/${barcode.uuid}`, {
+        axios.delete(`api/barcodes/${barcode.uuid}`, {
           params: barcode,
         })
         .then(
@@ -52,7 +52,7 @@ export default new Vuex.Store({
 
     retrieveBarcodes({commit}: any) {
       return new Promise((resolve, reject) => {
-        axios.get("http://localhost:3000/api/barcodes")
+        axios.get("api/barcodes")
         .then((response: any) => {
           commit('setBarcodes', {
             serverData: response.data
