@@ -79,23 +79,14 @@
     // Computed ------------------------
     // ---------------------------------
     get barcodeFontSize() {
-      if (this.window.width >= 4096) {
-        return "50"
-      } else if (this.window.width >= 3840 && this.window.width <= 4095) {
-        return "40"
-      } else if (this.window.width >= 2560 && this.window.width <= 3839) {
-        return "30"
-      } else {
-        return "20"
-      }
+      if (this.window.width >= 4096) return "50"
+      if (this.window.width >= 3840 && this.window.width <= 4095) return "40"
+      if (this.window.width >= 2560 && this.window.width <= 3839) return "30"
+      return "20"
     }
 
     get barcodeHeight() {
-      if (this.window.width >= 3840) {
-        return "200"
-      } else {
-        return "100"
-      }
+      return this.window.width >= 3840 ? "200" : "100";
     }
 
     // Lifecycle Events ----------------

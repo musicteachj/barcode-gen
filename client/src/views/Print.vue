@@ -108,39 +108,22 @@ export default class Print extends Vue {
   // Computed ------------------------
   // ---------------------------------
   get cardWidth() {
-    if (this.window.width >= 3000) {
-      return "500"
-    } else {
-      return "344"
-    }
+    return this.window.width >= 3000 ? "500" : "344";
   }
 
   get barcodeWidth() {
-    if (this.window.width <= 440) {
-      return "1"
-    } else {
-      return "2"
-    }
+    return this.window.width <= 440 ? "1" : "2";
   }
 
   get conditionDisplay() {
-    if (this.barcodes.length > 0) {
-      return true
-    } else {
-      return false
-    }
+    return this.barcodes.length > 0 ? true : false;
   }
 
   get barcodeFontSize() {
-    if (this.window.width >= 4096) {
-      return "50"
-    } else if (this.window.width >= 3840 && this.window.width <= 4095) {
-      return "40"
-    } else if (this.window.width >= 2560 && this.window.width <= 3839) {
-      return "30"
-    } else {
-      return "20"
-    }
+    if (this.window.width >= 4096) return "50"
+    if (this.window.width >= 3840 && this.window.width <= 4095) return "40"
+    if (this.window.width >= 2560 && this.window.width <= 3839) return "30"
+    return "20"
   }
 
   // Lifecycle Events ----------------

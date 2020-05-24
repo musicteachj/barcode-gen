@@ -13,7 +13,6 @@
       <v-btn icon class="toolBtn">
         <v-icon :size="dynamicToolbarIcon" class="toolBIcon" color="white">{{routeIcons}}</v-icon>
       </v-btn>
-
       <v-toolbar-title color="white" class="whiteText toolBRouteText">{{$route.name}}</v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -38,35 +37,21 @@ export default class TopToolbar extends Vue {
   // Computed ------------------------
   // ---------------------------------
   get routeIcons() {
-    if (this.$route.name === "Scan") {
-      return "mdi-barcode-scan"
-    }
-    if (this.$route.name === "Create") {
-      return "mdi-barcode"
-    } 
-    if (this.$route.name === "Print") {
-      return "mdi-printer"
-    } 
+    if (this.$route.name === "Scan") return "mdi-barcode-scan"
+    if (this.$route.name === "Create") return "mdi-barcode"
+    if (this.$route.name === "Print") return "mdi-printer"
   }
 
   get dynamicToolbarHeight() {
-    if (this.window.width >= 3840) {
-      return "100"
-    }
-
-    if (this.window.width >= 3000 && this.window.width <= 3839) {
-      return "75"
-    }
+    if (this.window.width >= 3840) return "100"
+    if (this.window.width >= 3000 && this.window.width <= 3839) return "75"
+    return "48"
   }
 
   get dynamicToolbarIcon() {
-    if (this.window.width >= 3840) {
-      return "80"
-    }
-
-    if (this.window.width >= 3000 && this.window.width <= 3839) {
-      return "60"
-    }
+    if (this.window.width >= 3840) return "80"
+    if (this.window.width >= 3000 && this.window.width <= 3839) return "60"
+    return "24"
   }
 
   // Lifecycle Events ----------------
