@@ -22,7 +22,7 @@
                 prepend-icon="mdi-tag"
                 class="nameInput"
                 v-model="name"
-                label="Name"
+                label="Barcode Name"
                 :rules="nameRules"
                 required
                 :disabled="excededBarcodeLimit"
@@ -36,17 +36,30 @@
                 :return-object="true"
                 item-value
                 :items="items2"
-                label="Type"
+                label="Barcode Type"
                 :rules="typeRules"
                 required
               ></v-select>
             </v-row>
             <v-row v-if="type.value.min != 0" class="valueRow">
               <v-text-field
+                v-if="type.numOnly"
                 prepend-icon="mdi-card-text"
                 class="valueInput"
                 v-model="value"
-                label="Value"
+                label="Num Only"
+                :rules="valueRules"
+                required
+                :type="charType"
+                hint="Will autopopulate to nearest valid barcode"
+                v-mask="'##############'"
+              ></v-text-field>
+              <v-text-field
+                v-else
+                prepend-icon="mdi-card-text"
+                class="valueInput"
+                v-model="value"
+                label="Barcode Value"
                 :rules="valueRules"
                 required
                 :type="charType"
@@ -76,7 +89,7 @@
                 <v-text-field
                   class="nameInput"
                   v-model="name"
-                  label="Name"
+                  label="Barcode Name"
                   :rules="nameRules"
                   required
                   :disabled="excededBarcodeLimit"
@@ -94,7 +107,7 @@
                   :return-object="true"
                   item-value
                   :items="items2"
-                  label="Type"
+                  label="Barcode Type"
                   :rules="typeRules"
                   required
                 ></v-select>
@@ -108,7 +121,7 @@
                 <v-text-field
                   class="valueInput"
                   v-model="value"
-                  label="Value"
+                  label="Barcode Value"
                   :rules="valueRules"
                   required
                   :type="charType"
@@ -134,7 +147,7 @@
             :width="barcodeWidth"
             :fontSize="barcodeFontSize"
             >
-            <p class="noScannerMsg">Please enter a valid value for this barcode type.</p>
+            <p class="noScannerMsg">{{hintText}}</p>
             <p class="noScannerMsg">Need info on this type? Click <a target="_blank" :href="typeInfoUrl">here</a></p>
           </VueBarcode>
 
@@ -175,6 +188,7 @@ import VueBarcode from 'vue-barcode';
 import { v4 as uuidv4 } from 'uuid';
 import { mapState } from 'vuex';
 import SnackBar from '@/components/SnackBar.vue';
+import { mask } from 'vue-the-mask';
 
 @Component({
   components: {
@@ -183,6 +197,9 @@ import SnackBar from '@/components/SnackBar.vue';
   },
   computed: {
     ...mapState(["barcodes"])
+  },
+  directives: { 
+    mask 
   }
 })
 export default class Create extends Vue {
@@ -232,6 +249,20 @@ export default class Create extends Vue {
 
   // Computed ------------------------
   // ---------------------------------
+  get hintText() {
+    if (this.type.type === "CODE128") return `Must be between  ${this.type.value.min} and ${this.type.value.max} long and any character`;
+    if (this.type.type === "EAN13") return `Enter ${this.type.value.max} numbers`;
+    if (this.type.type === "EAN8") return `Enter ${this.type.value.max} numbers`;
+    if (this.type.type === "EAN5") return `Enter ${this.type.value.max} numbers`;
+    if (this.type.type === "EAN2") return `Enter ${this.type.value.max} numbers`;
+    if (this.type.type === "UPC") return `Enter ${this.type.value.max} numbers`
+    if (this.type.type === "CODE39") return `Must be between  ${this.type.value.min} and ${this.type.value.max} long and any character`;
+    if (this.type.type === "ITF14") return `Enter ${this.type.value.max} numbers`;
+    if (this.type.type === "MSI") return 
+    if (this.type.type === "pharmacode") return `Must be between  ${this.type.value.min} and ${this.type.value.max} long and numbers only`
+    return ""
+  }
+
   get typeInfoUrl() {
     const baseUrl = "https://en.wikipedia.org/wiki/";
 
