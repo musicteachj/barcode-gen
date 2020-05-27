@@ -1,6 +1,6 @@
 <template>
   <v-container>
-  <p class="text-center pageTitle">Create Barcodes</p>
+  <p class="text-center pageTitle">{{this.window.width}} {{this.window.height}}</p>
   <v-card
     class="mx-auto"
     max-width="800"
@@ -46,13 +46,13 @@
                 v-if="type.numOnly"
                 prepend-icon="mdi-card-text"
                 class="valueInput"
-                v-model="value"
+                v-model.number="numValue"
                 label="Num Only"
                 :rules="valueRules"
                 required
                 :type="charType"
                 hint="Will autopopulate to nearest valid barcode"
-                v-mask="'##############'"
+                v-mask="typeMask"
               ></v-text-field>
               <v-text-field
                 v-else
@@ -139,9 +139,9 @@
           </v-form>
 
           <VueBarcode 
-            v-if="this.value != ''" 
+            v-if="this.value != '' || this.numValue != 0" 
             class="text-center" 
-            :value="this.value"
+            :value="this.value || this.numValue"
             :format="this.type.type"
             :height="barcodeHeight"
             :width="barcodeWidth"
@@ -224,7 +224,8 @@ export default class Create extends Vue {
       maxValue: null
     }
   };
-  value: string = "";
+  value: string = '';
+  numValue: number = 0;
   minNum: number = 0;
   maxNum: number = 0;
   minVal: number = null;
@@ -232,7 +233,7 @@ export default class Create extends Vue {
   items2: Array<object> = [
     {text: "CODE128", type: "CODE128", numOnly: false, value: {min:3, max:13}, intContraints: {minValue: null, maxValue: null}},
     {text: "EAN-13",  type: "EAN13", numOnly: true, value: {min:13, max:13}, intContraints: {minValue: null, maxValue: null}},
-    {text: "EAN-8",  type: "EAN8", numOnly: true, value: {min:7, max:7}, intContraints: {minValue: null, maxValue: null}},
+    {text: "EAN-8",  type: "EAN8", numOnly: true, value: {min:8, max:8}, intContraints: {minValue: null, maxValue: null}},
     {text: "EAN-5",  type: "EAN5", numOnly: true, value: {min:5, max:5}, intContraints: {minValue: null, maxValue: null}},
     {text: "EAN-2",  type: "EAN2", numOnly: true, value: {min:2, max:2}, intContraints: {minValue: null, maxValue: null}},
     {text: "UPC (A)",  type: "UPC", numOnly: true, value: {min:12, max:12}, intContraints: {minValue: null, maxValue: null}},
@@ -249,6 +250,12 @@ export default class Create extends Vue {
 
   // Computed ------------------------
   // ---------------------------------
+  get typeMask() {
+    if (this.type.numOnly) return "#".repeat(this.type.value.max);
+    if (!this.type.numOnly) return "S".repeat(this.type.value.max);
+    return "";
+  }
+
   get hintText() {
     if (this.type.type === "CODE128") return `Must be between  ${this.type.value.min} and ${this.type.value.max} long and any character`;
     if (this.type.type === "EAN13") return `Enter ${this.type.value.max} numbers`;
@@ -325,6 +332,7 @@ export default class Create extends Vue {
   get valueRules() {
     let rules: Array<any> = [v => !!v || 'Value is required'];
 
+    
     if (this.minNum === this.maxNum) {
       rules.push(v => (v && v.length === this.minNum) || `Barcode value must be ${this.minNum} characters`)
     } else {
@@ -385,6 +393,7 @@ export default class Create extends Vue {
       }
     };
     this.value = '';
+    this.numValue = 0;
   }
 
   buildBarcode() {
@@ -392,7 +401,7 @@ export default class Create extends Vue {
       id: uuidv4(),
       name: this.name,
       type: this.type.type,
-      value: this.value
+      value: this.value || this.numValue
     };
     return bar;
   }

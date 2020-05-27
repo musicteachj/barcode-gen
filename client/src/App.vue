@@ -626,7 +626,7 @@
   }
 }
 
-@media screen and (max-width: 414px) and (min-height: 568px) {
+@media screen and (max-width: 414px) and (min-height: 550px) {
   .appHeadline {
     margin-top: 30%;
     font-size: 44px !important;
