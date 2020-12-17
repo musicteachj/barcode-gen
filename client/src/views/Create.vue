@@ -1,6 +1,6 @@
 <template>
   <v-container>
-  <p class="text-center pageTitle">Create Barcodes</p>
+  <p class="text-center pageTitle">{{this.window.width}} {{this.window.height}}</p>
   <v-card
     class="mx-auto"
     max-width="800"
@@ -22,7 +22,7 @@
                 prepend-icon="mdi-tag"
                 class="nameInput"
                 v-model="name"
-                label="Name"
+                label="Barcode Name"
                 :rules="nameRules"
                 required
                 :disabled="excededBarcodeLimit"
@@ -36,27 +36,42 @@
                 :return-object="true"
                 item-value
                 :items="items2"
-                label="Type"
+                label="Barcode Type"
                 :rules="typeRules"
                 required
               ></v-select>
             </v-row>
-            <v-row v-if="type.value.min != 0" class="valueRow">
+            <v-row v-if="type.value.min != 0 && this.name != ''" class="valueRow">
               <v-text-field
+                v-if="type.numOnly"
                 prepend-icon="mdi-card-text"
                 class="valueInput"
-                v-model="value"
-                label="Value"
+                v-model.number="numValue"
+                label="Num Only"
                 :rules="valueRules"
                 required
-                :type="charType"
-                hint="Will autopopulate to nearest valid barcode"
+                hint="Numbers Only"
+                v-mask="typeMask"
+                ref="numOnlyField"
+              ></v-text-field>
+              <v-text-field
+                v-else
+                prepend-icon="mdi-card-text"
+                class="valueInput"
+                v-model="stringValue"
+                label="Barcode Value"
+                :rules="valueRules"
+                required
+                hint="Any Character"
+                v-mask="typeMask"
+                ref="anyField"
               ></v-text-field>
             </v-row>
             <v-row align="center">
               <v-col class="text-center" cols="12" sm="12">
                 <div class="my-2">
-                  <v-btn v-if="name.length > 0" @click="resetForm" color="error" :disabled="excededBarcodeLimit" class="appBtn">Reset</v-btn>
+                  <!-- <v-btn v-if="name.length > 0" @click="resetForm" color="error" :disabled="excededBarcodeLimit" class="appBtn">Reset</v-btn> -->
+                  <p v-if="type.type" class="mt-6 noScannerMsg">{{hintText}}</p>
                 </div>
               </v-col>
             </v-row>
@@ -76,7 +91,7 @@
                 <v-text-field
                   class="nameInput"
                   v-model="name"
-                  label="Name"
+                  label="Barcode Name"
                   :rules="nameRules"
                   required
                   :disabled="excededBarcodeLimit"
@@ -94,7 +109,7 @@
                   :return-object="true"
                   item-value
                   :items="items2"
-                  label="Type"
+                  label="Barcode Type"
                   :rules="typeRules"
                   required
                 ></v-select>
@@ -105,14 +120,35 @@
                 <v-icon :size="dynamicBNavIcon" class="valueIcon">mdi-card-text</v-icon>
               </v-col>
               <v-col cols="10">
-                <v-text-field
+                <!-- <v-text-field
                   class="valueInput"
-                  v-model="value"
-                  label="Value"
+                  v-model="stringValue"
+                  label="Barcode Value"
                   :rules="valueRules"
                   required
-                  :type="charType"
                   hint="Will autopopulate to nearest valid barcode"
+                ></v-text-field> -->
+                <v-text-field
+                  v-if="type.numOnly"
+                  prepend-icon="mdi-card-text"
+                  class="valueInput"
+                  v-model.number="numValue"
+                  label="Num Only"
+                  :rules="valueRules"
+                  required
+                  hint="Will autopopulate to nearest valid barcode"
+                  v-mask="typeMask"
+                ></v-text-field>
+                <v-text-field
+                  v-else
+                  prepend-icon="mdi-card-text"
+                  class="valueInput"
+                  v-model="stringValue"
+                  label="Barcode Value"
+                  :rules="valueRules"
+                  required
+                  hint="Will autopopulate to nearest valid barcode"
+                  v-mask="typeMask"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -126,16 +162,18 @@
           </v-form>
 
           <VueBarcode 
-            v-if="this.value != ''" 
+            v-if="this.stringValue != null || this.numValue != null" 
             class="text-center" 
-            :value="this.value"
+            :value="this.stringValue || this.numValue"
             :format="this.type.type"
             :height="barcodeHeight"
             :width="barcodeWidth"
             :fontSize="barcodeFontSize"
+            :displayValue="true"
+            ref="vueBar"
             >
-            <p class="noScannerMsg">Please enter a valid value for this barcode type.</p>
-            <p class="noScannerMsg">Need info on this type? Click <a target="_blank" :href="typeInfoUrl">here</a></p>
+            <!-- <p class="noScannerMsg">{{hintText}}</p>
+            <p class="noScannerMsg">Need info on this type? Click <a target="_blank" :href="typeInfoUrl">here</a></p> -->
           </VueBarcode>
 
           <div v-if="this.barcodes.length >= 20">
@@ -143,14 +181,15 @@
             <p class="noScannerMsg text-center mt-6">Head To Print Page And Delete Some!</p>
           </div>
 
-          <v-row align="center" v-if="this.name != '' && this.type.value != ''">
+          <v-row align="center" v-if="this.name != '' && this.type.type != ''">
             <v-col class="text-center" cols="12" sm="12">
               <div class="my-2">
+                <v-btn v-if="name.length > 0" @click="resetForm" color="error" :disabled="excededBarcodeLimit" class="appBtn mr-3">Reset</v-btn>
                 <v-btn 
                   :disabled="!valid"
                   @click="saveBarcode" 
                   color="primary"
-                  class="appBtn"
+                  class="appBtn ml-3"
                 >
                   Save
                 </v-btn>
@@ -174,7 +213,8 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import VueBarcode from 'vue-barcode';
 import { v4 as uuidv4 } from 'uuid';
 import { mapState } from 'vuex';
-import SnackBar from '@/components/SnackBar.vue';
+import SnackBar from '../components/SnackBar.vue';
+import { mask } from 'vue-the-mask';
 
 @Component({
   components: {
@@ -183,6 +223,9 @@ import SnackBar from '@/components/SnackBar.vue';
   },
   computed: {
     ...mapState(["barcodes"])
+  },
+  directives: { 
+    mask 
   }
 })
 export default class Create extends Vue {
@@ -207,15 +250,16 @@ export default class Create extends Vue {
       maxValue: null
     }
   };
-  value: string = "";
+  stringValue: string = null;
+  numValue: number = null;
   minNum: number = 0;
   maxNum: number = 0;
   minVal: number = null;
   maxVal: number = null;
   items2: Array<object> = [
-    {text: "CODE128", type: "CODE128", numOnly: false, value: {min:3, max:13}, intContraints: {minValue: null, maxValue: null}},
+    {text: "CODE128", type: "CODE128", numOnly: false, value: {min:1, max:13}, intContraints: {minValue: null, maxValue: null}},
     {text: "EAN-13",  type: "EAN13", numOnly: true, value: {min:13, max:13}, intContraints: {minValue: null, maxValue: null}},
-    {text: "EAN-8",  type: "EAN8", numOnly: true, value: {min:7, max:7}, intContraints: {minValue: null, maxValue: null}},
+    {text: "EAN-8",  type: "EAN8", numOnly: true, value: {min:8, max:8}, intContraints: {minValue: null, maxValue: null}},
     {text: "EAN-5",  type: "EAN5", numOnly: true, value: {min:5, max:5}, intContraints: {minValue: null, maxValue: null}},
     {text: "EAN-2",  type: "EAN2", numOnly: true, value: {min:2, max:2}, intContraints: {minValue: null, maxValue: null}},
     {text: "UPC (A)",  type: "UPC", numOnly: true, value: {min:12, max:12}, intContraints: {minValue: null, maxValue: null}},
@@ -229,9 +273,30 @@ export default class Create extends Vue {
     width: 0,
     height: 0
   }
+  match: any = 0;
 
   // Computed ------------------------
   // ---------------------------------
+  get typeMask() {
+    if (this.type.numOnly) return "#".repeat(this.type.value.max);
+    if (!this.type.numOnly) return "X".repeat(this.type.value.max);
+    return "";
+  }
+
+  get hintText() {
+    if (this.type.type === "CODE128") return `Must be between  ${this.type.value.min} and ${this.type.value.max} characters long`;
+    if (this.type.type === "EAN13") return `Enter ${this.type.value.max} numbers. Barcode will display nearest valid value for type.`;
+    if (this.type.type === "EAN8") return `Enter ${this.type.value.max} numbers`;
+    if (this.type.type === "EAN5") return `Enter ${this.type.value.max} numbers`;
+    if (this.type.type === "EAN2") return `Enter ${this.type.value.max} numbers`;
+    if (this.type.type === "UPC") return `Enter ${this.type.value.max} numbers`
+    if (this.type.type === "CODE39") return `Must be between  ${this.type.value.min} and ${this.type.value.max} characters long`;
+    if (this.type.type === "ITF14") return `Enter ${this.type.value.max} numbers`;
+    if (this.type.type === "MSI") return `Must be between  ${this.type.value.min} and ${this.type.value.max} digits in length`;
+    if (this.type.type === "pharmacode") return `Must be between  ${this.type.value.min} and ${this.type.value.max} digits in length`;
+    return ""
+  }
+
   get typeInfoUrl() {
     const baseUrl = "https://en.wikipedia.org/wiki/";
 
@@ -267,9 +332,9 @@ export default class Create extends Vue {
     return this.window.width >= 3000 ? "60" : "20";
   }
 
-  get charType() {
-    return this.type.numOnly ? "number" : "any";
-  }
+  // get charType() {
+  //   return this.type.numOnly ? "number" : "any";
+  // }
 
    get excededBarcodeLimit() {
     return this.barcodes.length >= 20 ? true : false;
@@ -291,11 +356,48 @@ export default class Create extends Vue {
     return rules;
   };
 
+  testRules() {
+    if (this.type.numOnly) return [v => !!v || 'Numbers Only. Value is required'];
+    if (!this.type.numOnly) return [v => !!v || 'Any Character. Value is required'];
+  }
+
+  get ttt() {
+    // let match = null;
+    // if (this.$refs["vueBar"]) {
+    //   return "ref";
+    //   // if (this.$refs["vueBar"].$el.innerText) {
+    //   //   match = this.$refs["vueBar"].$el.innerText
+    //   //   console.log(match);
+    //   //   return match;
+    //   // } else {
+    //   //   console.log("nothing");
+    //   //   return ""
+    //   // }
+    // } else {
+    //   return "not loaded yet";
+    // }
+    // // return match;
+    if (this.$refs["vueBar"]) {
+      // @ts-ignore
+      return this.$refs["vueBar"].$el.innerText;
+    }
+    return "";
+  }
+
   get valueRules() {
     let rules: Array<any> = [v => !!v || 'Value is required'];
+    // let rules :Array<any> = this.testRules();
+
+    // rules.push(v => (v && this.$refs["vueBar"].valid === true) || `test match`);
+
+    // let match = null;
+    // if (this.$refs["vueBar"].$el.innerText) {
+    //   match = this.$refs["vueBar"].$el.innerText
+    // }
 
     if (this.minNum === this.maxNum) {
-      rules.push(v => (v && v.length === this.minNum) || `Barcode value must be ${this.minNum} characters`)
+      rules.push(v => (v && v.length === this.minNum && this.$refs["vueBar"].valid === true) || `Match value to barcode once it appears`);
+      // rules.push(v => (v && (v === this.ttt())))
     } else {
       rules.push(v => (v && (v.length >= this.minNum && v.length <= this.maxNum)) || `Barcode value must be between ${this.minNum} and ${this.maxNum} characters`)
     }
@@ -311,13 +413,36 @@ export default class Create extends Vue {
   // ---------------------------------
   @Watch("type")
   typeChange() {
-    this.value = '';
+    this.stringValue = null;
+    this.numValue = null;
     this.minNum = this.type.value.min;
     this.maxNum = this.type.value.max;
 
     this.minVal = this.type.intContraints.minValue;
     this.maxVal = this.type.intContraints.maxValue;
+    
+    // vue-the-mask bug
+    // fails to empty field
+    //empty string and num value on type change
+    if (this.$refs["numOnlyField"]) {
+      // @ts-ignore
+      this.$refs["numOnlyField"].clearableCallback();
+    }
+
+    if (this.$refs["anyField"]) {
+      // @ts-ignore
+      this.$refs["anyField"].clearableCallback();
+    }
+    console.log(this.$refs["vueBar"]);
+    // this.ttt();
   };
+
+  @Watch("name")
+  resetOnEmptyName() {
+    if (this.name == "") {
+      this.resetForm();
+    }
+  }
 
   // Lifecycle Events ----------------
   // ---------------------------------
@@ -353,7 +478,8 @@ export default class Create extends Vue {
         maxValue: null
       }
     };
-    this.value = '';
+    this.stringValue = null;
+    this.numValue = null;
   }
 
   buildBarcode() {
@@ -361,7 +487,7 @@ export default class Create extends Vue {
       id: uuidv4(),
       name: this.name,
       type: this.type.type,
-      value: this.value
+      value: this.stringValue || this.numValue
     };
     return bar;
   }
