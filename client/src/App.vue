@@ -1,9 +1,90 @@
 <template>
   <v-app v-if="valid === false">
     <v-card
+      class="d-flex mb-6 mx-auto"
+      flat
+      tile
+      style="background-color:purple"
+      height="900"
+    >
+      <v-card
+        class="pa-2 align-self-center"
+        outlined
+        tile
+        style="background-color:green"
+      >
+        <v-row>
+          <v-col>
+            <v-card
+              width="700"
+              height="200"
+              class="pa-2 mx-auto"
+              flat
+              style="background-color:orange"
+            >
+              <transition name="app-head">
+                <p v-if="show" class="text-center text-h1">Barcode Gen</p>
+              </transition>
+              <transition name="app-head">
+                <p v-if="show" class="text-center text-h4">Scan, Create and Print Barcodes</p>
+              </transition>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+             <v-card
+              width="700"
+              height="200"
+              class="pa-2 mx-auto"
+              flat
+              style="background-color:orange"
+            >
+              <transition name="anim-bar">
+                <VueBarcode
+                  v-if="showBar"
+                  class="text-center mx-auto homeBarExample" 
+                  value="example"
+                  :height="barcodeHeight"
+                  :fontSize="barcodeFontSize"
+                  >
+                  Please enter a valid value for this barcode type.
+                </VueBarcode>
+              </transition>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-row class="text-center">
+          <v-col>
+             <v-card
+              width="700"
+              height="200"
+              class="pa-2 mx-auto"
+              flat
+              style="background-color:orange"
+            >
+              <transition name="app-head">
+                <v-btn
+                  v-if="showBtn"
+                  @click="routeToCreate"
+                  :block="false"
+                  color="primary"
+                  class="mx-auto appBtn">
+                  Lets Go
+                </v-btn>
+              </transition>
+             </v-card>
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-card>
+    
+
+    <!-- <v-card
       :class="`mx-auto`"
       flat
       tile
+      style="background-color:purple"
     >
       <v-row class="d-block">
         <transition name="app-head">
@@ -38,7 +119,7 @@
           </v-btn>
         </transition>
       </v-row>
-    </v-card>
+    </v-card> -->
   </v-app>
 
   <v-app v-else>
