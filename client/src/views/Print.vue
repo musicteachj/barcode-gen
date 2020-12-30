@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <p class="text-center pageTitle">Print Barcodes</p>
+    <p :class="`text-center font-weight-light text-${pageTitle} mt-4`">Print Barcodes</p>
     <v-card
       v-if="conditionDisplay"
       :class="`d-flex justify-center flex-wrap`"

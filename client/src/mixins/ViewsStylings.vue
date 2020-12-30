@@ -12,6 +12,16 @@ export default class ViewsStylings extends Vue {
   };
 
   // COMPUTED -------------------------
+  get pageTitle() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return 'h4';
+        case 'sm': return 'h3';
+        case 'md': return 'h3';
+        case 'lg': return 'h2';
+        case 'xl': return 'h1';
+        default: return 'h3';
+      }
+    }
 
   // LIFECYCLE EVENTS -----------------
   created() {
