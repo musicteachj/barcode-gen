@@ -124,9 +124,9 @@
 
   <v-app v-else>
     <TopToolbar class="topTool"></TopToolbar>
-    <v-content>
+    <v-main>
       <router-view></router-view>
-    </v-content>
+    </v-main>
     <BottomNav class="bottomN"></BottomNav>
   </v-app>
 </template>
@@ -156,6 +156,7 @@
       width: 0,
       height: 0
     }
+    $vuetify: any;
 
     // Computed ------------------------
     // ---------------------------------

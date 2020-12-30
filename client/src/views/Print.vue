@@ -70,13 +70,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Mixins } from 'vue-property-decorator';
 import VueBarcode from 'vue-barcode';
 import { Printd } from 'printd';
 import { mapState } from 'vuex';
 import { printBarcodeStyles } from "../util/printBarStyle";
 import DeleteDialog from '@/components/DeleteBarcodeDialog.vue';
 import SnackBar from '@/components/SnackBar.vue';
+import ViewsStylings from "../mixins/ViewsStylings.vue";
 
 
 @Component({
@@ -89,7 +90,7 @@ import SnackBar from '@/components/SnackBar.vue';
     ...mapState(["barcodes"])
   }
 })
-export default class Print extends Vue {
+export default class Print extends Mixins(ViewsStylings) {
   // Mapped Variables ----------------
   // ---------------------------------
   barcodes!: any;
