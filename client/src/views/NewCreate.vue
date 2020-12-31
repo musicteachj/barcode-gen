@@ -1,6 +1,7 @@
 <template>
   <v-container>
-  <p class="text-center pageTitle">{{this.window.width}} {{this.window.height}}</p>
+  <!-- <p :class="`text-center font-weight-light text-${pageTitle} mt-4`">{{this.window.width}} {{this.window.height}}</p> -->
+  <p :class="`text-center font-weight-light text-${pageTitle} mt-4`">Create Barcodes</p>
   <v-card
     class="mx-auto"
     max-width="800"
