@@ -209,12 +209,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue, Watch, Mixins } from 'vue-property-decorator';
 import VueBarcode from 'vue-barcode';
 import { v4 as uuidv4 } from 'uuid';
 import { mapState } from 'vuex';
 import SnackBar from '../components/SnackBar.vue';
 import { mask } from 'vue-the-mask';
+import ViewsStylings from "../mixins/ViewsStylings.vue";
 
 @Component({
   components: {
@@ -228,7 +229,7 @@ import { mask } from 'vue-the-mask';
     mask 
   }
 })
-export default class Create extends Vue {
+export default class NewCreate extends Mixins(ViewsStylings) {
   // Mapped Variables ----------------
   // ---------------------------------
   barcodes!: any;

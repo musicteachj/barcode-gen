@@ -36,7 +36,8 @@ router.delete('/:id', async (req, res) => {
 async function loadBarcodesCollection() {
   const client = await mongodb.MongoClient.connect
     (process.env.DB_URL, {
-      useNewUrlParser: true
+      useNewUrlParser: true,
+      useUnifiedTopology: true
     })
 
     return client.db('barcodes').collection('barcodes');

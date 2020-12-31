@@ -1,9 +1,90 @@
 <template>
   <v-app v-if="valid === false">
     <v-card
+      class="d-flex mx-auto"
+      flat
+      style="background-color:white"
+      :height="containerHeight"
+    >
+      <v-card
+        :class="`pa-2 mt-${subContainerMargin} align-self-center`"
+        flat
+        style="background-color:white"
+      >
+        <v-row>
+          <v-col>
+            <v-card
+              :width="titlesContentWidth"
+              :height="titlesContentHeight"
+              class="pa-2 mx-auto"
+              flat
+              style="background-color:white"
+            >
+              <transition name="app-head">
+                <p v-if="show" :class="`text-center font-weight-regular text-${title}`">Barcode Gen</p>
+              </transition>
+              <transition name="app-head">
+                <p v-if="show" :class="`text-center font-weight-regular text-${subtitle}`">Scan, Create and Print Barcodes</p>
+              </transition>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+             <v-card
+              width="300"
+              :height="barcodeContentHeight"
+              class="pa-2 mx-auto"
+              flat
+              style="background-color:white"
+            >
+              <transition name="anim-bar">
+                <VueBarcode
+                  v-if="showBar"
+                  class="text-center mx-auto homeBarExample" 
+                  value="example"
+                  :height="barcodeHeight"
+                  :fontSize="barcodeFontSize"
+                  >
+                  Please enter a valid value for this barcode type.
+                </VueBarcode>
+              </transition>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-row class="text-center">
+          <v-col>
+             <v-card
+              width="300"
+              height="100"
+              class="pa-2 mx-auto"
+              flat
+              style="background-color:white"
+            >
+              <transition name="app-head">
+                <v-btn
+                  v-if="showBtn"
+                  @click="routeToCreate"
+                  :block="false"
+                  color="primary"
+                  class="mx-auto"
+                  :large="this.$vuetify.breakpoint.name === 'lg'"
+                  :x-large="this.$vuetify.breakpoint.name === 'xl'">
+                  Lets Go
+                </v-btn>
+              </transition>
+             </v-card>
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-card>
+    
+
+    <!-- <v-card
       :class="`mx-auto`"
       flat
       tile
+      style="background-color:purple"
     >
       <v-row class="d-block">
         <transition name="app-head">
@@ -38,14 +119,14 @@
           </v-btn>
         </transition>
       </v-row>
-    </v-card>
+    </v-card> -->
   </v-app>
 
   <v-app v-else>
     <TopToolbar class="topTool"></TopToolbar>
-    <v-content>
+    <v-main>
       <router-view></router-view>
-    </v-content>
+    </v-main>
     <BottomNav class="bottomN"></BottomNav>
   </v-app>
 </template>
@@ -75,9 +156,80 @@
       width: 0,
       height: 0
     }
+    $vuetify: any;
 
     // Computed ------------------------
     // ---------------------------------
+    get subContainerMargin() {
+      return this.$vuetify.breakpoint.sm ? 'n16' : '0';
+    }
+    
+    get barcodeContentHeight() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return '200';
+        case 'sm': return '160';
+        case 'md': return '200';
+        case 'lg': return '200';
+        case 'xl': return '200';
+        default: return '200';
+      }
+    }
+
+    get titlesContentWidth() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return '320';
+        case 'sm': return '600';
+        case 'md': return '600';
+        case 'lg': return '900';
+        case 'xl': return '900';
+        default: return '600';
+      }
+    }
+
+    get titlesContentHeight() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return '150';
+        case 'sm': return '130';
+        case 'md': return '200';
+        case 'lg': return '250';
+        case 'xl': return '250';
+        default: return '200';
+      }
+    }
+
+    get containerHeight() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return this.window.height;
+        case 'sm': return this.window.height < 900 ? '500' : this.window.height;
+        case 'md': return this.window.height;
+        case 'lg': return this.window.height;
+        case 'xl': return this.window.height;
+        default: return this.window.height;
+      }
+    }
+
+    get subtitle() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return 'h5';
+        case 'sm': return 'h4';
+        case 'md': return 'h4';
+        case 'lg': return 'h3';
+        case 'xl': return 'h3';
+        default: return 'h4';
+      }
+    }
+
+    get title() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return 'h4';
+        case 'sm': return 'h3';
+        case 'md': return 'h2';
+        case 'lg': return 'h1';
+        case 'xl': return 'h1';
+        default: return 'h1';
+      }
+    }
+
     get barcodeFontSize() {
       if (this.window.width >= 4096) return "50"
       if (this.window.width >= 3840 && this.window.width <= 4095) return "40"
@@ -626,7 +778,7 @@
   }
 }
 
-@media screen and (max-width: 414px) and (min-height: 568px) {
+@media screen and (max-width: 414px) and (min-height: 550px) {
   .appHeadline {
     margin-top: 30%;
     font-size: 44px !important;

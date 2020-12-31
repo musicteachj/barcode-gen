@@ -101,13 +101,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import { Component, Vue, Prop, Watch, Mixins } from 'vue-property-decorator';
 import Quagga from 'quagga';
 import VueBarcode from 'vue-barcode';
 import { v4 as uuidv4 } from 'uuid';
 import SnackBar from '@/components/SnackBar.vue';
 import { mapState } from 'vuex';
-
+import ViewsStylings from "../mixins/ViewsStylings.vue";
 
 @Component({
   components: {
@@ -119,7 +119,7 @@ import { mapState } from 'vuex';
     ...mapState(["barcodes"])
   }
 })
-export default class Scan extends Vue {
+export default class Scan extends Mixins(ViewsStylings) {
   // Mapped Variables ----------------
   // ---------------------------------
   barcodes!: any;
