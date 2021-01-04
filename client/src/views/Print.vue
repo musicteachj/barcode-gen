@@ -16,12 +16,25 @@
       >
         <p :class="`mt-2 text-center font-weight-regular text-${printCardText}`">{{bar.name}}</p>
         <p :class="`text-center font-weight-regular text-${printCardText}`">{{bar.type}}</p>
-          <VueBarcode 
-            class="text-center containBar" 
-            :id="`${index}`" 
-            :value="bar.value" 
-            :width="barcodeWidth"
-            fontSize="20">
+        <VueBarcode 
+          class="text-center containBar" 
+          :id="`${bar.uuid}`" 
+          :value="bar.value" 
+          :width="barcodeWidth"
+          fontSize="20"
+        >
+          Show this if the rendering fails.
+        </VueBarcode>
+
+        <!-- HIDE PRINT BARCODE -->
+        <!-- FIXES PRINT MOBILE ISSUE -->
+        <VueBarcode 
+          class="text-center containBar hidden" 
+          :id="`${index}`" 
+          :value="bar.value" 
+          width="2"
+          fontSize="20"
+        >
           Show this if the rendering fails.
         </VueBarcode>
         
@@ -160,6 +173,10 @@ export default class Print extends Mixins(ViewsStylings) {
 </script>
 
 <style scoped>
+.hidden {
+  display: none;
+}
+
 .cardClass {
   border-color: #303F9F !important;
   border-width: 4px !important;
