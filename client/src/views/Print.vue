@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <p class="text-center pageTitle">Print Barcodes</p>
+    <p :class="`text-center font-weight-light text-${pageTitle} mt-4`">Print Barcodes</p>
     <v-card
       v-if="conditionDisplay"
       :class="`d-flex justify-center flex-wrap`"
@@ -14,14 +14,14 @@
         class="ma-2 cardClass"
         :min-width="cardWidth"
       >
-        <p class="mt-2 text-center barName">{{bar.name}}</p>
-        <p class="text-center barType">{{bar.type}}</p>
+        <p :class="`mt-2 text-center font-weight-regular text-${printCardText}`">{{bar.name}}</p>
+        <p :class="`text-center font-weight-regular text-${printCardText}`">{{bar.type}}</p>
           <VueBarcode 
             class="text-center containBar" 
             :id="`${index}`" 
             :value="bar.value" 
             :width="barcodeWidth"
-            :fontSize="barcodeFontSize">
+            fontSize="20">
           Show this if the rendering fails.
         </VueBarcode>
         
@@ -60,8 +60,8 @@
       flat
       tile
     >
-    <h1 class="text-center display-1 mt-10">No Barcodes To Display</h1>
-    <h1 class="text-center display-1 mt-6">Go Create One!</h1>
+    <h1 :class="`text-center font-weight-light text-${pageSubText} mt-10`">No Barcodes To Display</h1>
+    <h1 :class="`text-center font-weight-light text-${pageSubText} mt-6`">Go Create One!</h1>
     </v-card>
 
     <SnackBar :snackbar="snackInit" :deleteText="delText"/>
@@ -112,19 +112,8 @@ export default class Print extends Mixins(ViewsStylings) {
     return this.window.width >= 3000 ? "500" : "344";
   }
 
-  get barcodeWidth() {
-    return this.window.width <= 440 ? "1" : "2";
-  }
-
   get conditionDisplay() {
     return this.barcodes.length > 0 ? true : false;
-  }
-
-  get barcodeFontSize() {
-    if (this.window.width >= 4096) return "50"
-    if (this.window.width >= 3840 && this.window.width <= 4095) return "40"
-    if (this.window.width >= 2560 && this.window.width <= 3839) return "30"
-    return "20"
   }
 
   // Lifecycle Events ----------------
