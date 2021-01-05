@@ -88,12 +88,37 @@
     <div v-show="showVideo" :style="videoCenter" id="interactive" class="viewport scanner">
       <video />
       <canvas class="drawingBuffer" />
-      <v-btn v-if="this.window.width >= 897" :style="stopScanCenter" @click="stopScan()" color="error">Stop</v-btn>
+      <v-btn 
+        v-if="this.window.width >= 897" 
+        ref="largeScreenStopBtn" 
+        :style="stopScanCenter" 
+        @click="stopScan()" 
+        color="error"
+        :large="this.$vuetify.breakpoint.name === 'lg'"
+        :x-large="this.$vuetify.breakpoint.name === 'xl'"
+      >
+        Stop
+      </v-btn>
+      <!-- <v-btn v-if="this.window.width >= 897" :style="stopScanCenter" @click="getRef()" color="error">Get Ref</v-btn> -->
     </div>
+
+     
+    
+
+    <!-- <v-row align="center" v-show="showVideo" style="background-color:purple">
+      <v-col class="text-center mx-auto" cols="12" sm="4" style="background-color:blue">
+        <div id="interactive" class="viewport my-2">
+          <video />
+          <canvas class="drawingBuffer" />
+          <v-btn small @click="stopScan()">Normal</v-btn>
+        </div>
+      </v-col>
+    </v-row> -->
+      
 
     <v-col>
       <v-row>
-        <v-btn justify-center v-if="this.window.width <= 896 && showVideo" class="mobileStopScanCenter justify-center" @click="stopScan()" color="error">Stop</v-btn>
+        <v-btn justify-center v-if="this.window.width <= 896 && showVideo" class="mobileStopScanCenter justify-center mb-4" @click="stopScan()" color="error">Stop</v-btn>
       </v-row>
     </v-col>
 
@@ -179,7 +204,17 @@ export default class Scan extends Mixins(ViewsStylings) {
   get stopScanCenter() {
     let marginLeft: any = 0;
 
-    marginLeft = (640 -64) / 2;
+    // let minWidth = 0; 
+    // switch (this.$vuetify.breakpoint.name) {
+    //   case 'xs': minWidth = 64;
+    //   case 'sm': minWidth = 64;
+    //   case 'md': minWidth = 64;
+    //   case 'lg': minWidth = 92;
+    //   case 'xl': minWidth = 78;
+    //   default: minWidth = 64;
+    // }
+
+    marginLeft = (640 - 64) / 2;
     return `margin-left: ${marginLeft}px;
             margin-top: 20px;`
   }
