@@ -13,7 +13,9 @@
               v-show="showScanBtn" 
               @click="startScan()" 
               color="primary"
-              :disabled="excededBarcodeLimit">
+              :disabled="excededBarcodeLimit"
+              :large="this.$vuetify.breakpoint.name === 'lg'"
+              :x-large="this.$vuetify.breakpoint.name === 'xl'">
                 Scan
             </v-btn>
           </v-card>
