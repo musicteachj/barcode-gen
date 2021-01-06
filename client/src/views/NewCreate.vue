@@ -1,7 +1,7 @@
 <template>
   <v-container>
   <!-- <p :class="`text-center font-weight-light text-${pageTitle} mt-4`">{{this.window.width}} {{this.window.height}}</p> -->
-  <p :class="`text-center font-weight-light text-${pageTitle} mt-4`">Create Barcodes</p>
+  <p :class="`text-center font-weight-light text-${pageTitle} mt-4`">New Create Barcodes</p>
   <v-card
     class="mx-auto"
     max-width="800"
@@ -14,7 +14,6 @@
         <v-col cols="10">
           <!-- NON 4K SCREENS -->
           <v-form
-            v-if="this.window.width <= 2999"
             ref="form"
             v-model="valid"
           >
@@ -79,7 +78,7 @@
           </v-form>
 
           <!-- 4K SCREENS -->
-          <v-form
+          <!-- <v-form
             v-else
             ref="form"
             v-model="valid"
@@ -121,14 +120,6 @@
                 <v-icon :size="dynamicBNavIcon" class="valueIcon">mdi-card-text</v-icon>
               </v-col>
               <v-col cols="10">
-                <!-- <v-text-field
-                  class="valueInput"
-                  v-model="stringValue"
-                  label="Barcode Value"
-                  :rules="valueRules"
-                  required
-                  hint="Will autopopulate to nearest valid barcode"
-                ></v-text-field> -->
                 <v-text-field
                   v-if="type.numOnly"
                   prepend-icon="mdi-card-text"
@@ -160,7 +151,7 @@
                 </div>
               </v-col>
             </v-row>
-          </v-form>
+          </v-form> -->
 
           <VueBarcode 
             v-if="this.stringValue != null || this.numValue != null" 
