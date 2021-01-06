@@ -20,8 +20,8 @@
             </v-btn>
           </v-card>
           <div v-if="this.barcodes.length >= 20" class="mt-9">
-            <p class="noScannerMsg text-center">Exceeded Barcode Limit Of 20</p>
-            <p class="noScannerMsg text-center mt-6">Head To Print Page And Delete Some!</p>
+            <p :class="`font-weight-light text-${pageSubText} text-center`">Exceeded Barcode Limit Of 20</p>
+            <p :class="`font-weight-light text-${pageSubText} text-center mt-6`">Head To Print Page And Delete Some!</p>
           </div>
         </v-col>
       </v-row>
@@ -29,9 +29,9 @@
         <v-col>
           <div v-if="this.scannedBarcodes.length > 0">
             <v-row>
-              <v-col cols="1">
+              <v-col cols="1" sm="2" md="3" lg="4" xl="4">
               </v-col>
-              <v-col cols="10">
+              <v-col cols="10" sm="8" md="6" lg="4" xl="4">
                 <v-form
                   ref="scanForm"
                   v-model="valid"
@@ -45,27 +45,43 @@
                   ></v-text-field>
                 </v-form>      
               </v-col>
-              <v-col cols="1">
+              <v-col cols="1" sm="2" md="3" lg="4" xl="4">
               </v-col>
             </v-row>
             <VueBarcode 
               class="text-center" 
               :value="this.scannedBarcodes[0].codeResult.code"
-              :fontSize="barcodeFontSize"
+              fontSize="20"
+              :width="barcodeWidth"
               >
               Please enter a valid value for this barcode type.
             </VueBarcode>
             <v-row align="center">
               <v-col class="text-center" cols="12" sm="12">
                 <div class="my-2">
-                  <v-btn @click="reset()" color="error" class="appBtn">Reset</v-btn>
+                  <v-btn 
+                    @click="reset()" 
+                    color="error"
+                    :large="this.$vuetify.breakpoint.name === 'lg'"
+                    :x-large="this.$vuetify.breakpoint.name === 'xl'"
+                    >
+                      Reset
+                    </v-btn>
                 </div>
               </v-col>
             </v-row>
             <v-row align="center">
               <v-col class="text-center" cols="12" sm="12">
                 <div class="my-2">
-                  <v-btn @click="saveScan()" :disabled="!valid" color="primary" class="appBtn">Save</v-btn>
+                  <v-btn 
+                    @click="saveScan()" 
+                    :disabled="!valid" 
+                    color="primary"
+                    :large="this.$vuetify.breakpoint.name === 'lg'"
+                    :x-large="this.$vuetify.breakpoint.name === 'xl'"
+                  >
+                    Save
+                  </v-btn>
                 </div>
               </v-col>
             </v-row>
@@ -81,7 +97,7 @@
         flat
         tile
       >
-        <h1 class="text-center noScannerMsg">Sorry, you don't have a camera on this device :(</h1>
+        <h1 :class="`text-center font-weight-light text-${pageSubText}`">Sorry, you don't have a camera on this device :(</h1>
       </v-card>
     </v-container>
 
@@ -201,20 +217,22 @@ export default class Scan extends Mixins(ViewsStylings) {
     }
   }
 
+  get minWidthStopScanBtn() {
+    switch (this.$vuetify.breakpoint.name) {
+      case 'xs': return 64;
+      case 'sm': return 64;
+      case 'md': return 64;
+      case 'lg': return 78;
+      case 'xl': return 92;
+      default: return 64;
+    }
+  }
+
   get stopScanCenter() {
     let marginLeft: any = 0;
 
-    // let minWidth = 0; 
-    // switch (this.$vuetify.breakpoint.name) {
-    //   case 'xs': minWidth = 64;
-    //   case 'sm': minWidth = 64;
-    //   case 'md': minWidth = 64;
-    //   case 'lg': minWidth = 92;
-    //   case 'xl': minWidth = 78;
-    //   default: minWidth = 64;
-    // }
-
-    marginLeft = (640 - 64) / 2;
+    // 
+    marginLeft = (632 - this.minWidthStopScanBtn) / 2;
     return `margin-left: ${marginLeft}px;
             margin-top: 20px;`
   }

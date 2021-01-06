@@ -50,8 +50,8 @@ export default class ViewsStylings extends Vue {
       case 'xs': return 'h5';
       case 'sm': return 'h4';
       case 'md': return 'h4';
-      case 'lg': return 'h3';
-      case 'xl': return 'h3';
+      case 'lg': return 'h4';
+      case 'xl': return 'h4';
       default: return 'h4';
     }
   }
