@@ -17,7 +17,7 @@
                 ref="form"
                 v-model="valid"
               >
-                <v-row class="nameRow">
+                <v-row class="nameRow mt-1">
                   <v-text-field
                     prepend-icon="mdi-tag"
                     class="nameInput"
@@ -27,7 +27,7 @@
                     required
                   ></v-text-field>
                 </v-row>
-                <v-row class="typeRow mt-4">
+                <v-row class="typeRow mt-3">
                   <v-select
                     prepend-icon="mdi-barcode"
                     class="typeInput"
@@ -40,7 +40,7 @@
                     required
                   ></v-select>
                 </v-row>
-                <v-row class="valueRow mt-4">
+                <v-row class="valueRow mt-3">
                   <v-text-field
                     v-if="type.numOnly"
                     prepend-icon="mdi-card-text"
@@ -66,15 +66,15 @@
                     ref="anyField"
                   ></v-text-field>
                 </v-row>
-                <v-row align="center">
+                <v-row class="mt-2" align="center">
                   <v-col class="text-center" cols="12" sm="12">
-                    <div class="my-2">
+                    <div class="my-2 hintDiv">
                       <p v-if="type.type" class="mt-6 noScannerMsg">{{hintText}}</p>
                     </div>
                   </v-col>
                 </v-row>
               </v-form>
-              <div>
+              <div class="barcodeContainer">
                 <VueBarcode 
                   v-if="displayBarcode" 
                   class="text-center" 
@@ -86,7 +86,7 @@
                   ref="vueBar"
                 >
                 </VueBarcode>
-              <p v-else>Barcode value will show here</p>
+              <p class="text-center" v-else>Select barcode type and enter value</p>
               </div>
               
               <v-row align="center">
@@ -293,16 +293,136 @@ export default class NewCreate extends Mixins(ViewsStylings) {
   minVal: number = null;
   maxVal: number = null;
   items2: Array<object> = [
-    {text: "CODE128", type: "CODE128", numOnly: false, value: {min:1, max:13}, intContraints: {minValue: null, maxValue: null}},
-    {text: "EAN-13",  type: "EAN13", numOnly: true, value: {min:13, max:13}, intContraints: {minValue: null, maxValue: null}},
-    {text: "EAN-8",  type: "EAN8", numOnly: true, value: {min:8, max:8}, intContraints: {minValue: null, maxValue: null}},
-    {text: "EAN-5",  type: "EAN5", numOnly: true, value: {min:5, max:5}, intContraints: {minValue: null, maxValue: null}},
-    {text: "EAN-2",  type: "EAN2", numOnly: true, value: {min:2, max:2}, intContraints: {minValue: null, maxValue: null}},
-    {text: "UPC (A)",  type: "UPC", numOnly: true, value: {min:12, max:12}, intContraints: {minValue: null, maxValue: null}},
-    {text: "CODE39",  type: "CODE39", numOnly: false, value: {min:1, max:13}, intContraints: {minValue: null, maxValue: null}},
-    {text: "ITF-14",  type: "ITF14", numOnly: true, value: {min:14, max:14}, intContraints: {minValue: null, maxValue: null}},
-    {text: "MSI",  type: "MSI", numOnly: true, value: {min:1, max:12}, intContraints: {minValue: null, maxValue: null}},
-    {text: "Pharmacode",  type: "pharmacode", numOnly: true, value: {min:1, max:6}, intContraints: {minValue: 3, maxValue: 131070}}
+    {
+      text: "CODE128", 
+      type: "CODE128", 
+      numOnly: false, 
+      value: {
+        min:1, 
+        max:13
+      }, 
+      intContraints: {
+        minValue: null, 
+        maxValue: null
+      }
+    },
+    {
+      text: "EAN-13", 
+      type: "EAN13", 
+      numOnly: true, 
+      value: {
+        min:13, 
+        max:13
+      }, 
+      intContraints: {
+        minValue: null, 
+        maxValue: null
+      }
+    },
+    {
+      text: "EAN-8", 
+      type: "EAN8", 
+      numOnly: true, 
+      value: {
+        min:8, 
+        max:8
+      }, 
+      intContraints: {
+        minValue: null, 
+        maxValue: null
+      }
+    },
+    {
+      text: "EAN-5", 
+      type: "EAN5", 
+      numOnly: true, 
+      value: {
+        min:5, 
+        max:5
+      }, 
+      intContraints: {
+        minValue: null, 
+        maxValue: null
+      }
+    },
+    {
+      text: "EAN-2", 
+      type: "EAN2", 
+      numOnly: true, 
+      value: {
+        min:2, 
+        max:2
+      }, 
+      intContraints: {
+        minValue: null, 
+        maxValue: null
+      }
+    },
+    {
+      text: "UPC (A)", 
+      type: "UPC", 
+      numOnly: true, 
+      value: {
+        min:12, 
+        max:12
+      }, 
+      intContraints: {
+        minValue: null, 
+        maxValue: null
+      }
+    },
+    {
+      text: "CODE39", 
+      type: "CODE39", 
+      numOnly: false, 
+      value: {
+        min:1, 
+        max:13
+      }, 
+      intContraints: {
+        minValue: null, 
+        maxValue: null
+      }
+    },
+    {
+      text: "ITF-14", 
+      type: "ITF14", 
+      numOnly: true, 
+      value: {
+        min:14, 
+        max:14
+      }, 
+      intContraints: {
+        minValue: null, 
+        maxValue: null
+      }
+    },
+    {
+      text: "MSI", 
+      type: "MSI", 
+      numOnly: true, 
+      value: {
+        min:1, 
+        max:12
+      }, 
+      intContraints: {
+        minValue: null, 
+        maxValue: null
+      }
+    },
+    {
+      text: "Pharmacode", 
+      type: "pharmacode", 
+      numOnly: true, 
+      value: {
+        min:1, 
+        max:6
+      }, 
+      intContraints: {
+        minValue: 3,
+        maxValue: 131070
+      }
+    }
   ];
   snackInit: boolean = false;
   window: any = {
@@ -314,20 +434,25 @@ export default class NewCreate extends Mixins(ViewsStylings) {
   // Computed ------------------------
   // ---------------------------------
   get displayBarcode() {
-    if (
-      (this.stringValue != null && this.stringValue != '') ||
-      this.numValue != null
-    ) {
-      return true
-    } else {
-      return false
-    }
+    // if (
+    //   (this.stringValue != null && this.stringValue != '') ||
+    //   this.numValue != null
+    // ) {
+    //   return true
+    // } else {
+    //   return false
+    // }
+
+    return (this.stringValue != null && this.stringValue != '') || 
+            this.numValue != null ? 
+            true : 
+            false;
     // return this.stringValue != null || 
     //        this.numValue != null ||
     //        this.stringValue != '';
   }
   get resetDisabled() {
-    return this.name != '' ? false : true;
+    return this.name != '' || this.type.type != '' ? false : true;
   }
 
   get typeMask() {
@@ -373,13 +498,13 @@ export default class NewCreate extends Mixins(ViewsStylings) {
     return "20"
   }
 
-  get barcodeWidth() {
-    return this.window.width <= 440 ? "1" : "2";
-  }
+  // get barcodeWidth() {
+  //   return this.window.width <= 440 ? "1" : "2";
+  // }
 
-  get barcodeHeight() {
-    return this.window.width >= 4096 ? "200" : "100";
-  }
+  // get barcodeHeight() {
+  //   return this.window.width >= 4096 ? "200" : "100";
+  // }
 
   get dynamicBNavIcon() {
     return this.window.width >= 3000 ? "60" : "20";
@@ -560,5 +685,14 @@ export default class NewCreate extends Mixins(ViewsStylings) {
 </script>
 
 <style scoped>
+.barcodeContainer {
+  height: 155px;
+  /* border: 1px solid black; */
+}
+
+.hintDiv {
+  height: 70px;
+  /* border: 1px solid black; */
+}
 
 </style>
