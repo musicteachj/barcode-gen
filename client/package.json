@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "cdigit": "^2.6.0",
     "core-js": "^3.6.4",
     "material-design-icons-iconfont": "^5.0.1",
     "printd": "^1.4.1",

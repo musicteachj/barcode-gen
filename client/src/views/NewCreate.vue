@@ -34,7 +34,7 @@
                     v-model="type"
                     :return-object="true"
                     item-value
-                    :items="items2"
+                    :items="barcodeTemplates"
                     label="Barcode Type"
                     :rules="typeRules"
                     required
@@ -66,7 +66,7 @@
                     ref="anyField"
                   ></v-text-field>
                 </v-row>
-                <v-row class="mt-2" align="center">
+                <v-row class="mt-2 mb-2" align="center">
                   <v-col class="text-center" cols="12" sm="12">
                     <div class="my-2 hintDiv">
                       <p v-if="type.type" class="mt-6 noScannerMsg">{{hintText}}</p>
@@ -252,6 +252,8 @@ import SnackBar from '../components/SnackBar.vue';
 import { mask } from 'vue-the-mask';
 import ViewsStylings from "../mixins/ViewsStylings.vue";
 
+const cdigit = require('cdigit');
+
 @Component({
   components: {
     VueBarcode,
@@ -284,7 +286,8 @@ export default class NewCreate extends Mixins(ViewsStylings) {
     intContraints: {
       minValue: null,
       maxValue: null
-    }
+    },
+    checkDigit: null
   };
   stringValue: string = null;
   numValue: number = null;
@@ -292,7 +295,7 @@ export default class NewCreate extends Mixins(ViewsStylings) {
   maxNum: number = 0;
   minVal: number = null;
   maxVal: number = null;
-  items2: Array<object> = [
+  barcodeTemplates: Array<object> = [
     {
       text: "CODE128", 
       type: "CODE128", 
@@ -304,33 +307,36 @@ export default class NewCreate extends Mixins(ViewsStylings) {
       intContraints: {
         minValue: null, 
         maxValue: null
-      }
+      },
+      checkDigit: false
     },
     {
       text: "EAN-13", 
       type: "EAN13", 
       numOnly: true, 
       value: {
-        min:13, 
-        max:13
+        min:12, 
+        max:12
       }, 
       intContraints: {
         minValue: null, 
         maxValue: null
-      }
+      },
+      checkDigit: true
     },
     {
       text: "EAN-8", 
       type: "EAN8", 
       numOnly: true, 
       value: {
-        min:8, 
-        max:8
+        min:7, 
+        max:7
       }, 
       intContraints: {
         minValue: null, 
         maxValue: null
-      }
+      },
+      checkDigit: true
     },
     {
       text: "EAN-5", 
@@ -343,7 +349,8 @@ export default class NewCreate extends Mixins(ViewsStylings) {
       intContraints: {
         minValue: null, 
         maxValue: null
-      }
+      },
+      checkDigit: false
     },
     {
       text: "EAN-2", 
@@ -356,20 +363,22 @@ export default class NewCreate extends Mixins(ViewsStylings) {
       intContraints: {
         minValue: null, 
         maxValue: null
-      }
+      },
+      checkDigit: false
     },
     {
       text: "UPC (A)", 
       type: "UPC", 
       numOnly: true, 
       value: {
-        min:12, 
-        max:12
+        min:11, 
+        max:11
       }, 
       intContraints: {
         minValue: null, 
         maxValue: null
-      }
+      },
+      checkDigit: true
     },
     {
       text: "CODE39", 
@@ -382,20 +391,22 @@ export default class NewCreate extends Mixins(ViewsStylings) {
       intContraints: {
         minValue: null, 
         maxValue: null
-      }
+      },
+      checkDigit: false
     },
     {
       text: "ITF-14", 
       type: "ITF14", 
       numOnly: true, 
       value: {
-        min:14, 
-        max:14
+        min:13, 
+        max:13
       }, 
       intContraints: {
         minValue: null, 
         maxValue: null
-      }
+      },
+      checkDigit: true
     },
     {
       text: "MSI", 
@@ -408,7 +419,8 @@ export default class NewCreate extends Mixins(ViewsStylings) {
       intContraints: {
         minValue: null, 
         maxValue: null
-      }
+      },
+      checkDigit: false
     },
     {
       text: "Pharmacode", 
@@ -421,7 +433,8 @@ export default class NewCreate extends Mixins(ViewsStylings) {
       intContraints: {
         minValue: 3,
         maxValue: 131070
-      }
+      },
+      checkDigit: false
     }
   ];
   snackInit: boolean = false;
@@ -429,10 +442,21 @@ export default class NewCreate extends Mixins(ViewsStylings) {
     width: 0,
     height: 0
   }
-  match: any = 0;
+  // match: any = 0;
 
   // Computed ------------------------
   // ---------------------------------
+  // get checkDig() {
+  //   if (this.type.checkDigit) {
+  //     return cdigit.gtin.generate(this.numValue);
+  //   } else {
+  //     return "no check"
+  //   }
+  //   //  if (this.type.type === "EAN8") {
+  //   //   return cdigit.gtin.generate(this.numValue);
+  //   // }
+  // }
+
   get displayBarcode() {
     // if (
     //   (this.stringValue != null && this.stringValue != '') ||
@@ -491,12 +515,12 @@ export default class NewCreate extends Mixins(ViewsStylings) {
     return ""
   }
 
-  get barcodeFontSize() {
-    if (this.window.width >= 4096) return "50"
-    if (this.window.width >= 3840 && this.window.width <= 4095) return "40"
-    if (this.window.width >= 2560 && this.window.width <= 3839) return "30"
-    return "20"
-  }
+  // get barcodeFontSize() {
+  //   if (this.window.width >= 4096) return "50"
+  //   if (this.window.width >= 3840 && this.window.width <= 4095) return "40"
+  //   if (this.window.width >= 2560 && this.window.width <= 3839) return "30"
+  //   return "20"
+  // }
 
   // get barcodeWidth() {
   //   return this.window.width <= 440 ? "1" : "2";
@@ -506,9 +530,9 @@ export default class NewCreate extends Mixins(ViewsStylings) {
   //   return this.window.width >= 4096 ? "200" : "100";
   // }
 
-  get dynamicBNavIcon() {
-    return this.window.width >= 3000 ? "60" : "20";
-  }
+  // get dynamicBNavIcon() {
+  //   return this.window.width >= 3000 ? "60" : "20";
+  // }
 
   // get charType() {
   //   return this.type.numOnly ? "number" : "any";
@@ -534,33 +558,33 @@ export default class NewCreate extends Mixins(ViewsStylings) {
     return rules;
   };
 
-  testRules() {
-    if (this.type.numOnly) return [v => !!v || 'Numbers Only. Value is required'];
-    if (!this.type.numOnly) return [v => !!v || 'Any Character. Value is required'];
-  }
+  // testRules() {
+  //   if (this.type.numOnly) return [v => !!v || 'Numbers Only. Value is required'];
+  //   if (!this.type.numOnly) return [v => !!v || 'Any Character. Value is required'];
+  // }
 
-  get ttt() {
-    // let match = null;
-    // if (this.$refs["vueBar"]) {
-    //   return "ref";
-    //   // if (this.$refs["vueBar"].$el.innerText) {
-    //   //   match = this.$refs["vueBar"].$el.innerText
-    //   //   console.log(match);
-    //   //   return match;
-    //   // } else {
-    //   //   console.log("nothing");
-    //   //   return ""
-    //   // }
-    // } else {
-    //   return "not loaded yet";
-    // }
-    // // return match;
-    if (this.$refs["vueBar"]) {
-      // @ts-ignore
-      return this.$refs["vueBar"].$el.innerText;
-    }
-    return "";
-  }
+  // get ttt() {
+  //   // let match = null;
+  //   // if (this.$refs["vueBar"]) {
+  //   //   return "ref";
+  //   //   // if (this.$refs["vueBar"].$el.innerText) {
+  //   //   //   match = this.$refs["vueBar"].$el.innerText
+  //   //   //   console.log(match);
+  //   //   //   return match;
+  //   //   // } else {
+  //   //   //   console.log("nothing");
+  //   //   //   return ""
+  //   //   // }
+  //   // } else {
+  //   //   return "not loaded yet";
+  //   // }
+  //   // // return match;
+  //   if (this.$refs["vueBar"]) {
+  //     // @ts-ignore
+  //     return this.$refs["vueBar"].$el.innerText;
+  //   }
+  //   return "";
+  // }
 
   get valueRules() {
     let rules: Array<any> = [v => !!v || 'Value is required'];
@@ -611,7 +635,7 @@ export default class NewCreate extends Mixins(ViewsStylings) {
       // @ts-ignore
       this.$refs["anyField"].clearableCallback();
     }
-    console.log(this.$refs["vueBar"]);
+    // console.log(this.$refs["vueBar"]);
     // this.ttt();
   };
 
@@ -654,7 +678,8 @@ export default class NewCreate extends Mixins(ViewsStylings) {
       intContraints: {
         minValue: null,
         maxValue: null
-      }
+      },
+      checkDigit: null
     };
     this.stringValue = null;
     this.numValue = null;
@@ -667,10 +692,14 @@ export default class NewCreate extends Mixins(ViewsStylings) {
       type: this.type.type,
       value: this.stringValue || this.numValue
     };
+    if (this.type.checkDigit) {
+      bar.value = cdigit.gtin.generate(bar.value);
+    }
     return bar;
   }
 
   async saveBarcode() {
+    console.log(this.buildBarcode());
     await this.$store.dispatch("saveBarcode", {
       barcode: this.buildBarcode()
     }).then(success => {
