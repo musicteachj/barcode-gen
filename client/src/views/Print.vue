@@ -151,7 +151,7 @@ export default class Print extends Mixins(ViewsStylings) {
     this.snackInit = true;
       setTimeout(() => {
         this.snackInit = false
-      }, 2000);
+      }, 7000);
   }
 
   printBarcode(index) {
