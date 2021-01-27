@@ -340,7 +340,7 @@ export default class Scan extends Mixins(ViewsStylings) {
       this.snackInit = true;
       setTimeout(() => {
         this.snackInit = false
-      }, 2000);
+      }, 7000);
     })
   }
 

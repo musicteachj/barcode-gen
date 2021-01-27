@@ -1,8 +1,6 @@
 <template>
   <v-container>
-    <!-- <p :class="`text-center font-weight-light text-${pageTitle} mt-4`">{{this.window.width}} {{this.window.height}}</p> -->
-    <p :class="`text-center font-weight-light text-${pageTitle} mt-4`">New Create Barcodes</p>
-
+    <p :class="`text-center font-weight-light text-${pageTitle} mt-4`">Create Barcodes</p>
     <v-row>
       <v-col>
         <div v-if="excededBarcodeLimit">
@@ -17,104 +15,113 @@
                 ref="form"
                 v-model="valid"
               >
-                <v-row class="nameRow mt-1">
-                  <v-text-field
-                    prepend-icon="mdi-tag"
-                    class="nameInput"
-                    v-model="name"
-                    label="Barcode Name"
-                    :rules="nameRules"
-                    required
-                  ></v-text-field>
+                <v-row>
+                  <v-col>
+                    <v-text-field
+                      prepend-icon="mdi-tag"
+                      class="nameInput"
+                      v-model="name"
+                      label="Barcode Name"
+                      :rules="nameRules"
+                      required
+                    />
+                  </v-col>
                 </v-row>
-                <v-row class="typeRow mt-3">
-                  <v-select
-                    prepend-icon="mdi-barcode"
-                    class="typeInput"
-                    v-model="type"
-                    :return-object="true"
-                    item-value
-                    :items="barcodeTemplates"
-                    label="Barcode Type"
-                    :rules="typeRules"
-                    required
-                  ></v-select>
+                <v-row>
+                  <v-col>
+                    <v-select
+                      prepend-icon="mdi-barcode"
+                      class="typeInput"
+                      v-model="type"
+                      :return-object="true"
+                      item-value
+                      :items="barcodeTemplates"
+                      label="Barcode Type"
+                      :rules="typeRules"
+                      required
+                    />
+                  </v-col>
                 </v-row>
-                <v-row class="valueRow mt-3">
-                  <v-text-field
-                    v-if="type.numOnly"
-                    prepend-icon="mdi-card-text"
-                    class="valueInput"
-                    v-model.number="numValue"
-                    label="Num Only"
-                    :rules="valueRules"
-                    required
-                    hint="Numbers Only"
-                    v-mask="typeMask"
-                    ref="numOnlyField"
-                  ></v-text-field>
-                  <v-text-field
-                    v-else
-                    prepend-icon="mdi-card-text"
-                    class="valueInput"
-                    v-model="stringValue"
-                    label="Barcode Value"
-                    :rules="valueRules"
-                    required
-                    hint="Any Character"
-                    v-mask="typeMask"
-                    ref="anyField"
-                  ></v-text-field>
+                <v-row>
+                  <v-col>
+                    <v-text-field
+                      v-if="type.numOnly"
+                      prepend-icon="mdi-card-text"
+                      class="valueInput"
+                      v-model.number="numValue"
+                      label="Num Only"
+                      :rules="valueRules"
+                      required
+                      hint="Numbers Only"
+                      v-mask="typeMask"
+                      ref="numOnlyField"
+                    />
+                    <v-text-field
+                      v-else
+                      prepend-icon="mdi-card-text"
+                      class="valueInput"
+                      v-model="stringValue"
+                      label="Barcode Value"
+                      :rules="valueRules"
+                      required
+                      hint="Any Character"
+                      v-mask="typeMask"
+                      ref="anyField"
+                    />
+                  </v-col>
                 </v-row>
-                <v-row class="mt-2 mb-2" align="center">
+                <v-row class="" align="center">
                   <v-col class="text-center" cols="12" sm="12">
-                    <div class="my-2 hintDiv">
-                      <p v-if="type.type" class="mt-6 noScannerMsg">{{hintText}}</p>
+                    <div class="hintDiv">
+                      <p v-if="type.type" :class="`font-weight-regular text-${printCardText}`">{{hintText}}</p>
+                    </div>
+                  </v-col>
+                </v-row>
+                <v-row class="" align="center">
+                  <v-col class="text-center" cols="12" sm="12">
+                    <div class="barcodeContainer">
+                      <VueBarcode 
+                        v-if="displayBarcode" 
+                        class="text-center" 
+                        :value="this.stringValue || this.numValue"
+                        :format="this.type.type"
+                        :width="barcodeWidth"
+                        fontSize="20"
+                        :displayValue="true"
+                        ref="vueBar"
+                      >
+                      </VueBarcode>
+                    <p :class="`font-weight-regular text-${printCardText}`" v-else>Select barcode type and enter value</p>
+                    </div>
+                  </v-col>
+                </v-row>
+                <v-row align="center">
+                  <v-col class="text-center" cols="12" sm="12">
+                    <div class="">
+                      <v-btn  
+                        @click="resetForm" 
+                        color="error" 
+                        :disabled="resetDisabled" 
+                        class="mr-3"
+                        :large="this.$vuetify.breakpoint.name === 'lg'"
+                        :x-large="this.$vuetify.breakpoint.name === 'xl'"
+                      >
+                        Reset
+                      </v-btn>
+                      <v-btn 
+                        :disabled="!valid"
+                        @click="saveBarcode" 
+                        color="primary"
+                        class="ml-3"
+                        :large="this.$vuetify.breakpoint.name === 'lg'"
+                        :x-large="this.$vuetify.breakpoint.name === 'xl'"
+                      >
+                        Save
+                      </v-btn>
                     </div>
                   </v-col>
                 </v-row>
               </v-form>
-              <div class="barcodeContainer">
-                <VueBarcode 
-                  v-if="displayBarcode" 
-                  class="text-center" 
-                  :value="this.stringValue || this.numValue"
-                  :format="this.type.type"
-                  :width="barcodeWidth"
-                  fontSize="20"
-                  :displayValue="true"
-                  ref="vueBar"
-                >
-                </VueBarcode>
-              <p class="text-center" v-else>Select barcode type and enter value</p>
-              </div>
-              
-              <v-row align="center">
-                <v-col class="text-center" cols="12" sm="12">
-                  <div class="my-2">
-                    <v-btn  
-                      @click="resetForm" 
-                      color="error" 
-                      :disabled="resetDisabled" 
-                      class="mr-3"
-                      :large="this.$vuetify.breakpoint.name === 'lg'"
-                      :x-large="this.$vuetify.breakpoint.name === 'xl'"
-                    >
-                      Reset
-                    </v-btn>
-                    <v-btn 
-                      :disabled="!valid"
-                      @click="saveBarcode" 
-                      color="primary"
-                      class="ml-3"
-                      :large="this.$vuetify.breakpoint.name === 'lg'"
-                      :x-large="this.$vuetify.breakpoint.name === 'xl'"
-                    >
-                      Save
-                    </v-btn>
-                  </div>
-                </v-col>
-              </v-row>
             </v-col>
             <v-col cols="1" sm="2" md="3" lg="4" xl="4"></v-col>
           </v-row>
@@ -487,7 +494,7 @@ export default class NewCreate extends Mixins(ViewsStylings) {
 
   get hintText() {
     if (this.type.type === "CODE128") return `Must be between  ${this.type.value.min} and ${this.type.value.max} characters long`;
-    if (this.type.type === "EAN13") return `Enter ${this.type.value.max} numbers. Barcode will display nearest valid value for type.`;
+    if (this.type.type === "EAN13") return `Enter ${this.type.value.max} numbers.`;
     if (this.type.type === "EAN8") return `Enter ${this.type.value.max} numbers`;
     if (this.type.type === "EAN5") return `Enter ${this.type.value.max} numbers`;
     if (this.type.type === "EAN2") return `Enter ${this.type.value.max} numbers`;
@@ -707,7 +714,7 @@ export default class NewCreate extends Mixins(ViewsStylings) {
       this.snackInit = true;
       setTimeout(() => {
         this.snackInit = false
-      }, 2000);
+      }, 7000);
     })
   }
 }
@@ -720,7 +727,7 @@ export default class NewCreate extends Mixins(ViewsStylings) {
 }
 
 .hintDiv {
-  height: 70px;
+  height: 80px;
   /* border: 1px solid black; */
 }
 
