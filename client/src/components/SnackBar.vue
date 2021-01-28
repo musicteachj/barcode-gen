@@ -48,6 +48,5 @@ export default class SnackBar extends Vue {
 <style scoped>
 .snackText {
   font-size: 16px !important;
-  /* margin-left: 80px; */
 }
 </style>

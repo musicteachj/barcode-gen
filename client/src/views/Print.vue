@@ -12,15 +12,17 @@
         :key="index"
         outlined
         class="ma-2 cardClass"
-        :min-width="cardWidth"
+        width="300"
+        height="280"
       >
         <p :class="`mt-2 text-center font-weight-regular text-${printCardText}`">{{bar.name}}</p>
-        <p :class="`text-center font-weight-regular text-${printCardText}`">{{bar.type}}</p>
-        <VueBarcode 
-          class="text-center containBar" 
+        <p :class="`mt-n3 text-center font-weight-regular text-${printCardText}`">{{bar.type}}</p>
+        <VueBarcode
+          class="text-center containBar mt-n2" 
           :id="`${bar.uuid}`" 
           :value="bar.value" 
-          :width="barcodeWidth"
+          :width="barcodeWidth(bar.type)"
+          :format="bar.type"
           fontSize="20"
         >
           Show this if the rendering fails.
@@ -33,13 +35,14 @@
           :id="`${index}`" 
           :value="bar.value" 
           width="2"
+          :format="bar.type"
           fontSize="20"
         >
           Show this if the rendering fails.
         </VueBarcode>
         
 
-        <v-card-actions>
+        <v-card-actions class="mt-n2">
           <v-btn
             class="deleteBarBtn"
             color="error"
@@ -180,60 +183,5 @@ export default class Print extends Mixins(ViewsStylings) {
 .cardClass {
   border-color: #303F9F !important;
   border-width: 4px !important;
-}
-
-@media screen and (max-width: 4096px) and (min-width: 3001px) {
-  .barName, .barType {
-    font-size: 40px;
-  }
-  .deleteBarBtn, .printBarBtn {
-    font-size: 22px !important; 
-  }
-}
-
-@media screen and (max-width: 3000px) and (min-width: 2561px) {
-  .barName, .barType {
-    font-size: 30px;
-  }
-  .deleteBarBtn, .printBarBtn {
-    font-size: 18px !important; 
-  }
-}
-
-@media screen and (max-width: 2560px) {
-  .barName, .barType {
-    font-size: 24px;
-  }
-}
-
-@media screen and (max-width: 1920px) {
-  .barName, .barType {
-    font-size: 24px;
-  }
-}
-
-@media screen and (max-width: 1440px) {
-  .barName, .barType {
-    font-size: 24px;
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  .barName, .barType {
-    font-size: 24px;
-  }
-}
-
-@media screen and (max-width: 960px) {
-  .barName, .barType {
-    font-size: 24px;
-  }
-} 
-
-@media screen and (max-width: 414px) {
-  .barName, .barType {
-    font-size: 20px;
-  }
-
 }
 </style>
