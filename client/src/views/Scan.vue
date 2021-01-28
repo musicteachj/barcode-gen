@@ -52,7 +52,7 @@
               class="text-center" 
               :value="this.scannedBarcodes[0].codeResult.code"
               fontSize="20"
-              :width="barcodeWidth"
+              width="2"
               >
               Please enter a valid value for this barcode type.
             </VueBarcode>

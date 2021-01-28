@@ -85,7 +85,7 @@
                         class="text-center" 
                         :value="this.stringValue || this.numValue"
                         :format="this.type.type"
-                        :width="barcodeWidth"
+                        :width="barcodeWidth(this.type.type)"
                         fontSize="20"
                         :displayValue="true"
                         ref="vueBar"
@@ -128,125 +128,7 @@
         </div>
       </v-col>
     </v-row>
-
-
-
-  <!-- <v-card
-    class="mx-auto"
-    max-width="800"
-    flat
-  >
-    <v-container fluid>
-      <v-row>
-        <v-col cols="1">
-        </v-col>
-        <v-col cols="10">
-          <v-form
-            ref="form"
-            v-model="valid"
-          >
-            <v-row class="nameRow">
-              <v-text-field
-                prepend-icon="mdi-tag"
-                class="nameInput"
-                v-model="name"
-                label="Barcode Name"
-                :rules="nameRules"
-                required
-                :disabled="excededBarcodeLimit"
-              ></v-text-field>
-            </v-row>
-            <v-row v-if="name != ''" class="typeRow">
-              <v-select
-                prepend-icon="mdi-barcode"
-                class="typeInput"
-                v-model="type"
-                :return-object="true"
-                item-value
-                :items="items2"
-                label="Barcode Type"
-                :rules="typeRules"
-                required
-              ></v-select>
-            </v-row>
-            <v-row v-if="type.value.min != 0 && this.name != ''" class="valueRow">
-              <v-text-field
-                v-if="type.numOnly"
-                prepend-icon="mdi-card-text"
-                class="valueInput"
-                v-model.number="numValue"
-                label="Num Only"
-                :rules="valueRules"
-                required
-                hint="Numbers Only"
-                v-mask="typeMask"
-                ref="numOnlyField"
-              ></v-text-field>
-              <v-text-field
-                v-else
-                prepend-icon="mdi-card-text"
-                class="valueInput"
-                v-model="stringValue"
-                label="Barcode Value"
-                :rules="valueRules"
-                required
-                hint="Any Character"
-                v-mask="typeMask"
-                ref="anyField"
-              ></v-text-field>
-            </v-row>
-            <v-row align="center">
-              <v-col class="text-center" cols="12" sm="12">
-                <div class="my-2">
-                  <p v-if="type.type" class="mt-6 noScannerMsg">{{hintText}}</p>
-                </div>
-              </v-col>
-            </v-row>
-          </v-form>
-
-
-          <VueBarcode 
-            v-if="this.stringValue != null || this.numValue != null" 
-            class="text-center" 
-            :value="this.stringValue || this.numValue"
-            :format="this.type.type"
-            :height="barcodeHeight"
-            :width="barcodeWidth"
-            :fontSize="barcodeFontSize"
-            :displayValue="true"
-            ref="vueBar"
-            >
-          </VueBarcode>
-
-          <div v-if="this.barcodes.length >= 20">
-            <p class="noScannerMsg text-center">Exceeded Barcode Limit Of 20</p>
-            <p class="noScannerMsg text-center mt-6">Head To Print Page And Delete Some!</p>
-          </div>
-
-          <v-row align="center" v-if="this.name != '' && this.type.type != ''">
-            <v-col class="text-center" cols="12" sm="12">
-              <div class="my-2">
-                <v-btn v-if="name.length > 0" @click="resetForm" color="error" :disabled="excededBarcodeLimit" class="appBtn mr-3">Reset</v-btn>
-                <v-btn 
-                  :disabled="!valid"
-                  @click="saveBarcode" 
-                  color="primary"
-                  class="appBtn ml-3"
-                >
-                  Save
-                </v-btn>
-              </div>
-            </v-col>
-          </v-row>
-        </v-col>
-        <v-col cols="1">
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-card> -->
-
   <SnackBar :snackbar="snackInit"/>
-
   </v-container>
 </template>
 
@@ -453,34 +335,11 @@ export default class NewCreate extends Mixins(ViewsStylings) {
 
   // Computed ------------------------
   // ---------------------------------
-  // get checkDig() {
-  //   if (this.type.checkDigit) {
-  //     return cdigit.gtin.generate(this.numValue);
-  //   } else {
-  //     return "no check"
-  //   }
-  //   //  if (this.type.type === "EAN8") {
-  //   //   return cdigit.gtin.generate(this.numValue);
-  //   // }
-  // }
-
   get displayBarcode() {
-    // if (
-    //   (this.stringValue != null && this.stringValue != '') ||
-    //   this.numValue != null
-    // ) {
-    //   return true
-    // } else {
-    //   return false
-    // }
-
     return (this.stringValue != null && this.stringValue != '') || 
             this.numValue != null ? 
             true : 
             false;
-    // return this.stringValue != null || 
-    //        this.numValue != null ||
-    //        this.stringValue != '';
   }
   get resetDisabled() {
     return this.name != '' || this.type.type != '' ? false : true;
@@ -522,29 +381,6 @@ export default class NewCreate extends Mixins(ViewsStylings) {
     return ""
   }
 
-  // get barcodeFontSize() {
-  //   if (this.window.width >= 4096) return "50"
-  //   if (this.window.width >= 3840 && this.window.width <= 4095) return "40"
-  //   if (this.window.width >= 2560 && this.window.width <= 3839) return "30"
-  //   return "20"
-  // }
-
-  // get barcodeWidth() {
-  //   return this.window.width <= 440 ? "1" : "2";
-  // }
-
-  // get barcodeHeight() {
-  //   return this.window.width >= 4096 ? "200" : "100";
-  // }
-
-  // get dynamicBNavIcon() {
-  //   return this.window.width >= 3000 ? "60" : "20";
-  // }
-
-  // get charType() {
-  //   return this.type.numOnly ? "number" : "any";
-  // }
-
    get excededBarcodeLimit() {
     return this.barcodes.length >= 20 ? true : false;
   }
@@ -565,48 +401,11 @@ export default class NewCreate extends Mixins(ViewsStylings) {
     return rules;
   };
 
-  // testRules() {
-  //   if (this.type.numOnly) return [v => !!v || 'Numbers Only. Value is required'];
-  //   if (!this.type.numOnly) return [v => !!v || 'Any Character. Value is required'];
-  // }
-
-  // get ttt() {
-  //   // let match = null;
-  //   // if (this.$refs["vueBar"]) {
-  //   //   return "ref";
-  //   //   // if (this.$refs["vueBar"].$el.innerText) {
-  //   //   //   match = this.$refs["vueBar"].$el.innerText
-  //   //   //   console.log(match);
-  //   //   //   return match;
-  //   //   // } else {
-  //   //   //   console.log("nothing");
-  //   //   //   return ""
-  //   //   // }
-  //   // } else {
-  //   //   return "not loaded yet";
-  //   // }
-  //   // // return match;
-  //   if (this.$refs["vueBar"]) {
-  //     // @ts-ignore
-  //     return this.$refs["vueBar"].$el.innerText;
-  //   }
-  //   return "";
-  // }
-
   get valueRules() {
     let rules: Array<any> = [v => !!v || 'Value is required'];
-    // let rules :Array<any> = this.testRules();
-
-    // rules.push(v => (v && this.$refs["vueBar"].valid === true) || `test match`);
-
-    // let match = null;
-    // if (this.$refs["vueBar"].$el.innerText) {
-    //   match = this.$refs["vueBar"].$el.innerText
-    // }
 
     if (this.minNum === this.maxNum) {
       rules.push(v => (v && v.length === this.minNum && this.$refs["vueBar"].valid === true) || `Match value to barcode once it appears`);
-      // rules.push(v => (v && (v === this.ttt())))
     } else {
       rules.push(v => (v && (v.length >= this.minNum && v.length <= this.maxNum)) || `Barcode value must be between ${this.minNum} and ${this.maxNum} characters`)
     }
@@ -642,8 +441,6 @@ export default class NewCreate extends Mixins(ViewsStylings) {
       // @ts-ignore
       this.$refs["anyField"].clearableCallback();
     }
-    // console.log(this.$refs["vueBar"]);
-    // this.ttt();
   };
 
   @Watch("name")
@@ -723,12 +520,10 @@ export default class NewCreate extends Mixins(ViewsStylings) {
 <style scoped>
 .barcodeContainer {
   height: 155px;
-  /* border: 1px solid black; */
 }
 
 .hintDiv {
   height: 80px;
-  /* border: 1px solid black; */
 }
 
 </style>

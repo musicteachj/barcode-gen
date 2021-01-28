@@ -6,12 +6,14 @@ import Component from 'vue-class-component';
 export default class ViewsStylings extends Vue {
 
   // LOCAL VARIABLES ------------------
-   window: any = {
+  window: any = {
     width: 0,
     height: 0
   };
+  testVar: string = "test mixin var";
 
-  // COMPUTED -------------------------
+  // Computed ------------------------
+  // ---------------------------------
   get pageTitle() {
     switch (this.$vuetify.breakpoint.name) {
       case 'xs': return 'h4';
@@ -34,17 +36,6 @@ export default class ViewsStylings extends Vue {
     }
   }
 
-  get barcodeWidth() {
-    switch (this.$vuetify.breakpoint.name) {
-      case 'xs': return '1';
-      case 'sm': return '2';
-      case 'md': return '2';
-      case 'lg': return '2';
-      case 'xl': return '2';
-      default: return '2';
-    }
-  }
-
   get pageSubText() {
     switch (this.$vuetify.breakpoint.name) {
       case 'xs': return 'h5';
@@ -56,22 +47,11 @@ export default class ViewsStylings extends Vue {
     }
   }
 
-  // get barcodeFontSize() {
-  //   // OLD STYLING FOR LARGER MONITORS
-  //   // if (this.window.width >= 4096) return "50"
-  //   // if (this.window.width >= 3840 && this.window.width <= 4095) return "40"
-  //   // if (this.window.width >= 2560 && this.window.width <= 3839) return "30"
-  //   // return "20"
-  //   // switch (this.$vuetify.breakpoint.name) {
-  //   //   case 'xs': return '1';
-  //   //   case 'sm': return '2';
-  //   //   case 'md': return '2';
-  //   //   case 'lg': return '2';
-  //   //   case 'xl': return '2';
-  //   //   default: return '2';
-  //   // }
-  //   return "20"
-  // }
+  // Methods -------------------------
+  // ---------------------------------
+  barcodeWidth(type: any) {
+    return type === 'CODE128' || type === 'CODE39' ? "1" : "2";
+  }
 
   // LIFECYCLE EVENTS -----------------
   created() {
