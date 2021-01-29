@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <p class="text-center pageTitle">Print Barcodes</p>
+    <p :class="`text-center font-weight-light text-${pageTitle} mt-4`">Print Barcodes</p>
     <v-card
       v-if="conditionDisplay"
       :class="`d-flex justify-center flex-wrap`"
@@ -12,21 +12,37 @@
         :key="index"
         outlined
         class="ma-2 cardClass"
-        :min-width="cardWidth"
+        width="300"
+        height="280"
       >
-        <p class="mt-2 text-center barName">{{bar.name}}</p>
-        <p class="text-center barType">{{bar.type}}</p>
-          <VueBarcode 
-            class="text-center containBar" 
-            :id="`${index}`" 
-            :value="bar.value" 
-            :width="barcodeWidth"
-            :fontSize="barcodeFontSize">
+        <p :class="`mt-2 text-center font-weight-regular text-${printCardText}`">{{bar.name}}</p>
+        <p :class="`mt-n3 text-center font-weight-regular text-${printCardText}`">{{bar.type}}</p>
+        <VueBarcode
+          class="text-center containBar mt-n2" 
+          :id="`${bar.uuid}`" 
+          :value="bar.value" 
+          :width="barcodeWidth(bar.type)"
+          :format="bar.type"
+          fontSize="20"
+        >
+          Show this if the rendering fails.
+        </VueBarcode>
+
+        <!-- HIDE PRINT BARCODE -->
+        <!-- FIXES PRINT MOBILE ISSUE -->
+        <VueBarcode 
+          class="text-center containBar hidden" 
+          :id="`${index}`" 
+          :value="bar.value" 
+          width="2"
+          :format="bar.type"
+          fontSize="20"
+        >
           Show this if the rendering fails.
         </VueBarcode>
         
 
-        <v-card-actions>
+        <v-card-actions class="mt-n2">
           <v-btn
             class="deleteBarBtn"
             color="error"
@@ -60,8 +76,8 @@
       flat
       tile
     >
-    <h1 class="text-center display-1 mt-10">No Barcodes To Display</h1>
-    <h1 class="text-center display-1 mt-6">Go Create One!</h1>
+    <h1 :class="`text-center font-weight-light text-${pageSubText} mt-10`">No Barcodes To Display</h1>
+    <h1 :class="`text-center font-weight-light text-${pageSubText} mt-6`">Go Create One!</h1>
     </v-card>
 
     <SnackBar :snackbar="snackInit" :deleteText="delText"/>
@@ -112,19 +128,8 @@ export default class Print extends Mixins(ViewsStylings) {
     return this.window.width >= 3000 ? "500" : "344";
   }
 
-  get barcodeWidth() {
-    return this.window.width <= 440 ? "1" : "2";
-  }
-
   get conditionDisplay() {
     return this.barcodes.length > 0 ? true : false;
-  }
-
-  get barcodeFontSize() {
-    if (this.window.width >= 4096) return "50"
-    if (this.window.width >= 3840 && this.window.width <= 4095) return "40"
-    if (this.window.width >= 2560 && this.window.width <= 3839) return "30"
-    return "20"
   }
 
   // Lifecycle Events ----------------
@@ -149,7 +154,7 @@ export default class Print extends Mixins(ViewsStylings) {
     this.snackInit = true;
       setTimeout(() => {
         this.snackInit = false
-      }, 2000);
+      }, 7000);
   }
 
   printBarcode(index) {
@@ -171,63 +176,12 @@ export default class Print extends Mixins(ViewsStylings) {
 </script>
 
 <style scoped>
+.hidden {
+  display: none;
+}
+
 .cardClass {
   border-color: #303F9F !important;
   border-width: 4px !important;
-}
-
-@media screen and (max-width: 4096px) and (min-width: 3001px) {
-  .barName, .barType {
-    font-size: 40px;
-  }
-  .deleteBarBtn, .printBarBtn {
-    font-size: 22px !important; 
-  }
-}
-
-@media screen and (max-width: 3000px) and (min-width: 2561px) {
-  .barName, .barType {
-    font-size: 30px;
-  }
-  .deleteBarBtn, .printBarBtn {
-    font-size: 18px !important; 
-  }
-}
-
-@media screen and (max-width: 2560px) {
-  .barName, .barType {
-    font-size: 24px;
-  }
-}
-
-@media screen and (max-width: 1920px) {
-  .barName, .barType {
-    font-size: 24px;
-  }
-}
-
-@media screen and (max-width: 1440px) {
-  .barName, .barType {
-    font-size: 24px;
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  .barName, .barType {
-    font-size: 24px;
-  }
-}
-
-@media screen and (max-width: 960px) {
-  .barName, .barType {
-    font-size: 24px;
-  }
-} 
-
-@media screen and (max-width: 414px) {
-  .barName, .barType {
-    font-size: 20px;
-  }
-
 }
 </style>

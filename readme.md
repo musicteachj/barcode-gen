@@ -26,6 +26,7 @@ Users can Scan or Create their own barcodes from a number of types and specifica
 * [Vue-barcode - JS Barcode Library](https://www.npmjs.com/package/vue-barcode)
 * [Uuid - Universally Unique Identifier](https://www.npmjs.com/package/uuid)
 * [PrintD - Print HTML elements](https://www.npmjs.com/package/printd)
+* [CDigit - Collection of check digit algorithms](https://www.npmjs.com/package/cdigit)
 
 ## Author
 

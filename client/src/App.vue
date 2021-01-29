@@ -299,7 +299,7 @@
   z-index: 2;
 }
 
-.appHeadline {
+/* .appHeadline {
   font-weight: 300;
 }
 
@@ -309,7 +309,7 @@
 
 .pageTitle {
   font-weight: 300;
-}
+} */
 
 /* Animations */
 .app-head-enter-active {
@@ -343,7 +343,7 @@
 /* //////////////////////////////// */
 /* DESKTOP */
 /* //////////////////////////////// */
-@media screen and (max-width: 4096px) and (min-height: 2160px) and (max-height: 2304px) {
+/* @media screen and (max-width: 4096px) and (min-height: 2160px) and (max-height: 2304px) {
   .appHeadline {
     margin-top: 40% !important;
     font-size: 240px !important;
@@ -583,7 +583,7 @@
   .noScannerMsg {
     font-size: 30px;
   }
-}
+} */
 /* @media screen and (max-width: 1366px) and (min-height: 768px) and (max-height: 768px) { 
   .appHeadline {
     color: red;
@@ -604,7 +604,7 @@
 /* //////////////////////////////// */
 /* TABLET */
 /* //////////////////////////////// */
-@media screen and (max-width: 1366px) and (min-height: 1024px) and (max-height: 1366px) {
+/* @media screen and (max-width: 1366px) and (min-height: 1024px) and (max-height: 1366px) {
   .appHeadline {
     margin-top: 40% !important;
     font-size: 90px !important;
@@ -751,13 +751,13 @@
   .homeBarExample {
     margin-bottom: 40%;
   }
-}
+} */
 
 
 /* //////////////////////////////// */
 /* MOBILE */
 /* //////////////////////////////// */
-@media screen and (max-width: 896px) and (max-height: 414px) { 
+/* @media screen and (max-width: 896px) and (max-height: 414px) { 
   .appHeadline {
     margin-top: 5%;
     font-size: 44px !important;
@@ -798,6 +798,6 @@
     font-size: 26px;
   }
   
-}
+} */
  
 </style>

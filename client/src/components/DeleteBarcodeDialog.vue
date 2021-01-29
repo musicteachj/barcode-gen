@@ -3,19 +3,43 @@
     <v-dialog
       v-model="dialogVisible"
       :width="dialogWidth"
+      :persistent="true"
     >
       <v-card>
         <v-card-title
           class="dialogTitle"
           primary-title
         >
-          Delete Barcode
+          <p class="mb-0 mt-n1 font-weight-regular">Delete Barcode</p>
         </v-card-title>
 
         <v-divider></v-divider>
 
-        <v-card-text class="cardText mt-4">
+        <!-- <v-card-text class="cardText mt-4">
           Are you sure you want to delete barcode <span style="font-weight: bold">"{{data.name}}"</span>?
+        </v-card-text> -->
+
+        <v-card-text class="cardText mt-4">
+          <v-row>
+            <v-col>
+              <v-text-field v-model="data.name" label="Barcode Name" disabled/>
+            </v-col>
+          </v-row>
+          <v-row class="mt-n8">
+            <v-col>
+              <v-text-field v-model="data.type" label=" Barcode Type" disabled/>
+            </v-col>
+          </v-row>
+          <v-row class="mt-n8">
+            <v-col>
+              <v-text-field v-model="data.value" label="Barcode Value" disabled/>
+            </v-col>
+          </v-row>
+          <v-row class="mt-n6 mb-n7">
+            <v-col>
+              <p>Are you sure you want to delete this barcode?</p>
+            </v-col>
+          </v-row>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -113,11 +137,11 @@ export default class DeleteBarcodeDialog extends Vue {
 .dialogTitle {
   background-color: #303F9F;
   color: white;
-  font-weight: 500;
-  font-size: 26px !important;
+  /* font-weight: 500;
+  font-size: 26px !important; */
 }
 
-@media screen and (max-width: 4096px) and (min-height: 2160px) and (max-height: 2304px) {
+/* @media screen and (max-width: 4096px) and (min-height: 2160px) and (max-height: 2304px) {
   .dialogTitle {
     background-color: #303F9F;
     color: white;
@@ -171,5 +195,5 @@ export default class DeleteBarcodeDialog extends Vue {
   .cancelBtn, .deleteBtn {
     font-size: 18px !important; 
   }
-}
+} */
 </style>
