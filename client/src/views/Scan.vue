@@ -58,6 +58,31 @@
             </VueBarcode>
             <v-row align="center">
               <v-col class="text-center" cols="12" sm="12">
+                <div class="">
+                  <v-btn  
+                    @click="reset()" 
+                    color="error"
+                    class="mr-3"
+                    :large="this.$vuetify.breakpoint.name === 'lg'"
+                    :x-large="this.$vuetify.breakpoint.name === 'xl'"
+                  >
+                    Reset
+                  </v-btn>
+                  <v-btn 
+                    :disabled="!valid"
+                    @click="saveScan()" 
+                    color="primary"
+                    class="ml-3"
+                    :large="this.$vuetify.breakpoint.name === 'lg'"
+                    :x-large="this.$vuetify.breakpoint.name === 'xl'"
+                  >
+                    Save
+                  </v-btn>
+                </div>
+              </v-col>
+            </v-row>
+            <!-- <v-row align="center">
+              <v-col class="text-center" cols="12" sm="12">
                 <div class="my-2">
                   <v-btn 
                     @click="reset()" 
@@ -84,7 +109,7 @@
                   </v-btn>
                 </div>
               </v-col>
-            </v-row>
+            </v-row> -->
           </div>
         </v-col>
       </v-row>
@@ -101,22 +126,24 @@
       </v-card>
     </v-container>
 
-    <div v-show="showVideo" :style="videoCenter" id="interactive" class="viewport scanner">
-      <video />
-      <canvas class="drawingBuffer" />
-      <v-btn 
-        v-if="this.window.width >= 897" 
-        ref="largeScreenStopBtn" 
-        :style="stopScanCenter" 
-        @click="stopScan()" 
-        color="error"
-        :large="this.$vuetify.breakpoint.name === 'lg'"
-        :x-large="this.$vuetify.breakpoint.name === 'xl'"
-      >
-        Stop
-      </v-btn>
-      <!-- <v-btn v-if="this.window.width >= 897" :style="stopScanCenter" @click="getRef()" color="error">Get Ref</v-btn> -->
+    <div v-show="showVideo" class="con">
+      <div :style="videoCenter" id="interactive" class="viewport scanner" style="background-color:purple">
+        <video />
+        <canvas class="drawingBuffer" />
+        <v-btn 
+          ref="largeScreenStopBtn" 
+          :style="stopScanCenter" 
+          @click="stopScan()" 
+          color="error"
+          :large="this.$vuetify.breakpoint.name === 'lg'"
+          :x-large="this.$vuetify.breakpoint.name === 'xl'"
+        >
+          Stop
+        </v-btn>
+        <!-- <v-btn v-if="this.window.width >= 897" :style="stopScanCenter" @click="getRef()" color="error">Get Ref</v-btn> -->
+      </div>
     </div>
+    
 
      
     
@@ -132,11 +159,11 @@
     </v-row> -->
       
 
-    <v-col>
+    <!-- <v-col>
       <v-row>
         <v-btn justify-center v-if="this.window.width <= 896 && showVideo" class="mobileStopScanCenter justify-center mb-4" @click="stopScan()" color="error">Stop</v-btn>
       </v-row>
-    </v-col>
+    </v-col> -->
 
   <SnackBar :snackbar="snackInit"/>
 
@@ -196,25 +223,29 @@ export default class Scan extends Mixins(ViewsStylings) {
   }
 
   get scannerWidth() {
-    return this.window.width >= 897 ? 640 : 320;
+    // return this.window.width >= 897 ? 640 : 320;
+    return 640
   }
 
   get scannerHeight() {
-    return this.window.width >= 897 ? 480 : 240;
+    // return this.window.width >= 897 ? 480 : 240;
+    return 480
   }
 
   get videoCenter() {
     let marginLeft: any = 0;
+     marginLeft = (this.window.width - 640) / 2;
+    return `margin-left: ${marginLeft}px`
 
-    if (this.window.width >= 897) {
-      marginLeft = (this.window.width - 640) / 2;
-      return `margin-left: ${marginLeft}px`
-    }
+    // if (this.window.width >= 897) {
+    //   marginLeft = (this.window.width - 640) / 2;
+    //   return `margin-left: ${marginLeft}px`
+    // }
 
-    if (this.window.width <= 896) {
-      marginLeft = (this.window.width - 320) / 2;
-      return `margin-left: ${marginLeft}px`
-    }
+    // if (this.window.width <= 896) {
+    //   marginLeft = (this.window.width - 320) / 2;
+    //   return `margin-left: ${marginLeft}px`
+    // }
   }
 
   get minWidthStopScanBtn() {
@@ -437,6 +468,7 @@ export default class Scan extends Mixins(ViewsStylings) {
 <style scoped>
 .viewport {
   position: relative;
+  width: 100%;
 }
 
 .viewport canvas,
@@ -454,6 +486,11 @@ export default class Scan extends Mixins(ViewsStylings) {
   margin-top: 300px !important;
   margin: 0 auto;
   border: 1px solid black !important;
+}
+
+.con {
+  width: 640px;
+  height: 550px;
 }
 
 </style>
