@@ -126,7 +126,7 @@
       </v-card>
     </v-container>
 
-    <div v-show="showVideo" class="con">
+    <div v-show="showVideo" :style="cont">
       <div :style="videoCenter" id="interactive" class="viewport scanner" style="background-color:purple">
         <video />
         <canvas class="drawingBuffer" />
@@ -211,16 +211,36 @@ export default class Scan extends Mixins(ViewsStylings) {
 
   // Computed ------------------------
   // ---------------------------------
+  get cont() {
+    if (!this.isMobile) {
+      return `
+        width: 640px;
+        height: 550px; 
+      `
+    }
+    if (this.isMobile) {
+      return `
+        width: ${this.window.width}px;
+        height: 550px;
+        overflow: hidden !important;
+      `
+    }
+  }
+
+  get isMobile() {
+    return this.window.width <= 599 ? true : false;
+  }
+
   get excededBarcodeLimit() {
     return this.barcodes.length >= 20 ? true : false;
   }
 
-  get barcodeFontSize() {
-    if (this.window.width >= 4096) return "50"
-    if (this.window.width >= 3840 && this.window.width <= 4095) return "40"
-    if (this.window.width >= 2560 && this.window.width <= 3839) return "30"
-    return "20"
-  }
+  // get barcodeFontSize() {
+  //   if (this.window.width >= 4096) return "50"
+  //   if (this.window.width >= 3840 && this.window.width <= 4095) return "40"
+  //   if (this.window.width >= 2560 && this.window.width <= 3839) return "30"
+  //   return "20"
+  // }
 
   get scannerWidth() {
     // return this.window.width >= 897 ? 640 : 320;
@@ -262,7 +282,6 @@ export default class Scan extends Mixins(ViewsStylings) {
   get stopScanCenter() {
     let marginLeft: any = 0;
 
-    // 
     marginLeft = (632 - this.minWidthStopScanBtn) / 2;
     return `margin-left: ${marginLeft}px;
             margin-top: 20px;`
@@ -482,15 +501,15 @@ export default class Scan extends Mixins(ViewsStylings) {
   border: 1px solid black !important;
 }
 
-.mobileStopScanCenter {
+/* .mobileStopScanCenter {
   margin-top: 300px !important;
   margin: 0 auto;
   border: 1px solid black !important;
-}
+} */
 
-.con {
+/* .con {
   width: 640px;
   height: 550px;
-}
+} */
 
 </style>
