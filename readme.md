@@ -28,6 +28,10 @@ Users can Scan or Create their own barcodes from a number of types and specifica
 * [PrintD - Print HTML elements](https://www.npmjs.com/package/printd)
 * [CDigit - Collection of check digit algorithms](https://www.npmjs.com/package/cdigit)
 
+## Deployed with...
+
+* [Heroku - Cloud Application Platform](https://www.heroku.com/)
+
 ## Author
 
 **James Littlefield**
