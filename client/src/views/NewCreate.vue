@@ -91,7 +91,7 @@
                         ref="vueBar"
                       >
                       </VueBarcode>
-                    <p :class="`font-weight-regular text-${printCardText}`" v-else>Select barcode type and enter value</p>
+                    <p v-else :class="`font-weight-regular text-${printCardText}`">Select barcode type and enter value</p>
                     </div>
                   </v-col>
                 </v-row>
@@ -387,31 +387,31 @@ export default class NewCreate extends Mixins(ViewsStylings) {
 
   get nameRules() {
     let rules: any = [
-      v => !!v || 'Name is required',
-      v => (v && (v.length >= 1 && v.length <= 13)) || `Barcode name must be between 1 and 13 characters`,
+      (v: any) => !!v || 'Name is required',
+      (v: any) => (v && (v.length >= 1 && v.length <= 13)) || `Barcode name must be between 1 and 13 characters`,
     ];
     return rules;
   }
 
   get typeRules() {
     let rules: any = [
-      v => !!v || 'Type is required',
-      v => (v && v.value.min !== 0) || `Type must be selected`,
+      (v: any) => !!v || 'Type is required',
+      (v: any) => (v && v.value.min !== 0) || `Type must be selected`,
     ];
     return rules;
   };
 
   get valueRules() {
-    let rules: Array<any> = [v => !!v || 'Value is required'];
+    let rules: Array<any> = [(v: any) => !!v || 'Value is required'];
 
     if (this.minNum === this.maxNum) {
-      rules.push(v => (v && v.length === this.minNum && this.$refs["vueBar"].valid === true) || `Match value to barcode once it appears`);
+      rules.push((v: any) => (v && v.length === this.minNum && this.$refs["vueBar"].valid === true) || `Match value to barcode once it appears`);
     } else {
-      rules.push(v => (v && (v.length >= this.minNum && v.length <= this.maxNum)) || `Barcode value must be between ${this.minNum} and ${this.maxNum} characters`)
+      rules.push((v: any) => (v && (v.length >= this.minNum && v.length <= this.maxNum)) || `Barcode value must be between ${this.minNum} and ${this.maxNum} characters`)
     }
 
     if (this.minVal !== null) {
-      rules.push(v => (v && (v >= this.minVal && v <= this.maxVal)) || `Barcode value must be between ${this.minVal} and ${this.maxVal}`)
+      rules.push((v: any) => (v && (v >= this.minVal && v <= this.maxVal)) || `Barcode value must be between ${this.minVal} and ${this.maxVal}`)
     }
 
     return rules;
@@ -503,10 +503,9 @@ export default class NewCreate extends Mixins(ViewsStylings) {
   }
 
   async saveBarcode() {
-    console.log(this.buildBarcode());
     await this.$store.dispatch("saveBarcode", {
       barcode: this.buildBarcode()
-    }).then(success => {
+    }).then((success: any) => {
       this.resetForm();
       this.snackInit = true;
       setTimeout(() => {

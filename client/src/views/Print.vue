@@ -157,12 +157,12 @@ export default class Print extends Mixins(ViewsStylings) {
       }, 7000);
   }
 
-  printBarcode(index) {
+  printBarcode(index: any) {
     const d = new Printd();
     d.print(document.getElementById(`${index}`), [ printBarcodeStyles ]);
   }
 
-  deleteBarcode(bar) {
+  deleteBarcode(bar: any) {
     this.dialog = true;
     this.barData = bar;
     this.delText = true;

@@ -1,6 +1,6 @@
 export const printBarcodeStyles: string = `
   h1 {
-    color: black;
+    color: #000;
     font-family: sans-serif;
   }
 

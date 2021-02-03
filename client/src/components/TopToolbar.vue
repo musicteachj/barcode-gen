@@ -11,13 +11,13 @@
       :height="dynamicToolbarHeight"
     >  
       <v-btn icon class="toolBtn">
-        <v-icon :size="dynamicToolbarIcon" class="toolBIcon" color="white">{{routeIcons}}</v-icon>
+        <v-icon :size="dynamicToolbarIcon" class="toolBIcon" color="#fff">{{routeIcons}}</v-icon>
       </v-btn>
-      <v-toolbar-title color="white" class="whiteText toolBRouteText">{{$route.name}}</v-toolbar-title>
+      <v-toolbar-title color="#fff" class="whiteText toolBRouteText">{{$route.name}}</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
-      <v-toolbar-title color="white" class="whiteText toolBBarText">Barcode Gen</v-toolbar-title>
+      <v-toolbar-title color="#fff" class="whiteText toolBBarText">Barcode Gen</v-toolbar-title>
     </v-toolbar>
   </v-card>
 </template>
@@ -75,10 +75,10 @@ export default class TopToolbar extends Vue {
 
 <style scoped>
 .whiteText {
-  color: white !important;
+  color: #fff !important;
 }
 
-@media screen and (max-width: 4096px) and (min-width: 3001px) and (min-height: 2000px) and (max-height: 2304px) {
+/* @media screen and (max-width: 4096px) and (min-width: 3001px) and (min-height: 2000px) and (max-height: 2304px) {
   .toolBIcon {
     margin-left: 80px !important;
   }
@@ -106,5 +106,5 @@ export default class TopToolbar extends Vue {
   .toolBBarText {
     margin-right: 30px;
   }
-}
+} */
 </style>

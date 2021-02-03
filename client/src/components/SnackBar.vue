@@ -11,7 +11,7 @@
     <span v-else class="snackText">{{createText}}</span>
     <template v-slot:action="{ attrs }">
         <v-btn
-          color="black"
+          color="#fff"
           text
           v-bind="attrs"
           @click="snackbar = false"

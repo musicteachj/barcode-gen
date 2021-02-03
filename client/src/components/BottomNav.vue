@@ -9,20 +9,20 @@
     :height="dynamicBNavHeight"
   >
     <v-btn value="scan" :to="{ name: 'Scan'}">
-      <span v-if="this.$route.name != 'Scan'" style="color: white" class="linkText">Scan</span>
-      <v-icon v-if="this.$route.name != 'Scan'" :size="dynamicBNavIcon" color="white">mdi-barcode-scan</v-icon>
+      <span v-if="this.$route.name != 'Scan'" style="color: #fff" class="linkText">Scan</span>
+      <v-icon v-if="this.$route.name != 'Scan'" :size="dynamicBNavIcon" color="#fff">mdi-barcode-scan</v-icon>
       <v-icon v-else :size="dynamicBNavIcon" color="primary">mdi-barcode-scan</v-icon>
     </v-btn>
 
     <v-btn value="create" :to="{ path: '/'}">
-      <span v-if="this.$route.name != 'Create'" style="color: white" class="linkText">Create</span>
-      <v-icon v-if="this.$route.name != 'Create'" :size="dynamicBNavIcon" color="white">mdi-barcode</v-icon>
+      <span v-if="this.$route.name != 'Create'" style="color: #fff" class="linkText">Create</span>
+      <v-icon v-if="this.$route.name != 'Create'" :size="dynamicBNavIcon" color="#fff">mdi-barcode</v-icon>
       <v-icon v-else :size="dynamicBNavIcon" color="primary">mdi-barcode</v-icon>
     </v-btn>
 
     <v-btn value="print" :to="{ name: 'Print'}">
-      <span v-if="this.$route.name != 'Print'" style="color: white" class="linkText">Print</span>
-      <v-icon v-if="this.$route.name != 'Print'" :size="dynamicBNavIcon" color="white">mdi-printer</v-icon>
+      <span v-if="this.$route.name != 'Print'" style="color: #fff" class="linkText">Print</span>
+      <v-icon v-if="this.$route.name != 'Print'" :size="dynamicBNavIcon" color="#fff">mdi-printer</v-icon>
       <v-icon v-else :size="dynamicBNavIcon" color="primary">mdi-printer</v-icon>
     </v-btn>
   </v-bottom-navigation>
