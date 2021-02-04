@@ -43,7 +43,7 @@
         <v-card-actions class="text-center">
           <v-spacer></v-spacer>
           <v-btn
-            class="mr-6 cancelBtn"
+            class="mr-6"
             color="primary"
             text
             @click="closeDialog"
@@ -51,7 +51,7 @@
             Cancel
           </v-btn>
           <v-btn
-            class="ml-6 deleteBtn"
+            class="ml-6"
             color="error"
             text
             @click="deleteBar"

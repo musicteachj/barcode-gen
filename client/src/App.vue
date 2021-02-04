@@ -37,7 +37,7 @@
               <transition name="anim-bar">
                 <VueBarcode
                   v-if="showBar"
-                  class="text-center mx-auto homeBarExample" 
+                  class="text-center mx-auto" 
                   value="example"
                   fontSize="20"
                   >

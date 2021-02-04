@@ -18,7 +18,7 @@
         <p :class="`mt-2 text-center font-weight-regular text-${printCardText}`">{{bar.name}}</p>
         <p :class="`mt-n3 text-center font-weight-regular text-${printCardText}`">{{bar.type}}</p>
         <VueBarcode
-          class="text-center containBar mt-n2" 
+          class="text-center mt-n2" 
           :id="`${bar.uuid}`" 
           :value="bar.value" 
           :width="barcodeWidth(bar.type)"
@@ -31,7 +31,7 @@
         <!-- HIDE PRINT BARCODE -->
         <!-- FIXES PRINT MOBILE ISSUE -->
         <VueBarcode 
-          class="text-center containBar hidden" 
+          class="text-center hidden" 
           :id="`${index}`" 
           :value="bar.value" 
           width="2"
@@ -44,7 +44,6 @@
 
         <v-card-actions class="mt-n2">
           <v-btn
-            class="deleteBarBtn"
             color="error"
             text
             @click="deleteBarcode(bar)"
@@ -55,7 +54,6 @@
           <v-spacer/>
 
           <v-btn
-            class="printBarBtn"
             color="primary"
             text
             @click="printBarcode(index)"
@@ -117,10 +115,6 @@ export default class Print extends Mixins(ViewsStylings) {
   barData: object = {};
   snackInit: boolean = false;
   delText: boolean = false;
-  window: any = {
-    width: 0,
-    height: 0
-  }
 
   // Computed ------------------------
   // ---------------------------------
@@ -136,12 +130,6 @@ export default class Print extends Mixins(ViewsStylings) {
   // ---------------------------------
   created() {
     this.$store.dispatch("retrieveBarcodes");
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize();
-  }
-
-  destroyed() {
-    window.removeEventListener('resize', this.handleResize)
   }
 
   // Methods -------------------------
@@ -166,11 +154,6 @@ export default class Print extends Mixins(ViewsStylings) {
     this.dialog = true;
     this.barData = bar;
     this.delText = true;
-  }
-  
-  handleResize() {
-    this.window.width = window.innerWidth;
-    this.window.height = window.innerHeight;
   }
 }
 </script>

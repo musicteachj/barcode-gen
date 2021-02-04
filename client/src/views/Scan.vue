@@ -149,10 +149,6 @@ export default class Scan extends Mixins(ViewsStylings) {
   valid: boolean = false;
   showScanBtn: boolean = true;
   scanBarName: string = "";
-  window: any = {
-    height: 0,
-    width: 0
-  };
   showVideo: boolean = false;
   scannedBarcodes: any = [];
   Quagga: any;
@@ -202,7 +198,6 @@ export default class Scan extends Mixins(ViewsStylings) {
 
   get stopScanCenter() {
     let marginLeft: any = 0;
-
     marginLeft = (632 - this.minWidthStopScanBtn) / 2;
     return `margin-left: ${marginLeft}px;
             margin-top: 20px;`
@@ -229,13 +224,10 @@ export default class Scan extends Mixins(ViewsStylings) {
   // ---------------------------------
   created() {
     this.$store.dispatch("retrieveBarcodes");
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize();
     this.checkUserCamera();
   }
 
   destroyed() {
-    window.removeEventListener('resize', this.handleResize);
     if (this.showVideo) {
       this.stopScan();
     }
@@ -397,11 +389,6 @@ export default class Scan extends Mixins(ViewsStylings) {
       .catch((err: any) => {
         console.log(err.name + ": " + err.message);
       });
-  }
-  
-  handleResize() {
-    this.window.width = window.innerWidth;
-    this.window.height = window.innerHeight;
   }
 };
 </script>
