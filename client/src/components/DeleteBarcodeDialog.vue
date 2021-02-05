@@ -33,7 +33,7 @@
           </v-row>
           <v-row class="mt-n6 mb-n7">
             <v-col>
-              <p>Are you sure you want to delete this barcode?</p>
+              <p>Are you sure you wish to delete this barcode?</p>
             </v-col>
           </v-row>
         </v-card-text>
@@ -78,30 +78,8 @@ export default class DeleteBarcodeDialog extends Vue {
   @Prop({ default: null })
   data: number;
 
-  // Local Variables -----------------
-  // ---------------------------------
-  window: any = {
-    width: 0,
-    height: 0
-  }
-
-  // Computed ------------------------
-  // ---------------------------------
-
-  // Lifecycle Events ----------------
-  // ---------------------------------
-  created() {
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize();
-  }
-
   // Methods -------------------------
   // ---------------------------------
-  handleResize() {
-    this.window.width = window.innerWidth;
-    this.window.height = window.innerHeight;
-  }
-
   closeDialog() {
     this.$emit("closeDialog", false);
   }
@@ -121,7 +99,6 @@ export default class DeleteBarcodeDialog extends Vue {
 .cardText {
   color: #000 !important;
   font-size: 18px !important;
-  font-weight: 500;
 }
 
 .dialogTitle {

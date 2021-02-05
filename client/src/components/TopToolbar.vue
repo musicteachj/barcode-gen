@@ -25,13 +25,6 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class TopToolbar extends Vue {
-  // Local Variables -----------------
-  // ---------------------------------
-  window: any = {
-    width: 0,
-    height: 0
-  }
-
   // Computed ------------------------
   // ---------------------------------
   get routeIcons() {
