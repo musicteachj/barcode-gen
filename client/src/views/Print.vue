@@ -118,10 +118,6 @@ export default class Print extends Mixins(ViewsStylings) {
 
   // Computed ------------------------
   // ---------------------------------
-  get cardWidth() {
-    return this.window.width >= 3000 ? "500" : "344";
-  }
-
   get conditionDisplay() {
     return this.barcodes.length > 0 ? true : false;
   }
