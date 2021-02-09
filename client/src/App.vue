@@ -1,5 +1,5 @@
 <template>
-  <v-app v-if="valid === false">
+  <v-app v-if="!valid">
     <v-card
       class="d-flex mx-auto"
       flat
@@ -84,149 +84,183 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
-  import TopToolbar from './components/TopToolbar.vue';
-  import BottomNav from './components/BottomNav.vue';
-  import VueBarcode from 'vue-barcode';
+import { Component, Vue } from 'vue-property-decorator';
+import TopToolbar from './components/TopToolbar.vue';
+import BottomNav from './components/BottomNav.vue';
+import VueBarcode from 'vue-barcode';
 
-  @Component({
-    components: {
-      TopToolbar,
-      BottomNav,
-      VueBarcode
-    }
-  })
-  export default class App extends Vue {
+@Component({
+  components: {
+    TopToolbar,
+    BottomNav,
+    VueBarcode
+  }
+})
+export default class App extends Vue {
+  // Local Variables -----------------
+  // ---------------------------------
+  valid: boolean = false;
+  show: boolean = false;
+  showBar: boolean = false;
+  showBtn: boolean = false;
+  window: any = {
+    width: 0,
+    height: 0
+  }
+  $vuetify: any;
 
-    // Local Variables -----------------
-    // ---------------------------------
-    valid: boolean = false;
-    show: boolean = false;
-    showBar: boolean = false;
-    showBtn: boolean = false;
-    window: any = {
-      width: 0,
-      height: 0
-    }
-    $vuetify: any;
-
-    // Computed ------------------------
-    // ---------------------------------
-    get subContainerMargin() {
-      return this.$vuetify.breakpoint.sm ? 'n16' : '0';
-    }
-    
-    get barcodeContentHeight() {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return '200';
-        case 'sm': return '160';
-        case 'md': return '200';
-        case 'lg': return '200';
-        case 'xl': return '200';
-        default: return '200';
-      }
-    }
-
-    get titlesContentWidth() {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return '320';
-        case 'sm': return '600';
-        case 'md': return '600';
-        case 'lg': return '900';
-        case 'xl': return '900';
-        default: return '600';
-      }
-    }
-
-    get titlesContentHeight() {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return '150';
-        case 'sm': return '130';
-        case 'md': return '200';
-        case 'lg': return '250';
-        case 'xl': return '250';
-        default: return '200';
-      }
-    }
-
-    get containerHeight() {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return this.window.height;
-        case 'sm': return this.window.height < 900 ? '500' : this.window.height;
-        case 'md': return this.window.height;
-        case 'lg': return this.window.height;
-        case 'xl': return this.window.height;
-        default: return this.window.height;
-      }
-    }
-
-    get subtitle() {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return 'h5';
-        case 'sm': return 'h4';
-        case 'md': return 'h4';
-        case 'lg': return 'h3';
-        case 'xl': return 'h3';
-        default: return 'h4';
-      }
-    }
-
-    get title() {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return 'h4';
-        case 'sm': return 'h3';
-        case 'md': return 'h2';
-        case 'lg': return 'h1';
-        case 'xl': return 'h1';
-        default: return 'h1';
-      }
-    }
-
-    // Lifecycle Events ----------------
-    // ---------------------------------
-    created() {
-      window.addEventListener('resize', this.handleResize)
-      this.handleResize();
-    }
-
-    mounted() {
-      // set to true to run transition/animation classes
-      this.show = true;
-
-      // display barcode img after heading fully loaded
-      setTimeout(() => {
-        this.showBar = true;
-      }, 1000);
-
-      // display button afterbarcode fully loaded
-      setTimeout(() => {
-        this.showBtn = true;
-      }, 1500)
-    }
-
-    destroyed() {
-      window.removeEventListener('resize', this.handleResize)
-    }
-
-    // Methods -------------------------
-    // ---------------------------------
-    handleResize() {
-      this.window.width = window.innerWidth;
-      this.window.height = window.innerHeight;
-    }
-
-    routeToCreate() {
-      // Engage leave animations
-      this.show = !this.show;
-      this.showBar = !this.showBar;
-      this.showBtn = !this.showBtn;
-
-      // Wait for animations to finish, then display app
-      setTimeout(() => {
-        this.valid = true;
-      }, 500);
+  // Computed ------------------------
+  // ---------------------------------
+  /**
+   * Returns negative margin if mobile
+   * @returns {string}
+   */
+  get subContainerMargin() {
+    return this.$vuetify.breakpoint.sm ? 'n16' : '0';
+  }
+  
+  /**
+   * Returns barcode div height property, vuetify breakpoints
+   * @returns {string}
+   */
+  get barcodeContentHeight() {
+    switch (this.$vuetify.breakpoint.name) {
+      case 'xs': return '200';
+      case 'sm': return '160';
+      case 'md': return '200';
+      case 'lg': return '200';
+      case 'xl': return '200';
+      default: return '200';
     }
   }
+
+  /**
+   * Returns title div width property
+   * @returns {string}
+   */
+  get titlesContentWidth() {
+    switch (this.$vuetify.breakpoint.name) {
+      case 'xs': return '320';
+      case 'sm': return '600';
+      case 'md': return '600';
+      case 'lg': return '900';
+      case 'xl': return '900';
+      default: return '600';
+    }
+  }
+
+  /**
+   * Returns title div height property
+   * @returns {string}
+   */
+  get titlesContentHeight() {
+    switch (this.$vuetify.breakpoint.name) {
+      case 'xs': return '150';
+      case 'sm': return '130';
+      case 'md': return '200';
+      case 'lg': return '250';
+      case 'xl': return '250';
+      default: return '200';
+    }
+  }
+
+  /**
+   * Returns container height property
+   * @returns {number | string}
+   */
+  get containerHeight() {
+    switch (this.$vuetify.breakpoint.name) {
+      case 'xs': return this.window.height;
+      case 'sm': return this.window.height < 900 ? '500' : this.window.height;
+      case 'md': return this.window.height;
+      case 'lg': return this.window.height;
+      case 'xl': return this.window.height;
+      default: return this.window.height;
+    }
+  }
+
+  /**
+   * Returns subtitle vuetify typography class
+   * @returns {string}
+   */
+  get subtitle() {
+    switch (this.$vuetify.breakpoint.name) {
+      case 'xs': return 'h5';
+      case 'sm': return 'h4';
+      case 'md': return 'h4';
+      case 'lg': return 'h3';
+      case 'xl': return 'h3';
+      default: return 'h4';
+    }
+  }
+
+  /**
+   * Returns title vuetify typography class
+   * @returns {string}
+   */
+  get title() {
+    switch (this.$vuetify.breakpoint.name) {
+      case 'xs': return 'h4';
+      case 'sm': return 'h3';
+      case 'md': return 'h2';
+      case 'lg': return 'h1';
+      case 'xl': return 'h1';
+      default: return 'h1';
+    }
+  }
+
+  // Lifecycle Events ----------------
+  // ---------------------------------
+  created() {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize();
+  }
+
+  mounted() {
+    // set to true to run transition/animation classes
+    this.show = true;
+
+    // display barcode img after heading fully loaded
+    setTimeout(() => {
+      this.showBar = true;
+    }, 1000);
+
+    // display button afterbarcode fully loaded
+    setTimeout(() => {
+      this.showBtn = true;
+    }, 1500)
+  }
+
+  destroyed() {
+    window.removeEventListener('resize', this.handleResize)
+  }
+
+  // Methods -------------------------
+  // ---------------------------------
+  /**
+   * Grabs and sets local window Obj variables from browser window Obj
+   */
+  handleResize() {
+    this.window.width = window.innerWidth;
+    this.window.height = window.innerHeight;
+  }
+
+  /**
+   * Sets leave anuimation related booleans
+   * Enabale router-view
+   */
+  routeToCreate() {
+    // Engage leave animations
+    this.show = !this.show;
+    this.showBar = !this.showBar;
+    this.showBtn = !this.showBtn;
+
+    // Wait for animations to finish, then display app
+    setTimeout(() => {
+      this.valid = true;
+    }, 500);
+  }
+}
 </script>
 
 <style>

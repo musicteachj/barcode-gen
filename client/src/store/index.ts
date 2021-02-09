@@ -15,7 +15,15 @@ export default new Vuex.Store({
     }
   },
 
+  getters: {},
+
   actions: {
+    /**
+     * Saves a barcode
+     * Updates barcodes by dispatching "retrieveBarcodes"
+     * @param context Store module context
+     * @param {Object} barcode Barcode save object
+     */
     saveBarcode(context: any, { barcode }: any) {
       return new Promise((resolve, reject) => {
         axios.post("api/barcodes", {
@@ -33,6 +41,12 @@ export default new Vuex.Store({
       })
     },
 
+    /**
+     * Deletes a barcode
+     * Updates barcodes by dispatching "retrieveBarcodes"
+     * @param context Store module context
+     * @param {Object} barcode Barcode delete object
+     */
     deleteBarcode(context: any, { barcode }: any) {
       return new Promise((resolve, reject) => {
         axios.delete(`api/barcodes/${barcode.uuid}`, {
@@ -50,6 +64,11 @@ export default new Vuex.Store({
       })
     },
 
+    /**
+     * Retrieves barcodes
+     * Commits barcode using "setBarcodes"
+     * @param commit Store module commit
+     */
     retrieveBarcodes({commit}: any) {
       return new Promise((resolve, reject) => {
         axios.get("api/barcodes")
@@ -66,7 +85,5 @@ export default new Vuex.Store({
     }
   },
   
-  modules: {
-    
-  },
+  modules: {},
 });

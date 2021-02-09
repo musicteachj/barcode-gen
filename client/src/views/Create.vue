@@ -151,7 +151,7 @@ const cdigit = require('cdigit');
     mask 
   }
 })
-export default class NewCreate extends Mixins(ViewsStylings) {
+export default class Create extends Mixins(ViewsStylings) {
   // Mapped Variables ----------------
   // ---------------------------------
   barcodes!: any;
@@ -326,22 +326,39 @@ export default class NewCreate extends Mixins(ViewsStylings) {
 
   // Computed ------------------------
   // ---------------------------------
+  /**
+   * Displays barcode if meets stringValue && numValue specs
+   * @returns {boolean}
+   */
   get displayBarcode() {
     return (this.stringValue != null && this.stringValue != '') || 
             this.numValue != null ? 
             true : 
             false;
   }
+
+  /**
+   * Resets disabled btn if name || type.type is empty string
+   * @returns {boolean}
+   */
   get resetDisabled() {
     return this.name != '' || this.type.type != '' ? false : true;
   }
 
+  /**
+   * Returns character for vue-the-mask based on type Obj numOnly property
+   * Repeats character for type value max length
+   * @returns {string}
+   */
   get typeMask() {
     if (this.type.numOnly) return "#".repeat(this.type.value.max);
     if (!this.type.numOnly) return "X".repeat(this.type.value.max);
-    return "";
   }
 
+  /**
+   * Sets barcode value text-field hint for barcode types
+   * @returns {string}
+   */
   get hintText() {
     if (this.type.type === "CODE128") return `Must be between  ${this.type.value.min} and ${this.type.value.max} characters long`;
     if (this.type.type === "EAN13") return `Enter ${this.type.value.max} numbers.`;
@@ -353,7 +370,6 @@ export default class NewCreate extends Mixins(ViewsStylings) {
     if (this.type.type === "ITF14") return `Enter ${this.type.value.max} numbers`;
     if (this.type.type === "MSI") return `Must be between  ${this.type.value.min} and ${this.type.value.max} digits in length`;
     if (this.type.type === "pharmacode") return `Must be between  ${this.type.value.min} and ${this.type.value.max} digits in length`;
-    return ""
   }
 
   // Leaving this here for possible future use
@@ -374,10 +390,18 @@ export default class NewCreate extends Mixins(ViewsStylings) {
   //   return ""
   // }
 
-   get excededBarcodeLimit() {
+  /**
+   * Returns true if barcodes Array length >= 20
+   * @returns {boolean}
+   */
+  get excededBarcodeLimit() {
     return this.barcodes.length >= 20 ? true : false;
   }
 
+  /**
+   * Returns Array of rules for name text-field
+   * @returns {Array}
+   */
   get nameRules() {
     const rules: any = [
       (v: any) => !!v || 'Name is required',
@@ -386,6 +410,10 @@ export default class NewCreate extends Mixins(ViewsStylings) {
     return rules;
   }
 
+  /**
+   * Returns Array of rules for barcode type v-select field
+   * @returns {Array}
+   */
   get typeRules() {
     const rules: any = [
       (v: any) => !!v || 'Type is required',
@@ -394,6 +422,10 @@ export default class NewCreate extends Mixins(ViewsStylings) {
     return rules;
   };
 
+  /**
+   * Returns Array of rules for value text-field
+   * @returns {Array}
+   */
   get valueRules() {
     let rules: Array<any> = [(v: any) => !!v || 'Value is required'];
 
@@ -412,6 +444,11 @@ export default class NewCreate extends Mixins(ViewsStylings) {
 
   // Watchers ------------------------
   // ---------------------------------
+  /**
+   * Watch var type Obj
+   * Sets fields for anytime type Obj changes
+   * Accounts for vue-the-mask bug (not emptying fields)
+   */
   @Watch("type")
   typeChange() {
     this.stringValue = null;
@@ -436,6 +473,10 @@ export default class NewCreate extends Mixins(ViewsStylings) {
     }
   };
 
+  /**
+   * Watch var name string
+   * Reset the form if name is empty string
+   */
   @Watch("name")
   resetOnEmptyName() {
     if (this.name == "") {
@@ -451,6 +492,9 @@ export default class NewCreate extends Mixins(ViewsStylings) {
   
   // Methods -------------------------
   // ---------------------------------
+  /**
+   * Resets form fields
+   */
   resetForm() {
     this.name = '';
     this.type = {
@@ -471,6 +515,9 @@ export default class NewCreate extends Mixins(ViewsStylings) {
     this.numValue = null;
   }
 
+  /**
+   * Builds and returns barcode save Object
+   */
   buildBarcode() {
     let bar = {
       id: uuidv4(),
@@ -484,6 +531,11 @@ export default class NewCreate extends Mixins(ViewsStylings) {
     return bar;
   }
 
+  /**
+   * Saves barcode
+   * Dispatches store "saveBarcode" action
+   * Reset Store and set snackbar confirmation
+   */
   async saveBarcode() {
     await this.$store.dispatch("saveBarcode", {
       barcode: this.buildBarcode()

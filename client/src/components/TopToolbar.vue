@@ -27,6 +27,10 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class TopToolbar extends Vue {
   // Computed ------------------------
   // ---------------------------------
+  /**
+   * Returns icon depending route name
+   * @returns {string}
+   */
   get routeIcons() {
     if (this.$route.name === "Scan") return "mdi-barcode-scan"
     if (this.$route.name === "Create") return "mdi-barcode"

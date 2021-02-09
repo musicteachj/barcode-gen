@@ -118,6 +118,10 @@ export default class Print extends Mixins(ViewsStylings) {
 
   // Computed ------------------------
   // ---------------------------------
+  /**
+   * Returns true if barcodes Array length is greater than 0
+   * @returns {boolean}
+   */
   get conditionDisplay() {
     return this.barcodes.length > 0 ? true : false;
   }
@@ -130,22 +134,35 @@ export default class Print extends Mixins(ViewsStylings) {
 
   // Methods -------------------------
   // ---------------------------------
+  /**
+   * Set dialog var to flase, closes dialog
+   */
   closeParentD() {
     this.dialog = false;
   }
 
+  /**
+   * Initiates delete confirmation snackbar
+   */
   deleteSnack() {
     this.snackInit = true;
-      setTimeout(() => {
-        this.snackInit = false
-      }, 7000);
+    setTimeout(() => {
+      this.snackInit = false
+    }, 7000);
   }
 
+  /**
+   * Initiates printD component/element
+   * Opens print preview dialog in browser
+   */
   printBarcode(index: any) {
     const d = new Printd();
     d.print(document.getElementById(`${index}`), [ printBarcodeStyles ]);
   }
 
+  /**
+   * Opens delete barcode dialog
+   */
   deleteBarcode(bar: any) {
     this.dialog = true;
     this.barData = bar;

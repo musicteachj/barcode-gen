@@ -80,10 +80,18 @@ export default class DeleteBarcodeDialog extends Vue {
 
   // Methods -------------------------
   // ---------------------------------
+  /**
+   * Emits and closes dialog
+   */
   closeDialog() {
     this.$emit("closeDialog", false);
   }
 
+  /**
+   * Delete barcode
+   * Dispatches store "deleteBarcode" action
+   * Reset Store and set snackbar confirmation
+   */
   async deleteBar() {
     await this.$store.dispatch("deleteBarcode", {
       barcode: this.data
