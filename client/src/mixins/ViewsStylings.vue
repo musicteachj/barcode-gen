@@ -14,6 +14,10 @@ export default class ViewsStylings extends Vue {
 
   // Computed ------------------------
   // ---------------------------------
+  /**
+   * Returns title vuetify typography class
+   * @returns {string}
+   */
   get pageTitle() {
     switch (this.$vuetify.breakpoint.name) {
       case 'xs': return 'h4';
@@ -25,6 +29,10 @@ export default class ViewsStylings extends Vue {
     }
   }
 
+  /**
+   * Returns print card's text vuetify typography class
+   * @returns {string}
+   */
   get printCardText() {
     switch (this.$vuetify.breakpoint.name) {
       case 'xs': return 'h6';
@@ -36,6 +44,10 @@ export default class ViewsStylings extends Vue {
     }
   }
 
+  /**
+   * Returns subtext vuetify typography class
+   * @returns {string}
+   */
   get pageSubText() {
     switch (this.$vuetify.breakpoint.name) {
       case 'xs': return 'h5';
@@ -47,13 +59,8 @@ export default class ViewsStylings extends Vue {
     }
   }
 
-  // Methods -------------------------
+  // Lifecycle Events ----------------
   // ---------------------------------
-  barcodeWidth(type: string) {
-    return type === 'CODE128' || type === 'CODE39' ? "1" : "2";
-  }
-
-  // LIFECYCLE EVENTS -----------------
   created() {
     window.addEventListener('resize', this.handleResize)
     this.handleResize();
@@ -63,7 +70,19 @@ export default class ViewsStylings extends Vue {
     window.removeEventListener('resize', this.handleResize)
   }
 
-  // METHODS --------------------------
+  // Methods -------------------------
+  // ---------------------------------
+  /**
+   * Returns barcode width 1 for barcode types 'CODE128' & 'CODE39'
+   * Return barcode width 2 for all other types
+   */
+  barcodeWidth(type: string) {
+    return type === 'CODE128' || type === 'CODE39' ? "1" : "2";
+  }
+
+  /**
+   * Grabs and sets local window Obj variables from browser window Obj
+   */
   handleResize() {
     this.window.width = window.innerWidth;
     this.window.height = window.innerHeight;

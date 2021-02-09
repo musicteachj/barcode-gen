@@ -155,6 +155,10 @@ export default class Scan extends Mixins(ViewsStylings) {
 
   // Computed ------------------------
   // ---------------------------------
+  /**
+   * Returns style string for video tag size specs
+   * @returns {string}
+   */
   get videoContainer() {
     if (this.isMobile) {
       return `
@@ -170,19 +174,35 @@ export default class Scan extends Mixins(ViewsStylings) {
     }
   }
 
+  /**
+   * Returns true if window.width var <= 599
+   * @returns {boolean}
+   */
   get isMobile() {
     return this.window.width <= 599 ? true : false;
   }
 
+  /**
+   * Returns true if barcodes Array length >= 20
+   * @returns {boolean}
+   */
   get exceededBarcodeLimit() {
     return this.barcodes.length >= 20 ? true : false;
   }
 
+  /**
+   * Returns margin-left style class based on window.width
+   * @returns {string}
+   */
   get videoCenter() {
     const marginLeft = (this.window.width - 640) / 2;
     return `margin-left: ${marginLeft}px`
   }
 
+  /**
+   * Returns size of "Stop" scan btn for vuetify breakpoints
+   * @returns {number}
+   */
   get minWidthStopScanBtn() {
     switch (this.$vuetify.breakpoint.name) {
       case 'xs': return 64;
@@ -194,12 +214,20 @@ export default class Scan extends Mixins(ViewsStylings) {
     }
   }
 
+  /**
+   * Returns style string keeping the "Stop" scan btn center in video element
+   * @returns {string}
+   */
   get stopScanCenter() {
     const marginLeft = (632 - this.minWidthStopScanBtn) / 2;
     return `margin-left: ${marginLeft}px;
             margin-top: 20px;`
   }
 
+  /**
+   * Returns Array of rules for name text-field
+   * @returns {Array}
+   */
   get nameRules() {
     let rules = [
       (v: any) => !!v || 'Name is required',
@@ -210,6 +238,10 @@ export default class Scan extends Mixins(ViewsStylings) {
 
   // Watchers ------------------------
   // ---------------------------------
+  /**
+   * Watch Obj window.width property on change
+   * Stops scan anytime the window is resized
+   */
   @Watch('window.width')
   checkWindowResize() {
     if (this.showVideo) {
@@ -232,6 +264,10 @@ export default class Scan extends Mixins(ViewsStylings) {
 
   // Methods -------------------------
   // ---------------------------------
+  /**
+   * Reset form fields
+   * Stop Scan video
+   */
   reset() {
     this.scanBarName = "";
     this.scannedBarcodes = [];
@@ -239,6 +275,11 @@ export default class Scan extends Mixins(ViewsStylings) {
     this.showScanBtn = true;
   }
 
+  /**
+   * Initiates scan video
+   * Initiates Quagga Livestream
+   * Detect and Process EAN barcodes
+   */
   startScan() {
     this.scannedBarcodes = [];
     this.showVideo = true;
@@ -286,12 +327,21 @@ export default class Scan extends Mixins(ViewsStylings) {
     Quagga.onProcessed(this.onProcessed);
   }
 
+  /**
+   * Reset Scan func and name
+   * Stops Quagga livestream
+   */
   stopScan() {
     this.reset();
     Quagga.stop();
     this.showScanBtn = true;
   }
 
+  /**
+   * Saves barcode
+   * Dispatches store "saveBarcode" action
+   * Reset Store and set snackbar confirmation
+   */
   async saveScan() {
     await this.$store.dispatch("saveBarcode", {
       barcode: this.buildBarcode()
@@ -304,6 +354,11 @@ export default class Scan extends Mixins(ViewsStylings) {
     })
   }
 
+  /**
+   * Empties any previous barcode entries
+   * Stop Quagga Livestream
+   * Push detected barcode result to scannedBarcodes Array
+   */
   onDetected(result: any) {
     // Empty barcodes arr
     this.scannedBarcodes = [];    
@@ -312,6 +367,9 @@ export default class Scan extends Mixins(ViewsStylings) {
     this.showVideo = false;
   }
 
+  /**
+   * Process detected barocde result
+   */
   onProcessed(result: any) {
     let drawingCtx = Quagga.canvas.ctx.overlay;
     let drawingCanvas = Quagga.canvas.dom.overlay;
@@ -353,6 +411,9 @@ export default class Scan extends Mixins(ViewsStylings) {
     }
   }
 
+  /**
+   * Builds and returns barcode save Object
+   */
   buildBarcode() {
     if (this.scannedBarcodes[0].codeResult.format === "ean_13") {
       this.scannedBarcodes[0].codeResult.format = "EAN13";
@@ -367,6 +428,9 @@ export default class Scan extends Mixins(ViewsStylings) {
     return bar;
   }
 
+   /**
+   * Detects if user's browser has camera
+   */
   checkUserCamera() {
     // Console to see device navigator Obj
     // console.log(navigator);
