@@ -339,7 +339,7 @@ export default class NewCreate extends Mixins(ViewsStylings) {
   get typeMask() {
     if (this.type.numOnly) return "#".repeat(this.type.value.max);
     if (!this.type.numOnly) return "X".repeat(this.type.value.max);
-    return "";
+    // return "";
   }
 
   get hintText() {
@@ -353,7 +353,7 @@ export default class NewCreate extends Mixins(ViewsStylings) {
     if (this.type.type === "ITF14") return `Enter ${this.type.value.max} numbers`;
     if (this.type.type === "MSI") return `Must be between  ${this.type.value.min} and ${this.type.value.max} digits in length`;
     if (this.type.type === "pharmacode") return `Must be between  ${this.type.value.min} and ${this.type.value.max} digits in length`;
-    return ""
+    // return ""
   }
 
   // Leaving this here for possible future use

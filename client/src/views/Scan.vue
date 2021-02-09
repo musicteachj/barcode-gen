@@ -156,17 +156,16 @@ export default class Scan extends Mixins(ViewsStylings) {
   // Computed ------------------------
   // ---------------------------------
   get videoContainer() {
-    if (!this.isMobile) {
-      return `
-        width: 640px;
-        height: 550px; 
-      `
-    }
     if (this.isMobile) {
       return `
         width: ${this.window.width}px;
         height: 550px;
         overflow: hidden !important;
+      `
+    } else {
+      return `
+        width: 640px;
+        height: 550px; 
       `
     }
   }
@@ -180,8 +179,7 @@ export default class Scan extends Mixins(ViewsStylings) {
   }
 
   get videoCenter() {
-    let marginLeft: any = 0;
-     marginLeft = (this.window.width - 640) / 2;
+    const marginLeft = (this.window.width - 640) / 2;
     return `margin-left: ${marginLeft}px`
   }
 
@@ -197,8 +195,7 @@ export default class Scan extends Mixins(ViewsStylings) {
   }
 
   get stopScanCenter() {
-    let marginLeft: any = 0;
-    marginLeft = (632 - this.minWidthStopScanBtn) / 2;
+    const marginLeft = (632 - this.minWidthStopScanBtn) / 2;
     return `margin-left: ${marginLeft}px;
             margin-top: 20px;`
   }

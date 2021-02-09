@@ -1,5 +1,5 @@
 <template>
-  <v-app v-if="valid === false">
+  <v-app v-if="!valid">
     <v-card
       class="d-flex mx-auto"
       flat

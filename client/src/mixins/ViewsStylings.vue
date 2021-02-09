@@ -49,7 +49,7 @@ export default class ViewsStylings extends Vue {
 
   // Methods -------------------------
   // ---------------------------------
-  barcodeWidth(type: any) {
+  barcodeWidth(type: string) {
     return type === 'CODE128' || type === 'CODE39' ? "1" : "2";
   }
 
