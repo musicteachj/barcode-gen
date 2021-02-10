@@ -72,11 +72,11 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 export default class DeleteBarcodeDialog extends Vue {
   // Props ---------------------------
   // ---------------------------------
-  @Prop({ default: false })
-  dialogVisible: boolean;
+  @Prop({ default: false, required: true })
+  dialogVisible!: boolean;
 
-  @Prop({ default: null })
-  data: number;
+  @Prop({ default: null, required: true })
+  data!: number | null;
 
   // Methods -------------------------
   // ---------------------------------

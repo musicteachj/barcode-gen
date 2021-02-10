@@ -174,12 +174,12 @@ export default class Create extends Mixins(ViewsStylings) {
     },
     checkDigit: null
   };
-  stringValue: string = null;
-  numValue: number = null;
+  stringValue: string | null = null;
+  numValue: number | null = null;
   minNum: number = 0;
   maxNum: number = 0;
-  minVal: number = null;
-  maxVal: number = null;
+  minVal: number | null = null;
+  maxVal: number | null = null;
   barcodeTemplates: Array<Object> = [
     {
       text: "CODE128", 
@@ -430,12 +430,14 @@ export default class Create extends Mixins(ViewsStylings) {
     let rules: Array<any> = [(v: any) => !!v || 'Value is required'];
 
     if (this.minNum === this.maxNum) {
+      //@ts-ignore
       rules.push((v: any) => (v && v.length === this.minNum && this.$refs["vueBar"].valid === true) || `Match value to barcode once it appears`);
     } else {
       rules.push((v: any) => (v && (v.length >= this.minNum && v.length <= this.maxNum)) || `Barcode value must be between ${this.minNum} and ${this.maxNum} characters`)
     }
 
     if (this.minVal !== null) {
+      //@ts-ignore
       rules.push((v: any) => (v && (v >= this.minVal && v <= this.maxVal)) || `Barcode value must be between ${this.minVal} and ${this.maxVal}`)
     }
 

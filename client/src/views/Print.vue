@@ -157,7 +157,7 @@ export default class Print extends Mixins(ViewsStylings) {
    */
   printBarcode(index: any) {
     const d = new Printd();
-    d.print(document.getElementById(`${index}`), [ printBarcodeStyles ]);
+    d.print(document.getElementById(`${index}`)!, [ printBarcodeStyles ]);
   }
 
   /**
