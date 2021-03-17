@@ -17,6 +17,7 @@ app.use('/api/barcodes/', barcodes);
 if (process.env.NODE_ENV === 'production') {
   // Static folder
   // app.use(express.static(__dirname + '/public'));
+  //
   app.use('/static', express.static(path.join(__dirname, 'public')))
 
   // Handle SPA
